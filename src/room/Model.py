@@ -1,4 +1,4 @@
-from Objects import Object, Air, Wall
+from ...utiles.commons.things_wtf import Air, Wall # TODO esto igual hay q cambiarlo
 import json
 """
     Model class.
@@ -48,7 +48,7 @@ class Model():
             for x, literal in enumerate(row):
                 match literal:
                     case "Wall":
-                        self.room[y][x] = Wall()
+                        self.room[y][x] = Wall() # FIXME hay un problema aquí con los objetos de Carlos?!?!?!?!?
                     case "Air":
                         self.room[y][x] = Air()                      
         
