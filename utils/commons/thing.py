@@ -1,5 +1,5 @@
-class Object:
-    def __init__(self, literal_name, interactive, collision):
+class Thing:
+    def __init__(self, literal_name, interactive, collision) -> None:
         self._literal_name = literal_name
         self._interactive = interactive
         self._collision = collision
