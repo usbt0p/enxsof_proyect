@@ -1,4 +1,4 @@
-from Object import Object
+from Objects import Object, Air, Wall
 import json
 """
     Model class.
@@ -35,9 +35,23 @@ class Model():
     The decorations are represented by an id_decoration.
     Returns: a bidimensional list with the decorations added
     """
-    def populate_room(self):
+    def populate_room(self, filepath):
+
+        config = self.read_grid_config_file(filepath)
+        '''for elem in config:
+            print(type(elem), elem)'''
+
+        assert self.y_size == len(config) and self.x_size == len(config),\
+              "Size of the map must be equal to size of the config file's map" 
         
-        pass
+        for y, row in enumerate(config): # TODO es posible q esto saque la "transpuesta" del mapa, veremos
+            for x, literal in enumerate(row):
+                match literal:
+                    case "Wall":
+                        self.room[y][x] = Wall()
+                    case "Air":
+                        self.room[y][x] = Air()                      
+        
 
     def read_grid_config_file(self, file_path):
         """
@@ -63,12 +77,12 @@ class Model():
 
 
 if __name__ == '__main__':
-    room = Model(4, 4)
-    print(room.room)
+    room = Model(16, 16)
+    '''print(room.room)
     obj = Object("Wall", False, True)
     print(obj)
     for elem in room.room:
-        print(elem)
+        print(elem)'''
     '''
     a = obj.collision
     b = obj._collision
@@ -78,12 +92,14 @@ if __name__ == '__main__':
     print(obj)'''
 
         # Example usage:
-    file_path = 'src/room/default_4x4_room.json'
-    json_data = room.read_grid_config_file(file_path)
+    file_path = 'src/room/default_16x16_room.json'
+    '''    json_data = room.read_grid_config_file(file_path)
 
     if json_data is not None:
         print("JSON data:")
         for elem in json_data:
-            print(elem)
+            print(elem)'''
+    room.populate_room(file_path)
+    print(room.room)
         
     
