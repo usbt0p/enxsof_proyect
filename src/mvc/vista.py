@@ -1,5 +1,6 @@
 import tkinter as tk
 import model
+from utiles.commons import *
 
 # Definición del Modelo
 class Agent:
@@ -31,10 +32,11 @@ class HouseModel:
     def __init__(self, grid) -> None:
         self.agents = dict()
         self.objects = dict()
+        self.grid = grid
 
         for row in grid:
             for elem in row:
-                if elem in self.OBJECTS:
+                if elem.literal_name in self.OBJECTS:
                     self.objects[elem] = [elem.x, elem.y]
                 else: 
                     self.agents[elem] = [elem.x, elem.y]
@@ -57,28 +59,30 @@ class HouseModel:
 
 # Definición de la Vista
 class HouseView(tk.Tk):
-    def __init__(self, model):
+    def __init__(self, model, height, width):
         super().__init__()
         self.model = model  # Referencia al modelo
-
+        self.height = height
+        self.width = width
         self.title("Entorno Domótico")
-        self.geometry("640x640")  # Tamaño de la ventana
+        self.geometry(str(height) + "x" + str(width))  # Tamaño de la ventana
 
         # TODO hacer como en esta
         #self.wall_image = tk.PhotoImage(file="./src/room/wall.png")
         self.object_image = tk.PhotoImage(file="./assets/gato.png")
+        img_dict = {"wall": self.wall_image, "air": self.air_image}
 
         # TODO si se puede meter variables aqui (numfilas * 40, nucol * 40)
-        self.canvas = tk.Canvas(self, bg='white', height=640, width=640)
+        self.canvas = tk.Canvas(self, bg='white', height=height, width=width)
         self.canvas.pack()
 
-        self.draw_grid()
+        self.draw_grid(width, height)
         self.update_view()  # Actualiza la vista con el estado inicial del modelo
 
-    def draw_grid(self):
-        for i in range(0, 640, 40):
-            self.canvas.create_line([(i, 0), (i, 640)], tag='grid_line')
-            self.canvas.create_line([(0, i), (640, i)], tag='grid_line')
+    def draw_grid(self, width, height):
+        for i in range(0, width, height, 40):
+            self.canvas.create_line([(i, 0), (i, width)], tag='grid_line')
+            self.canvas.create_line([(0, i), (height, i)], tag='grid_line')
 
     def update_view(self):
         self.canvas.delete("agent", "object")  # Limpia solo agentes y objetos
@@ -92,9 +96,9 @@ class HouseView(tk.Tk):
 
         # Dibuja los objetos
         for object_name, obj in self.model.objects.items():
-            x, y = obj.position
-            self.canvas.create_rectangle(
-                x * 40, y * 40, x * 40 + 30, y * 40 + 30, fill="green", tags="object"
+            obj.x, obj.y = obj.position
+            self.canvas.create_image(
+                x * 40, y * 40, image=self.img_dict.get(object_name), anchor='nw', tags=object_name
             )
 
     def animate_movement(self, movements, index=0):
@@ -107,8 +111,12 @@ class HouseView(tk.Tk):
 
 # Ejemplo de uso
 if __name__ == '__main__':
-    model = HouseModel()
-    view = HouseView(model)
+
+    height = 640
+    width = 640
+
+    model = HouseModel(model.grid)
+    view = HouseView(model.model, height, width)
 
     # Movimientos de prueba
     movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
