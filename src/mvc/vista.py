@@ -1,4 +1,5 @@
 import tkinter as tk
+import model
 
 # Definición del Modelo
 class Agent:
@@ -12,7 +13,7 @@ class Object:
         self.name = name
         self.position = position
 
-class HouseModel:
+    '''class HouseModel:
     def __init__(self):
         self.agents = {
             'robot': Agent('robot', position=(0, 0)),
@@ -21,7 +22,22 @@ class HouseModel:
         self.objects = {
             'beer': Object('beer', position=(0, 0)),
             'medkit': Object('medkit', position=(0, 0))
-        }
+        }'''
+    
+class HouseModel:
+
+    OBJECTS = ("air", "door", "fridge", "sofa", "table", "wall")
+
+    def __init__(self, grid) -> None:
+        self.agents = dict()
+        self.objects = dict()
+
+        for row in grid:
+            for elem in row:
+                if elem in self.OBJECTS:
+                    self.objects[elem] = [elem.x, elem.y]
+                else: 
+                    self.agents[elem] = [elem.x, elem.y]
 
     def move_agent(self, agent_name, new_position):
         if agent_name in self.agents:
@@ -48,8 +64,11 @@ class HouseView(tk.Tk):
         self.title("Entorno Domótico")
         self.geometry("640x640")  # Tamaño de la ventana
 
-        self.object_image = tk.PhotoImage(file="gato.png")
+        # TODO hacer como en esta
+        #self.wall_image = tk.PhotoImage(file="./src/room/wall.png")
+        self.object_image = tk.PhotoImage(file="./assets/gato.png")
 
+        # TODO si se puede meter variables aqui (numfilas * 40, nucol * 40)
         self.canvas = tk.Canvas(self, bg='white', height=640, width=640)
         self.canvas.pack()
 

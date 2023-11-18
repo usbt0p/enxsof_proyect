@@ -19,24 +19,14 @@ class Model():
         """
         return [[0] * self.x_size for _ in range(self.y_size)]
 
-        
-    """
-    Adds walls and doors to the room.
-    The Walls represent the limits of the room.
-    One piece of wall is represented by a 1 in the list.
-    One piece of door is represented by a 2 in the list.
-    Returns: a bidimensional list with the walls added
-    """
-    def create_room_walls_and_room_doors(self):
-        
-        pass
 
-    """
-    Add decorations to the room.
-    The decorations are represented by an id_decoration.
-    Returns: a bidimensional list with the decorations added
-    """
+
     def populate_room(self, filepath):
+        """
+        Add decorations to the room.
+        The decorations are represented by an id_decoration.
+        Returns: a bidimensional list with the decorations added
+        """
 
         config = self.read_grid_config_file(filepath)
         for elem in config:
@@ -102,7 +92,7 @@ if __name__ == '__main__':
     print(obj)'''
 
         # Example usage:
-    file_path = 'src/room/default_16x16_room.json'
+    file_path = 'assets/default_16x16_room.json'
     '''    json_data = room.read_grid_config_file(file_path)
 
     if json_data is not None:
