@@ -1,5 +1,6 @@
-from ...utiles.commons.things_wtf import Air, Wall # TODO esto igual hay q cambiarlo
+from utiles.commons import *
 import json
+
 """
     Model class.
     This class represents a room in the pyhton project.
@@ -38,8 +39,8 @@ class Model():
     def populate_room(self, filepath):
 
         config = self.read_grid_config_file(filepath)
-        '''for elem in config:
-            print(type(elem), elem)'''
+        for elem in config:
+            print(type(elem), elem)
 
         assert self.y_size == len(config) and self.x_size == len(config),\
               "Size of the map must be equal to size of the config file's map" 
@@ -48,9 +49,18 @@ class Model():
             for x, literal in enumerate(row):
                 match literal:
                     case "Wall":
-                        self.room[y][x] = Wall() # FIXME hay un problema aquí con los objetos de Carlos?!?!?!?!?
+                        self.room[y][x] = wall.Wall(x, y)
                     case "Air":
-                        self.room[y][x] = Air()                      
+                        self.room[y][x] = air.Air(x, y)
+                    case "Sofa":
+                        self.room[y][x] = sofa.Sofa(x, y)
+                    case "Door":
+                        self.room[y][x] = door.Door(x, y)
+                    case "Table":
+                        self.room[y][x] = table.Table(x, y)
+                    case "Fridge":
+                        self.room[y][x] = fridge.Fridge(x, y)
+                                      
         
 
     def read_grid_config_file(self, file_path):

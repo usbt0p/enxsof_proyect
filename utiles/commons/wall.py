@@ -1,9 +1,5 @@
-from thing import Thing
+from utiles.commons.obstacle import Obstacle
 
-class wall(Thing):
-    
-    def __init__(self, literal_name, interactive, collision) -> None:
-        super().__init__(self, literal_name, interactive, collision)
-        opaque = True
-        stackable = False
-        container = False
+class Wall(Obstacle):
+    def __init__(self, x, y, literal_name="Wall", interactive=False, collision=True):
+        super().__init__(x, y, literal_name, interactive, collision)

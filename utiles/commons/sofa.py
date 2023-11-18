@@ -1,10 +1,5 @@
-from thing import Thing
+from utiles.commons.container import Container
 
-class sofa(Thing):
-        
-    def __init__(self, literal_name, interactive, collision) -> None:
-        super().__init__(self, literal_name, interactive, collision)
-        opaque = True
-        stackable = False
-        container = True # Lo dejamos en TRUE para que se pueda sentar una persona
-        
+class Sofa(Container):
+    def __init__(self, x, y, literal_name="Sofa", storage=tuple(), interactive=True, collision=True):
+        super().__init__(x, y, literal_name, storage, interactive, collision)

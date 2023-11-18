@@ -1,10 +1,5 @@
-from thing import Thing 
+from utiles.commons.thing import Thing
 
-class air(Thing):
-    
-    def __init__(self, literal_name, interactive, collision) -> None:
-        super().__init__(self, literal_name, interactive, collision)
-        
-        opaque = False
-        stackable = False
-        container = False
+class Air(Thing):
+    def __init__(self, x, y, literal_name="Air", interactive=False, collision=False):
+        super().__init__(x, y, literal_name, interactive, collision)
