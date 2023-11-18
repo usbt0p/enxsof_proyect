@@ -1,7 +1,6 @@
 from abc import ABCMeta
 from abc import abstractmethod
 
-
 class Observer(object):
     __metaclass__ = ABCMeta
 
@@ -31,7 +30,13 @@ class Observer(object):
     @classmethod
     def __subclasshook__(cls, sub_class):  # correct behavior when isinstance, issubclass is called
         return any(cls.update.__str__() in klazz.__dict__ for klazz in sub_class.__mro__) != []
+    
+class ConcreteObserver(Observer):
+    def __init__(self, name):
+        super().__init__(name)
 
+    def update(self, *new_state):
+        print(f'{self.name} ha recibido una actualización: {new_state}')
 
 class Observable(object):
 
