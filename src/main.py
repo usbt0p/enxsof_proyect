@@ -1,11 +1,13 @@
 from src.mvc import model, view
 
 # Constants:
-HEIGHT = 640 # TODO Escalar en función del tamaño del array!!!
-WIDTH = 640
+X_MATRIX = 16
+Y_MATRIX = 10
+HEIGHT = 40 * Y_MATRIX
+WIDTH = 40 * X_MATRIX
 
-room = model.Model(16, 16)
-file_path = 'assets/default_16x16_room.json'
+room = model.Model(X_MATRIX, Y_MATRIX)
+file_path = 'assets/default_16x10_room.json'  # FIXME only works on fullscreen mode???
 room.populate_room(file_path)
 
 model_for_view = view.HouseModel(room.matrix)

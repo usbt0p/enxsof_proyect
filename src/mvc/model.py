@@ -30,7 +30,11 @@ class Model():
 
         config = self.read_grid_config_file(filepath)
 
-        assert self.y_size == len(config) and self.x_size == len(config),\
+        # Posible test de unidad
+        '''print(self.y_size == len(config), self.y_size, len(config)) 
+        print(self.x_size == len(config[0]), self.x_size, len(config[0]))'''
+
+        assert self.y_size == len(config) and self.x_size == len(config[0]),\
               "Size of the map must be equal to size of the config file's map" 
         
         for y, row in enumerate(config): # TODO es posible q esto saque la "transpuesta" del mapa, veremos
