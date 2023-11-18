@@ -1,10 +1,12 @@
-import Subject
+from abc import abstractmethod
 
 
 class Observer():
 
-    def __init__(self, list_of_topics):
-        topics_of_interest = list_of_topics.copy()
+    @abstractmethod
+    def subscribe_to(self):
+        pass
 
+    @abstractmethod
     def update(self):
         pass

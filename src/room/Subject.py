@@ -1,11 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 class Subject(ABC):
 	
-
     observers_list = []  # Lista de observadores
     elements_list = []    # Lista de variables / atributos
-    relations = {}        #Diccionario de relaciones entre ambos
+    relations = {}        # Diccionario de relaciones entre ambos
 
     
     def addObs(self,observer):
@@ -45,7 +44,7 @@ class Subject(ABC):
             observer.update()
 
     
-    def update():
+    def update(self):
         pass
 
 
@@ -67,13 +66,13 @@ class Subject(ABC):
         self.elements_list = valid_elements.copy()
 
     
-    def observer_init(self, observer):
+    def observer_init(self, observer, topics_of_interest):
         self.addObs(observer)
-        for topic in observer.topics_of_interest:
+        for topic in topics_of_interest:
             if topic not in self.relations.keys():
                 self.addElem(topic)
                 self.relations[topic] = [observer]
             else:
                 self.relations[topic].append(observer)
-        self.update(observer.topics_of_interest)        
+                self.update(observer.topics_of_interest)
         
