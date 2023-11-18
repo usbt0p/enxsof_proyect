@@ -1,16 +1,24 @@
 import unittest
-from ....src.room.Model import Model  # TODO Change the path
+from ....src.room.Model import Model  # TODO Cambia la ruta
 
-class TestRoomInitialization(unittest.TestCase): #Testst the initialization of an array filled with zeros
+class TestRoomInitialization(unittest.TestCase):
     def test_room_initialized_with_zeros(self):
-        # Stablish the array size
+        """
+        Test the initialization of an array filled with zeros.
+
+        Steps:
+        1. Establish the array size.
+        2. Instantiate the Model class.
+        3. Check if the array is filled with zeros.
+        """
+        # Arrange - Configuration
         room_width = 5
         room_height = 5
         
-        # Instance the model class
+        # Act - Execution
         room = Model(room_width, room_height)
         
-        # Check if the array is filled with zeros
+        # Assert - Verification
         for row in room.room:
             for element in row:
                 self.assertEqual(element, 0, "Room element should be initialized with zero")
