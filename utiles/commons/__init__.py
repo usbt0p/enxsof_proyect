@@ -1,0 +1,1 @@
+__all__ = ["thing", "air", "container", "door", "fridge", "obstacle", "sofa", "table", "wall"]
