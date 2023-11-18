@@ -1,4 +1,4 @@
-import class fridge from fridge.py # TODO change path
+from ...utiles.commons.fridge import Fridge # TODO change path
 import unittest
 class TestFridge(unittest.TestCase):
 

@@ -1,5 +1,5 @@
 import unittest
-import Sofa from sofa.py # TODO change path
+from ...utiles.commons.sofa import Sofa # TODO change path
 class TestSofa(unittest.TestCase):
 
     def setUp(self):

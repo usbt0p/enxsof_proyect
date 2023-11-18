@@ -1,5 +1,5 @@
 import unittest
-import Table from table.py # TODO change path
+from ...utiles.commons.table import Table # TODO change path
 
 
 

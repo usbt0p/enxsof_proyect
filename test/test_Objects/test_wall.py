@@ -1,5 +1,5 @@
 import unittest
-import Wall from wall.py # TODO change path
+from ...utiles.commons.wall import Wall # TODO change path
 class TestWall(unittest.TestCase):
 
     def setUp(self):
