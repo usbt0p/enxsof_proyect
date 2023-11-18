@@ -1,60 +1,100 @@
 import tkinter as tk
 
-# Las imágenes para las habitaciones y los agentes deben estar en el mismo directorio que el script.
-# Por ejemplo: "kitchen.png", "robot.png", etc.
-ROOM_IMAGES = {
-    "Kitchen": "kitchen.png",
-    "Bath": "bath.png",
-    "Bedroom": "bedroom.png",
-    "Hallway": "hallway.png",
-    "Hall": "hall.png",
-    "Livingroom": "livingroom.png",
-}
-AGENT_IMAGE = "robot.png"
+# Definición del Modelo
+class Agent:
+    def __init__(self, name, position=(0, 0)):
+        self.name = name
+        self.position = position
+        self.inventory = []
 
-class EnvironmentGUI(tk.Tk):
+class Object:
+    def __init__(self, name, position=(0, 0)):
+        self.name = name
+        self.position = position
+
+class HouseModel:
     def __init__(self):
+        self.agents = {
+            'robot': Agent('robot', position=(0, 0)),
+            'human': Agent('human', position=(0, 0))
+        }
+        self.objects = {
+            'beer': Object('beer', position=(0, 0)),
+            'medkit': Object('medkit', position=(0, 0))
+        }
+
+    def move_agent(self, agent_name, new_position):
+        if agent_name in self.agents:
+            self.agents[agent_name].position = new_position
+            return True
+        return False
+
+    def agent_pick_object(self, agent_name, object_name):
+        if agent_name in self.agents and object_name in self.objects:
+            agent = self.agents[agent_name]
+            obj = self.objects[object_name]
+            if agent.position == obj.position:
+                agent.inventory.append(obj)
+                del self.objects[object_name]
+                return True
+        return False
+
+# Definición de la Vista
+class HouseView(tk.Tk):
+    def __init__(self, model):
         super().__init__()
-        self.title('Domestic Care Robot Environment')
-        self.grid_size = 10  # Define el tamaño de la cuadrícula, por ejemplo 10x10
-        self.cell_width = 50  # Ancho de cada celda de la cuadrícula
-        self.cell_height = 50  # Altura de cada celda de la cuadrícula
-        self.canvas = tk.Canvas(self, width=self.grid_size*self.cell_width,
-                                height=self.grid_size*self.cell_height)
+        self.model = model  # Referencia al modelo
+
+        self.title("Entorno Domótico")
+        self.geometry("640x640")  # Tamaño de la ventana
+
+        self.object_image = tk.PhotoImage(file="gato.png")
+
+        self.canvas = tk.Canvas(self, bg='white', height=640, width=640)
         self.canvas.pack()
+
         self.draw_grid()
-        self.place_rooms()
-        self.place_agents()
+        self.update_view()  # Actualiza la vista con el estado inicial del modelo
 
     def draw_grid(self):
-        for i in range(self.grid_size):
-            for j in range(self.grid_size):
-                self.canvas.create_rectangle(i*self.cell_width, j*self.cell_height,
-                                             (i+1)*self.cell_width, (j+1)*self.cell_height,
-                                             fill='white')
+        for i in range(0, 640, 40):
+            self.canvas.create_line([(i, 0), (i, 640)], tag='grid_line')
+            self.canvas.create_line([(0, i), (640, i)], tag='grid_line')
 
-    def place_rooms(self):
-        # Este método debería colocar las imágenes de las habitaciones en sus respectivas posiciones.
-        for room, image_file in ROOM_IMAGES.items():
-            image = tk.PhotoImage(file=image_file)
-            # Suponiendo que se tiene la posición de cada habitación, por ejemplo:
-            # room_positions = {"Kitchen": (0, 0), "Bath": (1, 0), ...}
-            x, y = room_positions[room]
-            self.canvas.create_image(x*self.cell_width, y*self.cell_height,
-                                     image=image, anchor='nw')
-            # Guardar la referencia de la imagen para evitar que sea eliminada por el recolector de basura.
-            self.canvas.image = image
+    def update_view(self):
+        self.canvas.delete("agent", "object")  # Limpia solo agentes y objetos
 
-    def place_agents(self):
-        # Similar a place_rooms, pero para agentes como el robot.
-        agent_image = tk.PhotoImage(file=AGENT_IMAGE)
-        # Suponiendo que se tiene la posición del robot, por ejemplo (5, 5):
-        x, y = (5, 5)
-        self.canvas.create_image(x*self.cell_width, y*self.cell_height,
-                                 image=agent_image, anchor='nw')
-        self.canvas.agent_image = agent_image
+        # Dibuja los agentes
+        for agent_name, agent in self.model.agents.items():
+            x, y = agent.position
+            self.canvas.create_image(
+                x * 40, y * 40, image=self.object_image, anchor='nw', tags="agent"
+            )
 
-# Ejecuta la aplicación
+        # Dibuja los objetos
+        for object_name, obj in self.model.objects.items():
+            x, y = obj.position
+            self.canvas.create_rectangle(
+                x * 40, y * 40, x * 40 + 30, y * 40 + 30, fill="green", tags="object"
+            )
+
+    def animate_movement(self, movements, index=0):
+        if index < len(movements):
+            pos = movements[index]
+            self.model.move_agent('robot', pos)
+            self.update_view()
+            # Programa el siguiente movimiento después de un segundo
+            self.after(1000, lambda: self.animate_movement(movements, index + 1))
+
+# Ejemplo de uso
 if __name__ == '__main__':
-    app = EnvironmentGUI()
-    app.mainloop()
+    model = HouseModel()
+    view = HouseView(model)
+
+    # Movimientos de prueba
+    movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
+    # Inicia la animación después de un segundo
+    view.after(1000, lambda: view.animate_movement(movements))
+
+    view.mainloop()
+
