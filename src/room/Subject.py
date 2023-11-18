@@ -1,56 +1,55 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
-class Subject(metaclass=ABCMeta):
+class Subject(ABC):
 	
-    @abstractmethod
-    def __init__(self):
-        self.observers_list = []  # Lista de observadores
-        self.elements_list = []    # Lista de variables / atributos
-        self.relations = {}        #Diccionario de relaciones entre ambos
 
-    @abstractmethod
+    observers_list = []  # Lista de observadores
+    elements_list = []    # Lista de variables / atributos
+    relations = {}        #Diccionario de relaciones entre ambos
+
+    
     def addObs(self,observer):
         self.observers_list.append(observer)
 
-    @abstractmethod
+    
     def removeObs(self,observer):
         self.observers_list.remove(observer)
 
-    @abstractmethod
+    
     def addElem(self, element):
         self.elements_list.append(element)
 
-    @abstractmethod
+    
     def removeElem(self, element):
          self.elements_list.remove(element)
 
-    @abstractmethod
+    
     def getElements(self):
         return self.elements_list
     
-    @abstractmethod
+    
     def getObservers(self):
         return self.observers_list
 
 
-    @abstractmethod
+    
     def notify_all_observers(self):
         for observer in self.observers_list:
             observer.update(self)
 
-    @abstractmethod
+    
     def notify_interested_observers(self, element):
         list_to_update = self.relations.get(element)
 
         for observer in list_to_update:
             observer.update()
 
-    @abstractmethod
+    
     def update():
-        
+        pass
 
 
-    @abstractmethod
+    
     def purge_subject(self):
         dict_to_check = dict(zip(self.elements_list, self.observers_list))
 
@@ -67,7 +66,7 @@ class Subject(metaclass=ABCMeta):
         self.observers_list = valid_observers.copy()
         self.elements_list = valid_elements.copy()
 
-    @abstractmethod
+    
     def observer_init(self, observer):
         self.addObs(observer)
         for topic in observer.topics_of_interest:
@@ -75,6 +74,6 @@ class Subject(metaclass=ABCMeta):
                 self.addElem(topic)
                 self.relations[topic] = [observer]
             else:
-                self.relations[topic] = 
+                self.relations[topic].append(observer)
+        self.update(observer.topics_of_interest)        
         
-                
