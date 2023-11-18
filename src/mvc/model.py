@@ -9,7 +9,7 @@ class Model():
     def __init__(self, x_size, y_size):
         self.x_size = x_size
         self.y_size = y_size
-        self.room = self.generate_empty_room()
+        self.matrix = self.generate_empty_room()
     
     
     def generate_empty_room(self):
@@ -29,8 +29,6 @@ class Model():
         """
 
         config = self.read_grid_config_file(filepath)
-        for elem in config:
-            print(type(elem), elem)
 
         assert self.y_size == len(config) and self.x_size == len(config),\
               "Size of the map must be equal to size of the config file's map" 
@@ -39,17 +37,17 @@ class Model():
             for x, literal in enumerate(row):
                 match literal:
                     case "Wall":
-                        self.room[y][x] = wall.Wall(x, y)
+                        self.matrix[y][x] = wall.Wall(x, y)
                     case "Air":
-                        self.room[y][x] = air.Air(x, y)
+                        self.matrix[y][x] = air.Air(x, y)
                     case "Sofa":
-                        self.room[y][x] = sofa.Sofa(x, y)
+                        self.matrix[y][x] = sofa.Sofa(x, y)
                     case "Door":
-                        self.room[y][x] = door.Door(x, y)
+                        self.matrix[y][x] = door.Door(x, y)
                     case "Table":
-                        self.room[y][x] = table.Table(x, y)
+                        self.matrix[y][x] = table.Table(x, y)
                     case "Fridge":
-                        self.room[y][x] = fridge.Fridge(x, y)
+                        self.matrix[y][x] = fridge.Fridge(x, y)
                                       
         
 
@@ -100,6 +98,6 @@ if __name__ == '__main__':
         for elem in json_data:
             print(elem)'''
     room.populate_room(file_path)
-    print(room.room)
+    print(room.matrix)
         
     

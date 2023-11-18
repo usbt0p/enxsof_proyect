@@ -1,6 +1,7 @@
 import tkinter as tk
 import model
 from utiles.commons import *
+from icecream import ic
 
 # Definición del Modelo
 class Agent:
@@ -27,7 +28,7 @@ class Object:
     
 class HouseModel:
 
-    OBJECTS = ("air", "door", "fridge", "sofa", "table", "wall")
+    OBJECTS = ("Air", "Door", "Fridge", "Sofa", "Table", "Wall")
 
     def __init__(self, grid) -> None:
         self.agents = dict()
@@ -35,8 +36,9 @@ class HouseModel:
         self.grid = grid
 
         for row in grid:
-            for elem in row:
+            for elem in row: 
                 if elem.literal_name in self.OBJECTS:
+                    
                     self.objects[elem] = [elem.x, elem.y]
                 else: 
                     self.agents[elem] = [elem.x, elem.y]
@@ -59,7 +61,7 @@ class HouseModel:
 
 # Definición de la Vista
 class HouseView(tk.Tk):
-    def __init__(self, model, height, width):
+    def __init__(self, model : HouseModel, height, width):
         super().__init__()
         self.model = model  # Referencia al modelo
         self.height = height
@@ -69,8 +71,10 @@ class HouseView(tk.Tk):
 
         # TODO hacer como en esta
         #self.wall_image = tk.PhotoImage(file="./src/room/wall.png")
+        self.wall_image = tk.PhotoImage(file="./assets/gato.png")
         self.object_image = tk.PhotoImage(file="./assets/gato.png")
-        img_dict = {"wall": self.wall_image, "air": self.air_image}
+        self.air_image = tk.PhotoImage(file="./assets/gato.png")
+        self.img_dict = {"Wall": self.wall_image, "Air": self.air_image}
 
         # TODO si se puede meter variables aqui (numfilas * 40, nucol * 40)
         self.canvas = tk.Canvas(self, bg='white', height=height, width=width)
@@ -80,7 +84,7 @@ class HouseView(tk.Tk):
         self.update_view()  # Actualiza la vista con el estado inicial del modelo
 
     def draw_grid(self, width, height):
-        for i in range(0, width, height, 40):
+        for i in range(0, height, 40): # FIXME problema con matrices rectangulares!!!
             self.canvas.create_line([(i, 0), (i, width)], tag='grid_line')
             self.canvas.create_line([(0, i), (height, i)], tag='grid_line')
 
@@ -88,18 +92,29 @@ class HouseView(tk.Tk):
         self.canvas.delete("agent", "object")  # Limpia solo agentes y objetos
 
         # Dibuja los agentes
-        for agent_name, agent in self.model.agents.items():
+        '''for agent_name, agent in self.model.agents.items():
             x, y = agent.position
             self.canvas.create_image(
                 x * 40, y * 40, image=self.object_image, anchor='nw', tags="agent"
-            )
-
+            )'''
+        
+        
         # Dibuja los objetos
-        for object_name, obj in self.model.objects.items():
-            obj.x, obj.y = obj.position
+        ic(self.img_dict)
+        for object, matrix_pos in self.model.objects.items():
+            
+            #object.x, object.y = matrix_pos.position
+            #ic(object.x, object.y)
+
+            img = self.img_dict.get(object.literal_name)
+            
+            # TODO añadir ruta de imagen a objetos
             self.canvas.create_image(
-                x * 40, y * 40, image=self.img_dict.get(object_name), anchor='nw', tags=object_name
+                object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
             )
+            '''self.canvas.create_rectangle(
+                object.x * 40, object.y * 40, object.x * 40 + 30, object.y * 40 + 30, fill="green", tags="object"
+            )'''
 
     def animate_movement(self, movements, index=0):
         if index < len(movements):
@@ -115,8 +130,13 @@ if __name__ == '__main__':
     height = 640
     width = 640
 
-    model = HouseModel(model.grid)
-    view = HouseView(model.model, height, width)
+
+    room = model.Model(16, 16)
+    file_path = 'assets/default_16x16_room.json'
+    room.populate_room(file_path)
+
+    model_for_view = HouseModel(room.matrix)
+    view = HouseView(model_for_view, height, width)
 
     # Movimientos de prueba
     movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
