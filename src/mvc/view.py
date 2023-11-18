@@ -1,7 +1,7 @@
 import tkinter as tk
-import model
+import src.mvc.model as model
 from utiles.commons import *
-from icecream import ic
+#from icecream import ic
 
 # Definición del Modelo
 class Agent:
@@ -71,10 +71,15 @@ class HouseView(tk.Tk):
 
         # TODO hacer como en esta
         #self.wall_image = tk.PhotoImage(file="./src/room/wall.png")
-        self.wall_image = tk.PhotoImage(file="./assets/gato.png")
-        self.object_image = tk.PhotoImage(file="./assets/gato.png")
-        self.air_image = tk.PhotoImage(file="./assets/gato.png")
-        self.img_dict = {"Wall": self.wall_image, "Air": self.air_image}
+        self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
+        self.air_image = tk.PhotoImage(file="./assets/sprites/air.png")
+        self.sofa_image = tk.PhotoImage(file="./assets/sprites/sofa.png")
+        self.table_image = tk.PhotoImage(file="./assets/sprites/table.png")
+        self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
+        self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
+
+        self.img_dict = {"Wall": self.wall_image, "Air": self.air_image, "Sofa": self.sofa_image,
+                          "Table": self.table_image, "Door": self.door_image, "Fridge": self.fridge_image}
 
         # TODO si se puede meter variables aqui (numfilas * 40, nucol * 40)
         self.canvas = tk.Canvas(self, bg='white', height=height, width=width)
@@ -100,9 +105,9 @@ class HouseView(tk.Tk):
         
         
         # Dibuja los objetos
-        ic(self.img_dict)
         for object, matrix_pos in self.model.objects.items():
             
+            # Que hace esto???
             #object.x, object.y = matrix_pos.position
             #ic(object.x, object.y)
 
@@ -112,9 +117,6 @@ class HouseView(tk.Tk):
             self.canvas.create_image(
                 object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
             )
-            '''self.canvas.create_rectangle(
-                object.x * 40, object.y * 40, object.x * 40 + 30, object.y * 40 + 30, fill="green", tags="object"
-            )'''
 
     def animate_movement(self, movements, index=0):
         if index < len(movements):
