@@ -1,0 +1,18 @@
+[
+    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Sofa", "Air", "Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Fridge", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Fridge", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Wall", "Door", "Wall", "Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Fridge", "Air", "Wall"],
+    ["Wall", "Air", "Sofa", "Air", "Air", "Air", "Air", "Air", "Sofa", "Sofa", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
+]
