@@ -1,5 +1,6 @@
 import tkinter as tk
-
+import os
+print(os.getcwd())
 # Definición del Modelo
 class Agent:
     def __init__(self, name, position=(0, 0)):
@@ -48,7 +49,7 @@ class HouseView(tk.Tk):
         self.title("Entorno Domótico")
         self.geometry("640x640")  # Tamaño de la ventana
 
-        self.object_image = tk.PhotoImage(file="gato.png")
+        self.object_image = tk.PhotoImage(file="./src/room/gato.png")
 
         self.canvas = tk.Canvas(self, bg='white', height=640, width=640)
         self.canvas.pack()
