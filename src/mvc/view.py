@@ -1,7 +1,7 @@
 import tkinter as tk
-import model
+import src.mvc.model as model
 from utiles.commons import *
-from icecream import ic
+#from icecream import ic
 
 # Definición del Modelo
 class Agent:
@@ -66,27 +66,38 @@ class HouseView(tk.Tk):
         self.model = model  # Referencia al modelo
         self.height = height
         self.width = width
+        self.CELL_SIZE = 40
         self.title("Entorno Domótico")
-        self.geometry(str(height) + "x" + str(width))  # Tamaño de la ventana
+        self.geometry(str(width) + "x" + str(height))  # Tamaño de la ventana
 
-        # TODO hacer como en esta
-        #self.wall_image = tk.PhotoImage(file="./src/room/wall.png")
-        self.wall_image = tk.PhotoImage(file="./assets/gato.png")
-        self.object_image = tk.PhotoImage(file="./assets/gato.png")
-        self.air_image = tk.PhotoImage(file="./assets/gato.png")
-        self.img_dict = {"Wall": self.wall_image, "Air": self.air_image}
+        # TODO se puede hacer más modular??
+        self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
+        self.air_image = tk.PhotoImage(file="./assets/sprites/air.png")
+        self.sofa_image = tk.PhotoImage(file="./assets/sprites/sofa.png")
+        self.table_image = tk.PhotoImage(file="./assets/sprites/table.png")
+        self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
+        self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
 
-        # TODO si se puede meter variables aqui (numfilas * 40, nucol * 40)
+        self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, #"Air": self.air_image, 
+                          "Table": self.table_image, "Door": self.door_image, "Fridge": self.fridge_image}
+
+        
         self.canvas = tk.Canvas(self, bg='white', height=height, width=width)
         self.canvas.pack()
 
-        self.draw_grid(width, height)
+        
         self.update_view()  # Actualiza la vista con el estado inicial del modelo
+        self.draw_grid(width, height)
 
     def draw_grid(self, width, height):
-        for i in range(0, height, 40): # FIXME problema con matrices rectangulares!!!
-            self.canvas.create_line([(i, 0), (i, width)], tag='grid_line')
-            self.canvas.create_line([(0, i), (height, i)], tag='grid_line')
+        # Draw vertical lines
+        for i in range(0, width, self.CELL_SIZE):
+            self.canvas.create_line([(i, 0), (i, height)], tag='grid_line', fill='grey')
+
+        # Draw horizontal lines
+        for i in range(0, height, self.CELL_SIZE):
+            self.canvas.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
+            
 
     def update_view(self):
         self.canvas.delete("agent", "object")  # Limpia solo agentes y objetos
@@ -100,21 +111,22 @@ class HouseView(tk.Tk):
         
         
         # Dibuja los objetos
-        ic(self.img_dict)
         for object, matrix_pos in self.model.objects.items():
             
+            # Que hace esto???
             #object.x, object.y = matrix_pos.position
             #ic(object.x, object.y)
 
+            # TODO añadir lógica: si objeto ya ha sido dibujado, no dibujar
+
             img = self.img_dict.get(object.literal_name)
             
-            # TODO añadir ruta de imagen a objetos
+            # TODO añadir ruta de imagen a objetos???
             self.canvas.create_image(
                 object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
             )
-            '''self.canvas.create_rectangle(
-                object.x * 40, object.y * 40, object.x * 40 + 30, object.y * 40 + 30, fill="green", tags="object"
-            )'''
+
+        self.draw_grid(self.width, self.height) # TODO eliminar si hay opción mejor, hack para sobrepintar
 
     def animate_movement(self, movements, index=0):
         if index < len(movements):
