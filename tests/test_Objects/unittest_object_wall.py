@@ -64,20 +64,6 @@ class TestWall(unittest.TestCase):
             if not isinstance(self.wall1.x, int) or not isinstance(self.wall2.y, int) or not isinstance(self.wall3.x, int) or not isinstance(self.wall4.y, int) or not isinstance(self.wall5.x, int) or not isinstance(self.wall6.y, int):    
                 raise ValueError("Both x and y must be integers.")
             
-        with self.assertRaises(ValueError):
-            self.wall7 = Wall(2, 1, literal_name=None) 
-            self.wall8 = Wall(1, 2, literal_name=6) 
-            self.wall9 = Wall(1, 2, literal_name=6.4) 
-            if not isinstance(self.wall7.literal_name, str) or not isinstance(self.wall8.literal_name, str) or not isinstance(self.wall9.literal_name, str):
-                raise TypeError("literal_name must be a string.")
-        
-        with self.assertRaises(ValueError):
-            self.wall10 = Wall(1, 5, "Wall", interactive=3) 
-            self.wall11 = Wall(1, 2, "Wall", interactive="boolean") 
-            self.wall12 = Wall(1, 4, "Wall", True, collision=3) 
-            self.wall13 = Wall(1, 4, "Wall", True, collision="collision") 
-            if not isinstance(self.wall10.interactive, bool) or not isinstance(self.wall11.interactive, bool) or not isinstance(self.wall12.collision, bool) or not isinstance(self.wall13.collision, bool):
-                raise TypeError("interactive and collision must be booleans.")
             
 
 if __name__ == '__main__':

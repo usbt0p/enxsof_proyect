@@ -7,13 +7,33 @@ from src.mvc.observer import ConcreteObserver, Observer
 # TODO PLACEHOLDERS, NO ELIMINAR, DAN UNA PLANTILLA PARA COMO CONTINUAR
 '''
 class Agent:
+    """
+    Represents an agent in the environment.
+    """
     def __init__(self, name, position=(0, 0)):
+        """
+        Initializes an Agent object.
+
+        Parameters:
+        - name (str): The name of the agent.
+        - position (tuple): The initial position of the agent. Defaults to (0, 0).
+        """
         self.name = name
         self.position = position
         self.inventory = []
 
 class Object:
+    """
+    Represents an object in the environment.
+    """
     def __init__(self, name, position=(0, 0)):
+        """
+        Initializes an Object object.
+
+        Parameters:
+        - name (str): The name of the object.
+        - position (tuple): The initial position of the object. Defaults to (0, 0).
+        """
         self.name = name
         self.position = position
 
@@ -29,10 +49,19 @@ class HouseModel:
         }'''
     
 class HouseModel:
+    """
+    Represents the model of the house environment.
+    """
 
     OBJECTS = ("Air", "Door", "Fridge", "Sofa", "Table", "Wall")
 
     def __init__(self, grid) -> None:
+        """
+        Initializes a HouseModel object.
+
+        Parameters:
+        - grid (list): The grid representing the environment.
+        """
         self.agents = dict()
         self.objects = dict()
         # la comento pq no creo q nos interese almacenarla 2 veces en memoria pero no se
@@ -47,12 +76,32 @@ class HouseModel:
                     self.agents[elem] = [elem.x, elem.y]
 
     def move_agent(self, agent_name, new_position):
+        """
+        Moves the specified agent to a new position.
+
+        Parameters:
+        - agent_name (str): The name of the agent to be moved.
+        - new_position (tuple): The new position for the agent.
+
+        Returns:
+        - bool: True if the agent is moved successfully, False otherwise.
+        """
         if agent_name in self.agents:
             self.agents[agent_name].position = new_position
             return True
         return False
 
     def agent_pick_object(self, agent_name, object_name):
+        """
+        Allows an agent to pick up an object.
+
+        Parameters:
+        - agent_name (str): The name of the agent.
+        - object_name (str): The name of the object to be picked up.
+
+        Returns:
+        - bool: True if the agent picks up the object successfully, False otherwise.
+        """
         if agent_name in self.agents and object_name in self.objects:
             agent = self.agents[agent_name]
             obj = self.objects[object_name]
@@ -111,18 +160,25 @@ class View(tk.Tk, ConcreteObserver):
         print(f'{self.name} ha recibido una actualización: {new_state}')
 
     def draw_grid(self, width, height):
-        # Draw vertical lines
+        """
+        Draws grid lines on the canvas.
+    
+        Parameters:
+        - width (int): The width of the canvas.
+        - height (int): The height of the canvas.
+        """
         for i in range(0, width, self.CELL_SIZE):
             self.canvas.create_line([(i, 0), (i, height)], tag='grid_line', fill='grey')
 
-        # Draw horizontal lines
         for i in range(0, height, self.CELL_SIZE):
             self.canvas.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
             
 
     def update_view(self):
-        self.canvas.delete("agent", "object")  # Limpia solo agentes y objetos
-
+        """
+        Updates the view by clearing the canvas and redrawing objects based on the model.
+        """
+        self.canvas.delete("agent", "object")
         # Dibuja los agentes
         '''for agent_name, agent in self.model.agents.items():
             x, y = agent.position
@@ -150,6 +206,13 @@ class View(tk.Tk, ConcreteObserver):
         self.draw_grid(self.width, self.height)
 
     def animate_movement(self, movements, index=0):
+        """
+        Animates the movement of the agent in the view.
+
+        Parameters:
+        - movements (list): List of tuples representing the agent's movements.
+        - index (int): Index to keep track of the current movement. Defaults to 0.
+        """
         if index < len(movements):
             pos = movements[index]
             self.model.move_agent('robot', pos)
