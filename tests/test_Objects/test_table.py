@@ -1,5 +1,5 @@
 import unittest
-from ...utiles.commons.table import Table # TODO change path
+from utiles.commons.table import Table 
 
 
 

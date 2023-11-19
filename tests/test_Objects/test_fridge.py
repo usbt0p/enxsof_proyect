@@ -1,4 +1,4 @@
-from utiles.commons.fridge import Fridge # TODO change path
+from utiles.commons.fridge import Fridge 
 import unittest
 class TestFridge(unittest.TestCase):
 
