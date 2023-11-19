@@ -10,7 +10,7 @@ class Door(Obstacle):
     @property    
     def isOpen(self):
         return self.is_open
-
+    
     def open(self):
         # TODO asegurarse de no abrir una puerta ya abierta!!
         self._is_open = True
@@ -18,7 +18,4 @@ class Door(Obstacle):
     def close(self):
         # TODO asegurarse de no cerrar una puerta ya cerrada!!
         self._is_open = False
-
-
-    
     
