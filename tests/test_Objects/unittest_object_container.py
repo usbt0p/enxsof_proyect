@@ -53,8 +53,8 @@ class TestContainer(unittest.TestCase):
         - Represenation should be "Container: coords=(1,2), interactive=True, collision=True,
         storage=[]".
         """
-        self.container = Container(1, 2, literal_name="Container", storage=[4,6])
-        expected_str = "Container: coords=(1,2), interactive=True, collision=True, storage=[4,6]"
+        self.container = Container(1,2, literal_name="Container", storage=[4,6])
+        expected_str = "Container: coords=(1, 2), interactive=True, collision=True, storage=[4, 6]"
         self.assertEqual(str(self.container), expected_str)
 
     def test_container_creation_with_custom_values(self):
@@ -70,10 +70,10 @@ class TestContainer(unittest.TestCase):
         - literal_name should be "CustomContainer".
         """
         container = Container(2, 5, literal_name="CustomContainer", storage=[3,5], interactive=False, collision=False)
-        self.assertEqual(container.x, 3)
-        self.assertEqual(container.y, 4)
+        self.assertEqual(container.x, 2)
+        self.assertEqual(container.y, 5)
         self.assertEqual(container.literal_name, "CustomContainer")
-        self.assertEqual(self.container.storage, [3,5] )
+        self.assertEqual(container.storage,[3,5])
         self.assertFalse(container.interactive)
         self.assertFalse(container.collision)
         

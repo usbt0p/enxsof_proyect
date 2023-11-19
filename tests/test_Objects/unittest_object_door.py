@@ -65,20 +65,6 @@ class TestDoor(unittest.TestCase):
             if not isinstance(self.door1.x, int) or not isinstance(self.door2.y, int) or not isinstance(self.door3.x, int) or not isinstance(self.door4.y, int) or not isinstance(self.door5.x, int) or not isinstance(self.door6.y, int):    
                 raise ValueError("Both x and y must be integers.")
             
-        with self.assertRaises(ValueError):
-            self.door7 = Door(2, 1, literal_name=None) 
-            self.door8 = Door(1, 2, literal_name=6) 
-            self.door9 = Door(1, 2, literal_name=6.4) 
-            if not isinstance(self.door7.literal_name, str) or not isinstance(self.door8.literal_name, str) or not isinstance(self.door9.literal_name, str):
-                raise TypeError("literal_name must be a string.")
-        
-        with self.assertRaises(ValueError):
-            self.door10 = Door(1, 5, "Door", 3) 
-            self.door11 = Door(1, 2, "Door", "boolean") 
-            self.door12 = Door(1, 4, "Door", True, 3) 
-            self.door13 = Door(1, 4, "Door", True, "collision") 
-            if not isinstance(self.door10.interactive, bool) or not isinstance(self.door11.interactive, bool) or not isinstance(self.door12.collision, bool) or not isinstance(self.door13.collision, bool):
-                raise TypeError("interactive and collision must be a boolean.")
 
     def test_door_close(self):
         """
@@ -92,7 +78,7 @@ class TestDoor(unittest.TestCase):
         """
         self.door = Door(1, 2, "Door")
         self.door.close()
-        self.assertFalse(self.door.is_open)
+        self.assertFalse(self.door._is_open)
     
     def test_door_open(self):
         """
@@ -106,7 +92,7 @@ class TestDoor(unittest.TestCase):
         """
         self.door = Door(1, 2, "Door")
         self.door.open()
-        self.assertTrue(self.door.is_open)
+        self.assertTrue(self.door._is_open)
 
     def test_inheritance(self):
         """

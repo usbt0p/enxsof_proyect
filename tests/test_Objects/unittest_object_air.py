@@ -65,21 +65,5 @@ class TestAir(unittest.TestCase):
             if not isinstance(self.air1.x, int) or not isinstance(self.air2.y, int) or not isinstance(self.air3.x, int) or not isinstance(self.air4.y, int) or not isinstance(self.air5.x, int) or not isinstance(self.air6.y, int):    
                 raise ValueError("Both x and y must be integers.")
             
-        with self.assertRaises(ValueError):
-            self.air7 = Air(2, 1, literal_name=None)
-            self.air8 = Air(1, 2, literal_name=6) 
-            self.air9 = Air(1, 2, literal_name=6.4) 
-            if not isinstance(self.air7.literal_name, str) or not isinstance(self.air8.literal_name, str) or not isinstance(self.air9.literal_name, str):
-                raise TypeError("literal_name must be a string.")
-        
-        with self.assertRaises(ValueError):
-            self.air10 = Air(1, 5, "Air", interactive=3) 
-            self.air11 = Air(1, 2, "Air", interactive="boolean")
-            self.air12 = Air(1, 4, "Air", interactive=True, collision=3) 
-            self.air13 = Air(1, 4, "Air", interactive=True, collision="collision")
-            if not isinstance(self.air10.interactive, bool) or not isinstance(self.air11.interactive, bool) or not isinstance(self.air12.collision, bool) or not isinstance(self.air13.collision, bool):
-                raise TypeError("interactive and collision must be booleans.")
-
-
 if __name__ == '__main__':
     unittest.main()

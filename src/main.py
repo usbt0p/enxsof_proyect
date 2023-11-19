@@ -2,14 +2,18 @@ import os
 os.environ['PYTHONPATH'] = '.'
 
 import unittest
-from src.mvc import model, view
 from tests.test_room.test_model.initialization_test import TestRoomInitialization
 from tests.test_room.test_model.populate_test import TestPopulateRoom
-from tests.test_Objects.test_fridge import TestFridge
-from tests.test_Objects.test_sofa import TestSofa
-from tests.test_Objects.test_table import TestTable
-from tests.test_Objects.test_thing import TestThing
-from tests.test_Objects.test_wall import TestWall
+from tests.test_Objects.unittest_object_fridge import TestFridge
+from tests.test_Objects.unittest_object_sofa import TestSofa
+from tests.test_Objects.unittest_object_table import TestTable
+from tests.test_Objects.unittest_object_thing import TestThing
+from tests.test_Objects.unittest_object_wall import TestWall
+from tests.test_Objects.unittest_object_air import TestAir
+from tests.test_Objects.unittest_object_container import TestContainer
+from tests.test_Objects.unittest_object_door import TestDoor
+from tests.test_Objects.unittest_object_obstacle import TestObstacle
+
 
 opcion = 0
 while opcion != 1 and opcion != 2 and opcion != 3:
@@ -40,6 +44,10 @@ objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestSof
 objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestTable))
 objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestThing))
 objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestWall))
+objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestAir))
+objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestContainer))
+objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestDoor))
+objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestObstacle))
 
 populate_instance_test = TestPopulateRoom(file_path)
 initialization_instance_test = TestRoomInitialization()
@@ -50,6 +58,15 @@ model_tests_suite.addTest(initialization_instance_test)
 
 
 unittest.TextTestRunner(verbosity=2).run(objects_tests_suite)
+
+
+
+
+# Constants:
+X_MATRIX = 16
+Y_MATRIX = 16
+HEIGHT = 40 * Y_MATRIX
+WIDTH = 40 * X_MATRIX
 
 '''# Crear un sujeto
 subject = Subject()
