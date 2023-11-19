@@ -1,5 +1,5 @@
 import unittest
-from ....src.room.Model import Model  # TODO Cambiar la ruta
+from src.mvc.model import Model  # TODO Cambiar la ruta
 from ....utiles.commons import *
 
 class TestPopulateRoom(unittest.TestCase):
