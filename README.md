@@ -31,7 +31,6 @@ o	[Acciones (Action)](https://github.com/usbt0p/enxsof_proyect/issues/19#accione
 o	[Características de la Interfaz Gráfica](https://github.com/usbt0p/enxsof_proyect/issues/19#caracter%C3%ADsticas-de-la-interfaz-gr%C3%A1fica)
 •	[Uso del Código](https://github.com/usbt0p/enxsof_proyect/issues/19#uso-del-c%C3%B3digo)
 •	[Ejecución de Pruebas](https://github.com/usbt0p/enxsof_proyect/issues/19#ejecuci%C3%B3n-de-pruebas)
-•	[Contribuciones](https://github.com/usbt0p/enxsof_proyect/issues/19#contribuciones)
 •	[Licencia](###Licencia)
 
 
@@ -40,6 +39,7 @@ o	[Características de la Interfaz Gráfica](https://github.com/usbt0p/enxsof_pr
 ### Resumen del Proyecto
 
 Este proyecto tiene como objetivo desarrollar un entorno domótico con el propósito de recrear y analizar interacciones entre agentes autónomos encargados de desempeñar distintos roles específicos en un entorno doméstico. El sistema se apoya en la aplicación del patrón de diseño Modelo-Vista-Controlador (MVC), una elección que no solo implica la organización estructural del código sino que también imparte un enfoque modular para mejorar la interacción y comunicación entre los agentes y los objetos dentro de este entorno simulado.
+
 ### Requisitos del Sistema
 Los requisitos del sistema definen las funcionalidades y características que el software debe cumplir:
 **Funcionales**
@@ -100,26 +100,6 @@ arquitectónico sienta las bases para el desarrollo continuo y la expansión del
 
 ### Componentes del Sistema
 
-**Entorno (Environment)**
-
-El componente central encargado de gestionar el estado global del entorno domótico. Contiene información sobre la ubicación de los agentes y objetos, así como las percepciones y acciones que afectan al entorno.
-
-**Atributos**
-
-•	agents: Diccionario que almacena información sobre los agentes presentes en el entorno.
-•	objects: Diccionario que guarda datos sobre los objetos presentes.
-•	global_percepts: Lista de percepciones accesibles por todos los agentes.
-•	agent_percepts: Diccionario que mapea agentes a sus percepciones individuales.
-
-**Métodos**
-
-•	init(args): Inicializa el entorno con la configuración inicial.
-•	add_percept(percept, agent_id): Agrega una percepción específica a un agente.
-•	remove_percept(percept, agent_id): Elimina una percepción de un agente.
-•	clear_percepts(agent_id): Limpia todas las percepcionesd de un agente.
-•	get_percepts(agent_id): Obtiene las percepciones de un agente.
-•	execute_action(agent_id, action): Ejecuta una acción realizada por un agente.
-•	update_percepts(): Actualiza las percepciones en respuesta a cambios en el entorno.
 
 **Agentes (Agent)**
 
@@ -213,47 +193,6 @@ El propósito principal de las pruebas es asegurar que cada componente del softw
 •	Se utilizan afirmaciones (assert) para verificar que los resultados esperados coincidan con los resultados reales. Si una afirmación falla, la prueba se considera no válida y se genera una notificación.
 La implementación de pruebas unitarias proporciona una base sólida para el desarrollo de software, mejorando la confianza en la calidad y el rendimiento del código. Al incorporar pruebas unitarias para clases en Python, se facilita la detección temprana de posibles problemas  y  garantizar la robustez y confiabilidad del entorno domótico simulado. Lo que fomenta un desarrollo más eficiente y sostenible.
 
-### Contribuciones
-
-La sección de Contribuciones actúa como una guía exhaustiva para los colaboradores interesados en mejorar y expandir el proyecto de entorno domótico. Esta área es esencial para mantener un desarrollo sostenible y fomentar la participación activa de la comunidad. A continuación, se detallan los aspectos clave de esta sección:
-
-**Estándares de Codificación**
-
-•	Se establecen estándares claros de codificación para mantener la coherencia y la legibilidad del código.
-•	Se proporciona una guía detallada sobre convenciones de nomenclatura, estilo de código y buenas prácticas de programación.
-•	La consistencia en la estructura del código facilita la colaboración y la comprensión entre los desarrolladores.
-
-**Estructura del Código**
-
-•	Se describe la estructura general del código fuente para facilitar la navegación y comprensión del proyecto.
-•	Se proporciona una jerarquía organizativa de directorios y módulos, destacando la función y propósito de cada componente.
-•	La estructura bien definida simplifica la incorporación de nuevas funcionalidades y la solución de problemas.
-
-**Procesos de Revisión**
-
-•	Se detallan los procesos de revisión de código que deben seguir los colaboradores antes de enviar contribuciones.
-•	Establece pautas específicas para la presentación de solicitudes de extracción (pull requests) y la documentación necesaria.
-•	La revisión cuidadosa garantiza la calidad del código y su alineación con los objetivos del proyecto.
-
-**Propuestas de Nuevas Características y Solución de Problemas**
-
-•	Se alienta a los colaboradores a proponer nuevas características que mejoren la funcionalidad del entorno domótico.
-•	Se proporciona una plantilla para la presentación de propuestas, que incluye información detallada sobre el problema que aborda y cómo se integra con el proyecto.
-•	Se establece un proceso claro para informar y resolver problemas, promoviendo la transparencia y la eficiencia en la gestión de incidencias.
-
-**Colaboración Efectiva**
-
-•	Se ofrecen consejos prácticos para una colaboración efectiva en un entorno de desarrollo de código abierto.
-•	Incluye directrices sobre la comunicación, la resolución constructiva de conflictos y la participación activa en discusiones.
-•	Fomenta un ambiente inclusivo y respetuoso para todos los colaboradores.
-
-**Reconocimiento y Agradecimientos**
-
-•	Se establece un mecanismo para reconocer y agradecer las contribuciones significativas de los colaboradores al proyecto.
-•	Incluye la incorporación de un archivo de registro de contribuciones destacadas y agradecimientos públicos.
-•	Fomenta un sentido de comunidad y aprecio por el esfuerzo dedicado a la mejora continua del proyecto.
-
-En resumen, la sección de Contribuciones actúa como un recurso completo para orientar a los colaboradores, proporcionando directrices claras, procesos bien definidos y un marco para el reconocimiento del esfuerzo colaborativo. Estos elementos son esenciales para mantener la integridad del proyecto y fomentar un entorno de desarrollo positivo y colaborativo.
 
 ### Licencia
 
