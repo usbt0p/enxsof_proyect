@@ -1,44 +1,35 @@
-from abc import ABCMeta, abstractmethod
+from src.mvc.observer import Observer
 
-class Subject(metaclass=ABCMeta):
-    '''We define a 'template' for our classes using an abstract class.
-    All classes inheriting from Subject must implement it's methods.'''
-	
-    @abstractmethod
+class Subject:
     def __init__(self):
-        ...
+        self._observers = set()
 
-    @abstractmethod
-    def __init__(self) -> None:
-        ...
+    def attach(self, observer):
+        if not isinstance(observer, Observer):
+            raise TypeError('El observer debe ser una instancia de la clase Observer')
+        self._observers.add(observer)
 
-    @abstractmethod
-    def addObserver(self):
-        ...
+    def detach(self, observer):
+        self._observers.discard(observer)
 
-    @abstractmethod
-    def removeObserver(self):
-        ...
+    def notify(self, *args, **kwargs):
+        for observer in self._observers:
+            observer.update(*args, **kwargs)
 
-    @abstractmethod
-    def addElem(self):
-        ...
+if "__main__" == __name__:
 
-    @abstractmethod
-    def removeElem(self):
-        ...
+    from observer import ConcreteObserver
 
-    @abstractmethod
-    def notifyObservers(self):
-        ...
+    # Crear un sujeto
+    subject = Subject()
 
-    @abstractmethod
-    def getSujetos(self):
-        ...
+    # Crear observadores
+    observer1 = ConcreteObserver('Observer1')
+    observer2 = ConcreteObserver('Observer2')
 
-    @abstractmethod
-    def setSujetos(self):
-        ...
+    # Adjuntar los observadores al sujeto
+    subject.attach(observer1)
+    subject.attach(observer2)
 
-	
-		
+    # Notificar a todos los observadores
+    subject.notify('¡Hola, Observadores!')
