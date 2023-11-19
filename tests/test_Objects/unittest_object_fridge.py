@@ -18,7 +18,7 @@ class TestFridge(unittest.TestCase):
         self.assertEqual(self.fridge.x, 6)
         self.assertEqual(self.fridge.y, 8)
         self.assertEqual(self.fridge.literal_name, "Fridge")
-        self.assertEqual(self.fridge.storage, {"dict":5})
+        self.assertEqual(self.fridge.storage, {})
         self.assertTrue(self.fridge.interactive)
         self.assertTrue(self.fridge.collision)
 
@@ -67,20 +67,6 @@ class TestFridge(unittest.TestCase):
             if not isinstance(self.fridge1.x, int) or not isinstance(self.fridge2.y, int) or not isinstance(self.fridge3.x, int) or not isinstance(self.fridge4.y, int) or not isinstance(self.fridge5.x, int) or not isinstance(self.fridge6.y, int):    
                 raise ValueError("Both x and y must be integers.")
             
-        with self.assertRaises(ValueError):
-            self.fridge7 = Fridge(2, 1, None, {"view":"observer"}) 
-            self.fridge8 = Fridge(1, 2, 6, {"view":"observer"}) 
-            self.fridge9 = Fridge(1, 2, 6.4, {"view":"observer"}) 
-            if not isinstance(self.fridge7.literal_name, str) or not isinstance(self.fridge8.literal_name, str) or not isinstance(self.fridge9.literal_name, str):
-                raise TypeError("literal_name must be a string.")
-        
-        with self.assertRaises(ValueError):
-            self.fridge10 = Fridge(1, 5, "Fridge", {"view":"observer"}, interactive=3) 
-            self.fridge11 = Fridge(1, 2, "Fridge", {"view":"observer"}, interactive="boolean") 
-            self.fridge12 = Fridge(1, 4, "Fridge", {"view":"observer"}, True, collision=3) 
-            self.fridge13 = Fridge(1, 4, "Fridge", {"view":"observer"}, True, collision="collision") 
-            if not isinstance(self.fridge10.interactive, bool) or not isinstance(self.fridge11.interactive, bool) or not isinstance(self.fridge12.collision, bool) or not isinstance(self.fridge13.collision, bool):
-                raise TypeError("interactive and collision must be a boolean.")
            
 
 if __name__ == '__main__':

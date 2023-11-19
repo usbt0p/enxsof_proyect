@@ -1,12 +1,18 @@
 from src.mvc import model, view, observer, subject
 import unittest
+
 from tests.test_room.test_model.initialization_test import TestRoomInitialization
 from tests.test_room.test_model.populate_test import TestPopulateRoom
-from tests.test_Objects.test_fridge import TestFridge
-from tests.test_Objects.test_sofa import TestSofa
-from tests.test_Objects.test_table import TestTable
-from tests.test_Objects.test_thing import TestThing
-from tests.test_Objects.test_wall import TestWall
+from tests.test_Objects.unittest_object_fridge import TestFridge
+from tests.test_Objects.unittest_object_sofa import TestSofa
+from tests.test_Objects.unittest_object_table import TestTable
+from tests.test_Objects.unittest_object_thing import TestThing
+from tests.test_Objects.unittest_object_wall import TestWall
+from tests.test_Objects.unittest_object_air import TestAir
+from tests.test_Objects.unittest_object_container import TestContainer
+from tests.test_Objects.unittest_object_door import TestDoor
+from tests.test_Objects.unittest_object_obstacle import TestObstacle
+
 
 file_path = 'assets/default_10x10_room.json' #Filepath para los tests y la ejecucion posterior
 
@@ -17,6 +23,10 @@ objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestSof
 objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestTable))
 objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestThing))
 objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestWall))
+objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestAir))
+objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestContainer))
+objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestDoor))
+objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestObstacle))
 
 populate_instance_test = TestPopulateRoom(file_path)
 initialization_instance_test = TestRoomInitialization()
@@ -32,8 +42,8 @@ unittest.TextTestRunner(verbosity=2).run(objects_tests_suite)
 
 
 # Constants:
-X_MATRIX = 16
-Y_MATRIX = 16
+X_MATRIX = 10
+Y_MATRIX = 10
 HEIGHT = 40 * Y_MATRIX
 WIDTH = 40 * X_MATRIX
 

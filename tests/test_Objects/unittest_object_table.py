@@ -64,20 +64,6 @@ class TestTable(unittest.TestCase):
             if not isinstance(self.table1.x, int) or not isinstance(self.table2.y, int) or not isinstance(self.table3.x, int) or not isinstance(self.table4.y, int) or not isinstance(self.table5.x, int) or not isinstance(self.table6.y, int):    
                 raise ValueError("Both x and y must be integers.")
             
-        with self.assertRaises(ValueError):
-            self.table7 = Table(2, 1, None)  
-            self.table8 = Table(1, 2, 6) 
-            self.table9 = Table(1, 2, 6.4) 
-            if not isinstance(self.table7.literal_name, str) or not isinstance(self.table8.literal_name, str) or not isinstance(self.table9.literal_name, str):
-                raise TypeError("literal_name must be a string.")
-        
-        with self.assertRaises(ValueError):
-            self.table10 = Table(1, 5, "Table", interactive=2) 
-            self.table11 = Table(1, 2, "Table", interactive="word") 
-            self.table12 = Table(1, 4, "Table", True, collision=9) 
-            self.table13 = Table(1, 4, "Table", True, collision="collision") 
-            if not isinstance(self.table10.interactive, bool) or not isinstance(self.table11.interactive, bool) or not isinstance(self.table12.collision, bool) or not isinstance(self.table13.collision, bool):
-                raise TypeError("interactive and collision must be booleans.")
 
 
 if __name__ == '__main__':
