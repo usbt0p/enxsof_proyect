@@ -1,13 +1,13 @@
 from src.mvc import model, view
 
 # Constants:
-X_MATRIX = 16
+X_MATRIX = 10
 Y_MATRIX = 10
 HEIGHT = 40 * Y_MATRIX
 WIDTH = 40 * X_MATRIX
 
 room = model.Model(X_MATRIX, Y_MATRIX)
-file_path = 'assets/default_16x10_room.json'  # FIXME only works on fullscreen mode???
+file_path = 'assets/default_10x10_room.json'
 room.populate_room(file_path)
 
 model_for_view = view.HouseModel(room.matrix)
