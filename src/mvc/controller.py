@@ -13,14 +13,14 @@ y ver las propiedades de colisión del obj en el otro mapa: ESTO SERÍA EL CONTR
 #TODO COMPLETAR CUANDO EL MODELO SEA DINÁMICO Y NO ESTÁTICO
 
 class Controller(ConcreteObserver):
-<<<<<<< HEAD
+
     def __init__(self, model:Model, view:View) -> None:
-=======
-    """
-    A controller class that acts as an observer to manage agents in the MVC architecture.
-    It connects the model and view, handling user interactions and updating the view
-    based on changes in the model.
-    """
+
+        """
+        A controller class that acts as an observer to manage agents in the MVC architecture.
+        It connects the model and view, handling user interactions and updating the view
+        based on changes in the model.
+        """
 
     def __init__(self, model, view):
         """
@@ -30,7 +30,7 @@ class Controller(ConcreteObserver):
             model: The model part of the MVC architecture.
             view: The view part of the MVC architecture.
         """
->>>>>>> 1ae9fb2479e3de79204a88de5a4a874e97f56801
+
         self.model = model
         self.view = view
 
