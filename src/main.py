@@ -60,15 +60,6 @@ model_tests_suite.addTest(initialization_instance_test)
 
 unittest.TextTestRunner(verbosity=2).run(objects_tests_suite)
 
-
-
-
-# Constants:
-X_MATRIX = 16
-Y_MATRIX = 16
-HEIGHT = 40 * Y_MATRIX
-WIDTH = 40 * X_MATRIX
-
 '''# Crear un sujeto
 subject = Subject()
 
