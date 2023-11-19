@@ -1,7 +1,7 @@
 from src.mvc.model import Model
 from src.mvc.view import View
 import unittest
-from src.mvc import model, view
+#from src.mvc import model, view
 from tests.test_room.test_model.initialization_test import TestRoomInitialization
 from tests.test_room.test_model.populate_test import TestPopulateRoom
 from tests.test_Objects.unittest_object_fridge import TestFridge
@@ -73,13 +73,7 @@ room.attach(view_house) # TODO crea y attachea controller
 
 room.notify(view_house, "Override the ConcreteObserver's method `update method` for personalized logic")
 
-'''Para cuando haya que dibujar agentes:
-Probablemente, lo mejor sea que los agentes estén en otra 'dimensión'
-con respecto a los objetos: como en las capas de photoshop.
-Así, solo hay que repintar esa capa y no los objetos, y tampoco hay que eliminar un objeto
-cuando el agente se mueva a su casilla...
-Simplemente habría que coger la coord a la que el agente se quiere mover en su mapa,
-y ver las propiedades de colisión del obj en el otro mapa: ESTO SERÍA EL CONTROLADOR!!!'''
+
 
 view_house.mainloop()
 
