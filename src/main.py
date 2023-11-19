@@ -2,6 +2,7 @@ from src.mvc.model import Model
 from src.mvc.view import View
 import unittest
 
+#Show menu to select grid 
 opcion = 0
 while opcion != 1 and opcion != 2 and opcion != 3:
     opcion = int(input("Ingrese el tamaño de la casa \n1.10x10 \n2.16x10 \n3.16x16 \n--> "))
@@ -23,7 +24,7 @@ HEIGHT = 40 * Y_MATRIX
 WIDTH = 40 * X_MATRIX
 
 file_path = f'assets/default_{X_MATRIX}x{Y_MATRIX}_room.json' 
-#Filepath para los tests y la ejecucion posterior
+# Filepath para los tests y la ejecucion posterior
 
 
 
@@ -32,7 +33,7 @@ room = Model(X_MATRIX, Y_MATRIX)
 room.populate_room(file_path)
 
 # Crea una vista de la casa, 'frontend' del proyecto:
-#   Procesa todos los objetos, los añade a un modelo para la vista, 
+# Procesa todos los objetos, los añade a un modelo para la vista, 
 view_house = View('view_house', room.matrix, HEIGHT, WIDTH)
 
 # Adjuntar los observadores al sujeto
