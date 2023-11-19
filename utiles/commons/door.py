@@ -12,10 +12,8 @@ class Door(Obstacle):
         return self.is_open
     
     def open(self):
-        # TODO asegurarse de no abrir una puerta ya abierta!!
         self._is_open = True
 
     def close(self):
-        # TODO asegurarse de no cerrar una puerta ya cerrada!!
         self._is_open = False
     

@@ -1,3 +1,5 @@
+from model import Model
+from view import View
 from src.mvc.observer import ConcreteObserver
 
 '''Para cuando haya que dibujar agentes:
@@ -11,28 +13,28 @@ y ver las propiedades de colisión del obj en el otro mapa: ESTO SERÍA EL CONTR
 #TODO COMPLETAR CUANDO EL MODELO SEA DINÁMICO Y NO ESTÁTICO
 
 class Controller(ConcreteObserver):
-    def __init__(self, model, view):
+    def __init__(self, model:Model, view:View) -> None:
         self.model = model
         self.view = view
 
         # Configurar la vista para usar este controlador
         self.view.set_controller(self)
 
-    def move_agent(self, agent_name, new_position):
+    def move_agent(self, agent_name:str, new_position:tuple(int, int)) -> None:
         """
         Mueve un agente a una nueva posición y actualiza la vista.
         """
         if self.model.move_agent(agent_name, new_position):
             self.view.update_view()
 
-    def add_agent(self, agent_name, position):
+    def add_agent(self, agent_name:str, position:tuple(int, int)) -> None:
         """
         Añade un nuevo agente al modelo y actualiza la vista.
         """
         self.model.add_agent(agent_name, position)
         self.view.update_view()
 
-    def remove_agent(self, agent_name):
+    def remove_agent(self, agent_name:str) -> None:
         """
         Elimina un agente del modelo y actualiza la vista.
         """
