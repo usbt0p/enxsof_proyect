@@ -2,6 +2,7 @@ import os
 os.environ['PYTHONPATH'] = '.'
 
 import unittest
+from src.mvc import model, view
 from tests.test_room.test_model.initialization_test import TestRoomInitialization
 from tests.test_room.test_model.populate_test import TestPopulateRoom
 from tests.test_Objects.unittest_object_fridge import TestFridge
