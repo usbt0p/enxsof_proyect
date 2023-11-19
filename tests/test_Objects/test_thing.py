@@ -1,5 +1,5 @@
 import unittest
-from ...utiles.commons.thing import Thing # TODO change path
+from utiles.commons.thing import Thing 
 
 class TestThing(unittest.TestCase):
 

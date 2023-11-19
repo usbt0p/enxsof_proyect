@@ -1,8 +1,13 @@
 import unittest
-from src.mvc.model import Model  # TODO Cambiar la ruta
-from ....utiles.commons import *
+from src.mvc.model import Model  
+from utiles.commons import *
 
 class TestPopulateRoom(unittest.TestCase):
+
+    def __init__(self, path):
+        self.path = path
+
+
     def test_populate_room_with_small_json(self):
         """
         Test the population of the room with objects from a small JSON file.
@@ -12,12 +17,11 @@ class TestPopulateRoom(unittest.TestCase):
         2. Populate the room from the JSON file.
         3. Check if all elements in the room are instances of class objects.
         """
-        # Arrange - Configuration
-        file_path = 'test_config.json'  
+        # Arrange - Configuration  
         room = Model(3, 3)  # Las dimensiones deben coincidir con el diccionario JSON
 
         # Act - Execution
-        room.populate_room(file_path)
+        room.populate_room(self.path)
 
         # Assert - Verification
         for row in room.room:

@@ -1,5 +1,5 @@
 import unittest
-from src.mvc.model import Model  # TODO Cambia la ruta
+from src.mvc.model import Model  
 
 class TestRoomInitialization(unittest.TestCase):
     def test_room_initialized_with_zeros(self):
