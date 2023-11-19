@@ -1,12 +1,14 @@
 from utiles.commons import *
+from src.mvc.subject import Subject
 import json
 
 """
     Model class.
     This class represents a room in the pyhton project.
 """
-class Model():
+class Model(Subject):
     def __init__(self, x_size, y_size):
+        super().__init__()
         self.x_size = x_size
         self.y_size = y_size
         self.matrix = self.generate_empty_room()

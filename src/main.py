@@ -1,4 +1,5 @@
-from src.mvc import model, view, observer, subject
+from src.mvc.model import Model
+from src.mvc.view import View
 import unittest
 from tests.test_room.test_model.initialization_test import TestRoomInitialization
 from tests.test_room.test_model.populate_test import TestPopulateRoom
@@ -8,7 +9,7 @@ from tests.test_Objects.test_table import TestTable
 from tests.test_Objects.test_thing import TestThing
 from tests.test_Objects.test_wall import TestWall
 
-file_path = 'assets/default_10x10_room.json' #Filepath para los tests y la ejecucion posterior
+file_path = 'assets/default_16x16_room.json' #Filepath para los tests y la ejecucion posterior
 
 #Se ejecutan todos los tests de objetos
 
@@ -28,39 +29,33 @@ model_tests_suite.addTest(initialization_instance_test)
 
 unittest.TextTestRunner(verbosity=2).run(objects_tests_suite)
 
-
-
-
 # Constants:
 X_MATRIX = 16
 Y_MATRIX = 16
 HEIGHT = 40 * Y_MATRIX
 WIDTH = 40 * X_MATRIX
 
-'''# Crear un sujeto
-subject = Subject()
 
-# Crear observadores
-observer1 = ConcreteObserver('Observer1')
-observer2 = ConcreteObserver('Observer2')
-
-# Adjuntar los observadores al sujeto
-subject.attach(observer1)
-subject.attach(observer2)
-
-# Notificar a todos los observadores
-subject.notify('¡Hola, Observadores!')'''
-  
-room = model.Model(X_MATRIX, Y_MATRIX)
+# Creamos el Modelo, que es el sujeto del programa al que se subscribirán los obs y alamcena el environment
+room = Model(X_MATRIX, Y_MATRIX)
 room.populate_room(file_path)
 
-model_for_view = view.HouseModel(room.matrix)
-view_house = view.HouseView(model_for_view, HEIGHT, WIDTH)
+# Crea una vista de la casa, 'frontend' del proyecto:
+#   Procesa todos los objetos, los añade a un modelo para la vista, 
+view_house = View('view_house', room.matrix, HEIGHT, WIDTH)
 
-# Movimientos de prueba
-movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
-# Inicia la animación después de un segundo
-view_house.after(1000, lambda: view_house.animate_movement(movements))
+# Adjuntar los observadores al sujeto
+room.attach(view_house) # TODO crea y attachea controller
+
+room.notify(view_house, "Override the ConcreteObserver's method `update method` for personalized logic")
+
+'''Para cuando haya que dibujar agentes:
+Probablemente, lo mejor sea que los agentes estén en otra 'dimensión'
+con respecto a los objetos: como en las capas de photoshop.
+Así, solo hay que repintar esa capa y no los objetos, y tampoco hay que eliminar un objeto
+cuando el agente se mueva a su casilla...
+Simplemente habría que coger la coord a la que el agente se quiere mover en su mapa,
+y ver las propiedades de colisión del obj en el otro mapa: ESTO SERÍA EL CONTROLADOR!!!'''
 
 view_house.mainloop()
 

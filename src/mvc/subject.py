@@ -1,35 +1,38 @@
-from src.mvc.observer import Observer
+from src.mvc import observer as ob
 
 class Subject:
     def __init__(self):
         self._observers = set()
 
-    def attach(self, observer):
-        if not isinstance(observer, Observer):
-            raise TypeError('El observer debe ser una instancia de la clase Observer')
-        self._observers.add(observer)
+    def attach(self, *observers):
+        for obs in observers:
+            if not isinstance(obs, ob.Observer):
+                raise TypeError('El observer debe ser una instancia de la clase Observer')
+            self._observers.add(obs)
 
     def detach(self, observer):
         self._observers.discard(observer)
 
-    def notify(self, *args, **kwargs):
+    def notifyAll(self, *args, **kwargs):
         for observer in self._observers:
             observer.update(*args, **kwargs)
 
-if "__main__" == __name__:
+    def notify(self, observer, *args, **kwargs):
+        assert observer in self._observers, 'Observer must be in attached list'
+        observer.update(*args, **kwargs)
 
-    from observer import ConcreteObserver
+if "__main__" == __name__:
 
     # Crear un sujeto
     subject = Subject()
 
     # Crear observadores
-    observer1 = ConcreteObserver('Observer1')
-    observer2 = ConcreteObserver('Observer2')
+    view = ob.ConcreteObserver('view')
+    controller = ob.ConcreteObserver('controller')
 
     # Adjuntar los observadores al sujeto
-    subject.attach(observer1)
-    subject.attach(observer2)
+    subject.attach(view, controller)
 
     # Notificar a todos los observadores
-    subject.notify('¡Hola, Observadores!')
+    subject.notifyAll('¡Hola, Observadores!')
+    subject.notify(view, 'actualiza la vista')

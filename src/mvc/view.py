@@ -1,9 +1,11 @@
 import tkinter as tk
 import src.mvc.model as model
 from utiles.commons import *
+from src.mvc.observer import ConcreteObserver, Observer
 #from icecream import ic
 
-# Definición del Modelo
+# TODO PLACEHOLDERS, NO ELIMINAR, DAN UNA PLANTILLA PARA COMO CONTINUAR
+'''
 class Agent:
     def __init__(self, name, position=(0, 0)):
         self.name = name
@@ -15,7 +17,7 @@ class Object:
         self.name = name
         self.position = position
 
-    '''class HouseModel:
+class HouseModel:
     def __init__(self):
         self.agents = {
             'robot': Agent('robot', position=(0, 0)),
@@ -33,7 +35,8 @@ class HouseModel:
     def __init__(self, grid) -> None:
         self.agents = dict()
         self.objects = dict()
-        self.grid = grid
+        # la comento pq no creo q nos interese almacenarla 2 veces en memoria pero no se
+        #self.grid = grid  
 
         for row in grid:
             for elem in row: 
@@ -60,16 +63,31 @@ class HouseModel:
         return False
 
 # Definición de la Vista
-class HouseView(tk.Tk):
-    def __init__(self, model : HouseModel, height, width):
-        super().__init__()
-        self.model = model  # Referencia al modelo
+class View(tk.Tk, ConcreteObserver):
+
+    def __init__(self, name, matrix, height, width):
+
+        # Recibe los métodos y atributos de ConcreteObserver y de tk.Tk
+        # con super().__init__(name) no funciona, busca en tk.Tk el atributo name y no lo encuentra,
+        # y por alguna razón no ejecuta el arbol de busqueda para encontrarlo en ConcreteObserver????
+        tk.Tk.__init__(self)
+        ConcreteObserver.__init__(self, name)
+
+        ''' /!\ ATENCIÓN /!\\
+        - Si vas a trabajar en cambiar esta clase, ten en cuenta que sus comportamientos dependen de
+            la siguiente linea!!!
+            self.model es una referencia al modelo, después de procesarlo llamando a HouseModel, que
+            se encarga de procesar, encontrar y almacenar objetos, agentes, etc. para hacer el display
+        '''
+        self.model = HouseModel(matrix) 
+
         self.height = height
         self.width = width
         self.CELL_SIZE = 40
         self.title("Entorno Domótico")
         self.geometry(str(width) + "x" + str(height))  # Tamaño de la ventana
 
+        # Establece las skins
         # TODO se puede hacer más modular??
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
         self.air_image = tk.PhotoImage(file="./assets/sprites/air.png")
@@ -78,16 +96,19 @@ class HouseView(tk.Tk):
         self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
         self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
 
+        #Asigna las skins a los literales de cada objeto
         self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, #"Air": self.air_image, 
                           "Table": self.table_image, "Door": self.door_image, "Fridge": self.fridge_image}
 
-        
+        #Inicializa el modelo con todos los atributos listos
         self.canvas = tk.Canvas(self, bg='white', height=height, width=width)
         self.canvas.pack()
-
-        
-        self.update_view()  # Actualiza la vista con el estado inicial del modelo
+        self.update_view() 
         self.draw_grid(width, height)
+
+    # Override the ConcreteObserver's method for personalized logic
+    def update(self, *new_state):
+        print(f'{self.name} ha recibido una actualización: {new_state}')
 
     def draw_grid(self, width, height):
         # Draw vertical lines
@@ -126,7 +147,7 @@ class HouseView(tk.Tk):
                 object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
             )
 
-        self.draw_grid(self.width, self.height) # TODO eliminar si hay opción mejor, hack para sobrepintar
+        self.draw_grid(self.width, self.height)
 
     def animate_movement(self, movements, index=0):
         if index < len(movements):
@@ -135,6 +156,7 @@ class HouseView(tk.Tk):
             self.update_view()
             # Programa el siguiente movimiento después de un segundo
             self.after(1000, lambda: self.animate_movement(movements, index + 1))
+
 
 # Ejemplo de uso
 if __name__ == '__main__':
@@ -147,8 +169,7 @@ if __name__ == '__main__':
     file_path = 'assets/default_16x16_room.json'
     room.populate_room(file_path)
 
-    model_for_view = HouseModel(room.matrix)
-    view = HouseView(model_for_view, height, width)
+    view = View('view', room.matrix, height, width)
 
     # Movimientos de prueba
     movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
