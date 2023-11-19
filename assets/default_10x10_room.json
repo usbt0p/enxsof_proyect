@@ -1,0 +1,12 @@
+[
+    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
+    ["Wall", "Fridge", "Fridge", "Air", "Wall", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Air", "Sofa", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Sofa", "Table", "Sofa", "Wall"],
+    ["Wall", "Air", "Table", "Air", "Door", "Air", "Air", "Sofa", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Wall", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
+]

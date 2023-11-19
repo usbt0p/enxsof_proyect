@@ -1,0 +1,12 @@
+[
+    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Sofa", "Sofa", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Sofa", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Table", "Table", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Fridge", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Table", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Air", "Air", "Air", "Wall"],
+    ["Wall", "Air", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Air", "Fridge", "Air", "Wall"],
+    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
+]
