@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, 'enxsof_proyect')
+sys.path.insert(0, '.')
 
 import unittest
 from src.mvc.model import Model  # Importa tu clase Model y otras clases necesarias

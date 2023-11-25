@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '.')
+
 class Thing:
     def __init__(self, x, y, literal_name, interactive, collision):
         self._literal_name = literal_name

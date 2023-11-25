@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, 'enxsof_proyect')
+sys.path.insert(0, '.')
 
 from utiles.commons.air import Air
 import unittest

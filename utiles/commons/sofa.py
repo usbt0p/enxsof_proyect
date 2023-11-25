@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '.')
+
 from utiles.commons.container import Container
 
 class Sofa(Container):
