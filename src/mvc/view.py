@@ -124,3 +124,84 @@ if __name__ == '__main__':
     view = View('view', room.matrix, height, width)
 
     view.mainloop()
+
+# TODO PLACEHOLDERS, NO ELIMINAR, DAN UNA PLANTILLA PARA COMO CONTINUAR
+"""
+class Agent:
+
+    Represents an agent in the environment.
+
+    def __init__(self, name, position=(0, 0)):
+
+        Initializes an Agent object.
+
+        Parameters:
+        - name (str): The name of the agent.
+        - position (tuple): The initial position of the agent. Defaults to (0, 0).
+
+        self.name = name
+        self.position = position
+        self.inventory = []
+
+class Object:
+
+    Represents an object in the environment.
+    def __init__(self, name, position=(0, 0)):
+
+        Initializes an Object object.
+
+        Parameters:
+        - name (str): The name of the object.
+        - position (tuple): The initial position of the object. Defaults to (0, 0).
+
+        self.name = name
+        self.position = position
+
+class HouseModel:
+    def __init__(self):
+        self.agents = {
+            'robot': Agent('robot', position=(0, 0)),
+            'human': Agent('human', position=(0, 0))
+        }
+        self.objects = {
+            'beer': Object('beer', position=(0, 0)),
+            'medkit': Object('medkit', position=(0, 0))
+        }
+        
+        
+    def move_agent(self, agent_name, new_position):
+
+        Moves the specified agent to a new position.
+
+        Parameters:
+        - agent_name (str): The name of the agent to be moved.
+        - new_position (tuple): The new position for the agent.
+
+        Returns:
+        - bool: True if the agent is moved successfully, False otherwise.
+
+        if agent_name in self.agents:
+            self.agents[agent_name].position = new_position
+            return True
+        return False
+
+    def agent_pick_object(self, agent_name, object_name):
+
+        Allows an agent to pick up an object.
+
+        Parameters:
+        - agent_name (str): The name of the agent.
+        - object_name (str): The name of the object to be picked up.
+
+        Returns:
+        - bool: True if the agent picks up the object successfully, False otherwise.
+
+        if agent_name in self.agents and object_name in self.objects:
+            agent = self.agents[agent_name]
+            obj = self.objects[object_name]
+            if agent.position == obj.position:
+                agent.inventory.append(obj)
+                del self.objects[object_name]
+                return True
+        return False    
+"""
