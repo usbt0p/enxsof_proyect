@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 'enxsof_proyect')
+
 from utiles.commons.door import Door
 from utiles.commons.obstacle import Obstacle
 import unittest

@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 'enxsof_proyect')
+
 from model import Model
 from view import View
 from src.mvc.observer import ConcreteObserver
@@ -16,7 +19,7 @@ class Controller(ConcreteObserver):
 
     def __init__(self, model:Model, view:View) -> None:
 
-        """
+        """ 
         A controller class that acts as an observer to manage agents in the MVC architecture.
         It connects the model and view, handling user interactions and updating the view
         based on changes in the model.

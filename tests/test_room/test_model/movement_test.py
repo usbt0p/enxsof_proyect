@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 'enxsof_proyect')
+
 import unittest
 from src.mvc.model import Model  # Importa tu clase Model y otras clases necesarias
 from utiles.commons.fridge import Fridge

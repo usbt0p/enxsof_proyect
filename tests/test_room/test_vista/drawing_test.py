@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 'enxsof_proyect')
+
 import unittest
 from tkinter import Tk, Canvas
 from src.mvc.view import View, HouseModel

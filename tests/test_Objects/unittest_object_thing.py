@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 'enxsof_proyect')
+
 import unittest
 from utiles.commons.thing import Thing
 

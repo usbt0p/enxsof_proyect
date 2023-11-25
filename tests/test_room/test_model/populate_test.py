@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 'enxsof_proyect')
+
 import unittest
 from src.mvc.model import Model  
 from utiles.commons import *

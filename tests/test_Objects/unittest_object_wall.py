@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 'enxsof_proyect')
+
 from utiles.commons.wall import Wall
 import unittest
 

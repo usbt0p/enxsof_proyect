@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 'enxsof_proyect')
+
 import tkinter as tk
 
 import src.mvc.model as model

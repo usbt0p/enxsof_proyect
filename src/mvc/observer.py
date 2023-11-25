@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, 'enxsof_proyect')
+
 from abc import ABCMeta
 from abc import abstractmethod
 
