@@ -2,7 +2,6 @@ from utiles.commons.thing import Thing
 
 class Container(Thing):
 
-    # TODO mejorar la forma de activar los atributos interactive y colision automaticamente, de forma q no se puedan cambiar 
     def __init__(self, x, y, literal_name, storage, interactive=True, collision=True):
         super().__init__( x, y, literal_name, interactive, collision)
         self._storage = storage  # Use a different name for the attribute

@@ -7,14 +7,14 @@ import json
     This class represents a room in the pyhton project.
 """
 class Model(Subject):
-    def __init__(self, x_size, y_size):
+    def __init__(self, x_size, y_size) -> None:
         super().__init__()
         self.x_size = x_size
         self.y_size = y_size
         self.matrix = self.generate_empty_room()
     
     
-    def generate_empty_room(self):
+    def generate_empty_room(self) -> list:
         """
         Generates an empty room.
         Returns: a bidimensional zeros list with the size of the room
@@ -23,7 +23,7 @@ class Model(Subject):
 
 
 
-    def populate_room(self, filepath):
+    def populate_room(self, filepath:str) -> list:
         """
         Add decorations to the room.
         The decorations are represented by an id_decoration.
@@ -57,7 +57,7 @@ class Model(Subject):
                                       
         
 
-    def read_grid_config_file(self, file_path):
+    def read_grid_config_file(self, file_path:str) -> dict | None:
         """
         Reads a JSON file and returns the parsed data.
 
