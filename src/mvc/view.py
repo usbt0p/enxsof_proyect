@@ -4,6 +4,7 @@ sys.path.insert(0, '.')
 import tkinter as tk
 
 import multiprocessing
+from icecream import ic
 
 import src.mvc.model as model
 from utiles.commons import *
@@ -21,17 +22,16 @@ class HouseModel:
     OBJECTS = ("Air", "Door", "Fridge", "Sofa", "Table", "Wall")
     # Constant of Allowed Objects
 
-    def __init__(self, grid:list) -> None:
+    def __init__(self, model) -> None:
 
-        self.agents = dict()
         self.objects = dict()
 
-        for row in grid:
+        for row in model:
             for elem in row: 
                 if elem.literal_name in self.OBJECTS:
                     self.objects[elem] = [elem.x, elem.y]
-                else: 
-                    self.agents[elem] = [elem.x, elem.y]
+
+
 
 class View(tk.Tk, ConcreteObserver):
     """ Create View to be Represented
@@ -40,12 +40,13 @@ class View(tk.Tk, ConcreteObserver):
     Depending on the following parameters, you can change the behaviour of the representation of the view
     """
 
-    def __init__(self, name, matrix, height, width):
+    def __init__(self, name, matrix, agent_list, height, width):
 
         tk.Tk.__init__(self)
         ConcreteObserver.__init__(self, name)
 
-        self.model = HouseModel(matrix)
+        self.house_model = HouseModel(matrix)
+        self.agents_list = agent_list
 
         self.height = height
         self.min_height = height 
@@ -63,9 +64,10 @@ class View(tk.Tk, ConcreteObserver):
         self.table_image = tk.PhotoImage(file="./assets/sprites/table.png")
         self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
         self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
+        self.agent_image = tk.PhotoImage(file="./assets/sprites/gato.png")
 
         #Links the skins with the object literal name
-        self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, #"Air": self.air_image, 
+        self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
                           "Table": self.table_image, "Door": self.door_image, "Fridge": self.fridge_image}
 
         #Initialices the model with all the atributes
@@ -114,7 +116,7 @@ class View(tk.Tk, ConcreteObserver):
         self.canvas.delete("agent", "object")
         
         # Draw the objects
-        for object, matrix_pos in self.model.objects.items():
+        for object, matrix_pos in self.house_model.objects.items():
 
             img = self.img_dict.get(object.literal_name)
             
@@ -123,12 +125,23 @@ class View(tk.Tk, ConcreteObserver):
                 object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
             )
 
+        # Dibuja los agentes
+        print(self.agents_list[0])
+        for agent in self.agents_list:
+
+            img_agent = self.img_dict.get(agent.name)
+
+           
+            self.canvas.create_image(
+                agent.x * 40, agent.y * 40, image=img_agent, anchor='nw', tags="agent"
+            )
+
         self.draw_grid(self.width, self.height)
 
 
     def handle_click(event):
         print("Button clicked!")
-        
+
 
 
 # Ejemplo de uso
@@ -163,6 +176,11 @@ if __name__ == '__main__':
 
     # Bind the button's click event to the handle_click function
     button.bind("<Button-1>", handle_click)
+
+    movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
+    # Inicia la animación después de un segundo
+    view.after(1000, lambda: view.animate_movement(movements))
+
     
 
     # Start the main event loop

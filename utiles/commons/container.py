@@ -21,4 +21,13 @@ class Container(Thing):
     def __str__(self):
         base_str = super().__str__()  # Call the parent class's __str__ method
         return '{}, storage={}'.format(base_str, self.storage)
+    
+
+if __name__ == "__main__":
+    c = Container(1, 2, 'box', 10)
+    print(c)
+    print(c.storage)
+    c.storage = 20
+    print(c.storage)
+    print(c)
 

@@ -24,6 +24,7 @@ class Subject:
         assert observer in self._observers, 'Observer must be in attached list'
         observer.update(*args, **kwargs)
 
+
 if "__main__" == __name__:
 
     # Crear un sujeto

@@ -16,6 +16,7 @@ class Model(Subject):
         self.x_size = x_size
         self.y_size = y_size
         self.matrix = self.generate_empty_room()
+        self.agents = []
     
     
     def generate_empty_room(self) -> list:
@@ -25,6 +26,22 @@ class Model(Subject):
         """
         return [[0] * self.x_size for _ in range(self.y_size)]
 
+
+    def generate_agents(self, agent_names) -> None:
+        """
+        Adds an agent to the room.
+        """
+        for agent_name in agent_names:
+            self.agents.append(agent.Agent(agent_name, 0, 0))
+
+
+    def add_agent(self, agent) -> None:
+        """
+        Adds an agent to the room.
+        """
+        self.agents.append(agent)
+
+        # TODO self.notifyAll()
 
 
     def populate_room(self, filepath:str) -> list:

@@ -34,10 +34,12 @@ file_path = f'assets/default_{X_MATRIX}x{Y_MATRIX}_room.json'
 # Creamos el Modelo, que es el sujeto del programa al que se subscribirán los obs y alamcena el environment
 room = Model(X_MATRIX, Y_MATRIX)
 room.populate_room(file_path)
+room.generate_agents(['Gato'])
 
 # Crea una vista de la casa, 'frontend' del proyecto:
 # Procesa todos los objetos, los añade a un modelo para la vista, 
-view_house = View('view_house', room.matrix, HEIGHT, WIDTH)
+view_house = View('view_house', room.matrix, room.agents, HEIGHT, WIDTH)
+
 
 # Adjuntar los observadores al sujeto
 room.attach(view_house) # TODO crea y attachea controller
