@@ -7,7 +7,7 @@ import unittest
 
 class TestObstacle(unittest.TestCase):
 
-    def test_obstacle_creation_default_values(self):
+    def test_obstacle_initialization(self):
         """
         Test the creation of an Obstacle instance with default values.
 
@@ -17,6 +17,7 @@ class TestObstacle(unittest.TestCase):
         Assertions:
         - literal_name should be "Obstacle".
         - interactive should be False and collision should be True.
+        - movable should be False.
         """
         self.obstacle = Obstacle(3, 3, "Obstacle")
         self.assertEqual(self.obstacle.x, 3)
@@ -24,6 +25,7 @@ class TestObstacle(unittest.TestCase):
         self.assertEqual(self.obstacle.literal_name, "Obstacle")
         self.assertFalse(self.obstacle.interactive)
         self.assertTrue(self.obstacle.collision)
+        self.assertFalse(self.obstacle.movable)
 
 
     def test_obstacle_creation_custom_values(self):
@@ -37,13 +39,15 @@ class TestObstacle(unittest.TestCase):
         Assertions:
         - literal_name should be "CustomObstacleAttribute".
         - interactive and collision should be False.
+        - movable should be True.
         """
-        self.obstacle = Obstacle(1, 4, "CustomObstacleAttribute", True, False)
+        self.obstacle = Obstacle(1, 4, "CustomObstacleAttribute", True, False, True)
         self.assertEqual(self.obstacle.x, 1)
         self.assertEqual(self.obstacle.y, 4)
         self.assertEqual(self.obstacle.literal_name, "CustomObstacleAttribute")
         self.assertTrue(self.obstacle.interactive)
         self.assertFalse(self.obstacle.collision)
+        self.assertTrue(self.obstacle.movable)
 
     def test_obstacle_creation_with_invalid_values(self):
         """
@@ -53,11 +57,8 @@ class TestObstacle(unittest.TestCase):
         providing invalid values results in an expected exception.
 
         Assertions:
-        - First case should raise a ValueError because x and y are not an integer.
-        - Second case should raise a ValueError because literal_name is not a string.
-        - Third case should raise a ValueError because interactive and collision is not a boolean.
+        - Case should raise a ValueError because x and y are not an integer.
         """
-        print("Testing Obstacle creation with invalid values...")
         with self.assertRaises(ValueError):
             self.obstacle1 = Obstacle("invalid",1, literal_name="Obstacle")
             self.obstacle2 = Obstacle(1, "invalid", literal_name="Obstacle") 
@@ -74,7 +75,7 @@ class TestObstacle(unittest.TestCase):
         Test to verify that Obstacle class inherits from Thing class.
 
         Assertions:
-        - Container should be an instance of Thing class.
+        - Obstacle should be an instance of Thing class.
         """
         self.obstacle = Obstacle(1, 1, "Obstacle", True, False)
         self.assertIsInstance(self.obstacle, Thing)

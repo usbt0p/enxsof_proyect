@@ -7,7 +7,7 @@ import unittest
 
 class TestDoor(unittest.TestCase):
 
-    def test_door_creation_default_values(self):
+    def test_door_initialization(self):
         """
         Test the creation of a door instance with default values.
 
@@ -16,14 +16,17 @@ class TestDoor(unittest.TestCase):
 
         Assertions:
         - literal_name should be "Door".
-        - interactive and collision should be True.
+        - interactive should be True.
+        - collision should be False.
+        - movable should be False.
         """
         self.door = Door(3, 3)
         self.assertEqual(self.door.x, 3)
         self.assertEqual(self.door.y, 3)
         self.assertEqual(self.door.literal_name, "Door")
         self.assertTrue(self.door.interactive)
-        self.assertTrue(self.door.collision)
+        self.assertFalse(self.door.collision)
+        self.assertFalse(self.door.movable)
 
 
     def test_air_creation_custom_values(self):
@@ -38,12 +41,13 @@ class TestDoor(unittest.TestCase):
         - literal_name should be "CustomDoorAttribute".
         - interactive and collision should be False.
         """
-        self.door = Door(1, 4, "CustomDoorAttribute", False, False)
+        self.door = Door(1, 4, "CustomDoorAttribute", False, False, True)
         self.assertEqual(self.door.x, 1)
         self.assertEqual(self.door.y, 4)
         self.assertEqual(self.door.literal_name, "CustomDoorAttribute")
         self.assertFalse(self.door.interactive)
         self.assertFalse(self.door.collision)
+        self.assertTrue(self.door.movable)
 
     def test_door_creation_with_invalid_values(self):
         """
@@ -53,11 +57,8 @@ class TestDoor(unittest.TestCase):
         providing invalid values results in an expected exception.
 
         Assertions:
-        - First case should raise a ValueError because x and y are not an integer.
-        - Second case should raise a ValueError because literal_name is not a string.
-        - Third case should raise a ValueError because interactive and collision is not a boolean.
+        - Case should raise a ValueError because x and y are not an integer.
         """
-        print("Testing Door creation with invalid values...")
         with self.assertRaises(ValueError):
             self.door1 = Door("invalid", 1) 
             self.door2 = Door(1, "invalid") 
@@ -79,7 +80,7 @@ class TestDoor(unittest.TestCase):
         Assertion:
         - is_open should be False.
         """
-        self.door = Door(1, 2, "Door")
+        self.door = Door(1, 2)
         self.door.close()
         self.assertFalse(self.door._is_open)
     
@@ -93,7 +94,7 @@ class TestDoor(unittest.TestCase):
         Assertion:
         - is_open should be True.
         """
-        self.door = Door(1, 2, "Door")
+        self.door = Door(1, 2)
         self.door.open()
         self.assertTrue(self.door._is_open)
 
@@ -104,7 +105,7 @@ class TestDoor(unittest.TestCase):
         Assertions:
         - Door should be an instance of Obstacle class.
         """
-        self.door = Door(1, 2, "Door")
+        self.door = Door(1, 2)
         self.assertIsInstance(self.door, Obstacle)
 
 if __name__ == '__main__':
