@@ -22,7 +22,7 @@ class TestRoomInitialization(unittest.TestCase):
         room = Model(room_width, room_height)
         
         # Assert - Verification
-        for row in room.room:
+        for row in room.generate_empty_room :
             for element in row:
                 self.assertEqual(element, 0, "Room element should be initialized with zero")
 

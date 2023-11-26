@@ -7,9 +7,9 @@ from utiles.commons import *
 
 class TestPopulateRoom(unittest.TestCase):
 
-    def __init__(self, path):
-        self.path = path
-
+    def __init__(self ,methodName='runTest', path = None):
+        self.path = "assets/default_10x10_room.json"
+        super().__init__(methodName)
 
     def test_populate_room_with_small_json(self):
         """
@@ -21,13 +21,13 @@ class TestPopulateRoom(unittest.TestCase):
         3. Check if all elements in the room are instances of class objects.
         """
         # Arrange - Configuration  
-        room = Model(3, 3)  # Las dimensiones deben coincidir con el diccionario JSON
+        room = Model(10, 10)  # Las dimensiones deben coincidir con el diccionario JSON
 
         # Act - Execution
         room.populate_room(self.path)
 
         # Assert - Verification
-        for row in room.room:
+        for row in room.matrix:
             for element in row:
                 self.assertIsInstance(
                     element, object,

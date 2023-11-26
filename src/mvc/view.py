@@ -2,9 +2,6 @@ import sys
 sys.path.insert(0, '.')
 
 import tkinter as tk
-
-from icecream import ic
-
 import src.mvc.model as model
 from utiles.commons import *
 from src.mvc.observer import Observer
