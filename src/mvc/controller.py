@@ -167,7 +167,10 @@ class Controller(Observer):
         
         if self.animation_running:
             print("Stopping current animation")
-            self.view.after_cancel(self.animation_id)
+            try:
+                self.view.after_cancel(self.animation_id)
+            except ProcessLookupError:
+                print("Animation crashed or already stopped")
             self.animation_running = False
             if event == self.previous_event:
                 return
