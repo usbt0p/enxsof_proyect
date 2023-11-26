@@ -31,7 +31,7 @@ class Model(Subject):
         Adds an agent to the room.
         """
         for agent_name in agent_names:
-            self.agents.append(agent.Agent(agent_name, 0, 0))
+            self.agents.append(agent.Agent(agent_name, 1, 1))
 
     #PLACE HOLDER
     def add_agent(self, agent) -> None:
@@ -97,6 +97,19 @@ class Model(Subject):
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON in file {file_path}: {e}")
             return None
+        
+    def is_position_occupied(self, position):
+        """
+        Checks if a position is occupied by an object.
+        Parameters:
+        - position (tuple): The position to check.
+        Returns:
+        - bool: True if the position is occupied, False otherwise.
+        """
+        x, y = position
+        print(x, y)
+        print(self.matrix[y][x])
+        return self.matrix[y][x]
 
 
 

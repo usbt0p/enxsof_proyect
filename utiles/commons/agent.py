@@ -35,8 +35,6 @@ class Agent(Subject):
         # self.notify()
         self.x = position[0]
         self.y = position[1]
-
-        print(self.x)
         
 
 

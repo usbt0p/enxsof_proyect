@@ -42,9 +42,11 @@ class View(tk.Tk, Observer):
         tk.Tk.__init__(self)
         Observer.__init__(self, name)
 
-        def handle_click(event):
-            print("Button clicked!")
-            self.controller.handle_click()
+        #def handle_click(event):
+        #    print("Button clicked!")
+        #    self.controller.handle_click()
+
+    
 
         self.controller = None
 
@@ -63,9 +65,22 @@ class View(tk.Tk, Observer):
         frame = tk.Frame(self)
         frame.pack(fill=tk.BOTH, expand=True)
 
-        button = tk.Button(frame, text="Button")
-        button.pack(fill=tk.BOTH, expand=True)
-        button.bind("<Button-1>", handle_click)
+        button1 = tk.Button(frame, text="Movement Test", command=self.button1_clicked)
+        button1.grid(row=0, column=0, sticky='nsew')
+        #button.bind("<Button-1>", handle_click)
+
+        button2 = tk.Button(frame, text="Collision Test", command=self.button2_clicked)
+        button2.grid(row=0, column=1, sticky='nsew')
+
+        button3 = tk.Button(frame, text="Door Test", command=self.button3_clicked)
+        button3.grid(row=0, column=2, sticky='nsew')
+
+        # Configure the columns to distribute extra space equally
+        frame.columnconfigure(0, weight=1)
+        frame.columnconfigure(1, weight=1)
+        frame.columnconfigure(2, weight=1)
+
+
 
         """
         frame = tk.Frame(self)
@@ -173,7 +188,17 @@ class View(tk.Tk, Observer):
 
         self.draw_grid(self.width, self.height)
 
+    def button1_clicked(self):
+        if self.controller:
+            self.controller.handle_click("movement")
 
+    def button2_clicked(self):
+        if self.controller:
+            self.controller.handle_click("collision")
+
+    def button3_clicked(self):
+        if self.controller:
+            self.controller.handle_click("door")
 
 
 

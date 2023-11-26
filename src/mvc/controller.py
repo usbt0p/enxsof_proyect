@@ -6,6 +6,8 @@ import tkinter as tk
 import src.mvc.model as model
 import src.mvc.view as view
 from src.mvc.observer import Observer
+import time
+
 
 
 class Controller(Observer):
@@ -84,20 +86,76 @@ class Controller(Observer):
             self.view.update_view()
             # Programa el siguiente movimiento después de un segundo
             self.view.after(1000, lambda: self.animate_movement(agent, movements, index + 1))
+
+    def animate_movement_collision(self, agent, movements, index=0):
+        agent.x = 1
+        agent.y = 1
+        if index < len(movements):
+            pos = movements[index]
+            eval_object = self.model.is_position_occupied(pos)
+            # If the new position is occupied, stop the animation
+            if ((not eval_object.interactive) and eval_object.movable and eval_object.literal_name != "Air"):
+                print("\nI can maybe try to move this obstacle... but I'm not sure if I can do it alone, I'm just a cat!")
+                return
+            elif ((eval_object.interactive) and (eval_object.movable)):
+                print("\nI like to jump on the sofa!\n")
+            elif ((eval_object.collision) and not (eval_object.movable)):
+                print("\nOoops! It looks like there is an obstacle in the way!\n")
+                return
+                    
+            self.move_agent(agent, pos)
+            self.view.update_view()
+            # Programa el siguiente movimiento después de un segundo
+            self.view.after(1000, lambda: self.animate_movement_collision(agent, movements, index + 1))
+
+    def animate_door(self, agent, movements, index=0):
+        agent.x = 5
+        agent.y = 3
+        if index < len(movements):
+            pos = movements[index]
+            eval_object = self.model.is_position_occupied(pos)
+            if (eval_object.interactive) and not(eval_object.movable) and not(eval_object.collision):
+                if eval_object.isOpen:
+                    eval_object.close()
+                    print("\nI'm closing the door\n")
+                    time.sleep(1)
+
+                elif not(eval_object.isOpen):
+                    eval_object.open()
+                    print("\nI'm opening the door\n")
+                    time.sleep(1)
+
+            self.move_agent(agent, pos)
+            self.view.update_view()
+            # Programa el siguiente movimiento después de un segundo
+            self.view.after(1000, lambda: self.animate_door(agent, movements, index + 1))
     
 
-    def handle_click(self):
+    def handle_click(self, event):
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        self.test_movement(self.model.agents[0])
+        if event == "movement":
+            self.test_movement(self.model.agents[0])
+        elif event == "collision":
+            self.test_collision(self.model.agents[0])
+        elif event == "door":
+            self.test_door(self.model.agents[0])
 
 
     def test_movement(self, agent):
         movements = [[1,1],[2,2],[3,3],[4,4],[5,5],[5,4]]
     # Inicia la animación después de un segundo
         self.view.after(1000, lambda: self.animate_movement(agent, movements))
-    # Other controller methods to interact with model and view
-    # ...
 
-# Usage example (ensure that model and view are correctly instantiated)
+    def test_collision(self, agent):
+        movements = [[1,1],[2,2],[3,3],[4,4],[5,5],[5,4]]
+    # Inicia la animación después de un segundo
+        self.view.after(1000, lambda: self.animate_movement_collision(agent, movements))
+
+    def test_door(self, agent):
+        movements = [[5,3],[5,4],[5,5],[5,6],[5,7],[5,8]]
+    # Inicia la animación después de un segundo
+        self.view.after(1000, lambda: self.animate_movement_collision(agent, movements))
+
+
 
 
