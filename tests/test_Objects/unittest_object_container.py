@@ -21,7 +21,7 @@ class TestContainer(unittest.TestCase):
         - storage should be a list.
         - literal_name should be "Container".
         """
-        self.container = Container(1, 2, literal_name="Container", storage=[1,2])
+        self.container = Container(1, 2, storage=[1,2], literal_name="Container")
         self.assertEqual(self.container.x, 1)
         self.assertEqual(self.container.y, 2)
         self.assertEqual(self.container.literal_name, "Container")
@@ -46,7 +46,7 @@ class TestContainer(unittest.TestCase):
         - storage should be [].
         - literal_name should be "Container".
         """
-        self.container = Container(1, 2, literal_name="Container", storage=[1,2])
+        self.container = Container(1, 2, storage=[1,2], literal_name="Container" )
         new_storage = [3,4,5]
         self.container.storage = new_storage
         self.assertEqual(self.container.x, 1)
@@ -67,8 +67,8 @@ class TestContainer(unittest.TestCase):
         - Represenation should be "Container: coords=(1,2), interactive=True, collision=False,
         movable=True, storage=[]"
         """
-        self.container = Container(1,2, literal_name="Container", storage=[4,6])
-        expected_str = "Container: coords=(1, 2), interactive=True, collision=False, movable=True storage=[4, 6]"
+        self.container = Container(1,2,storage=[4,6], literal_name="Container")
+        expected_str = "Container: coords=(1, 2), interactive=True, collision=False, movable=True, storage=[4, 6]"
         self.assertEqual(str(self.container), expected_str)
 
     def test_container_creation_custom_values(self):
@@ -83,7 +83,7 @@ class TestContainer(unittest.TestCase):
         - storage should be a list.
         - literal_name should be "CustomContainer".
         """
-        container = Container(2, 5, literal_name="CustomContainer", storage=[3,5], interactive=False, collision=False, movable=False)
+        container = Container(2, 5,storage=[3,5], literal_name="CustomContainer", interactive=False, collision=False, movable=False)
         self.assertEqual(container.x, 2)
         self.assertEqual(container.y, 5)
         self.assertEqual(container.literal_name, "CustomContainer")
@@ -104,19 +104,19 @@ class TestContainer(unittest.TestCase):
         - Second case should raise a TypeError because literal_name is not an string.
         """
         with self.assertRaises(ValueError):
-            self.container1 = Container("invalid", 1,literal_name="Container",storage=[2,3,4]) 
-            self.container2 = Container(1, "invalid",literal_name="Container",storage=[2,3,4])
-            self.container3 = Container(None, 1,literal_name="Container",storage=[2,3,4]) 
-            self.container4 = Container(1, None,literal_name="Container",storage=[2,3,4]) 
-            self.container5 = Container(5.8, 1,literal_name="Container",storage=[2,3,4])
-            self.container6 = Container(1, 4.1,literal_name="Container",storage=[2,3,4])
+            self.container1 = Container("invalid", 1,storage=[2,3,4],literal_name="Container") 
+            self.container2 = Container(1, "invalid",storage=[2,3,4],literal_name="Container")
+            self.container3 = Container(None, 1,storage=[2,3,4],literal_name="Container") 
+            self.container4 = Container(1, None,storage=[2,3,4],literal_name="Container") 
+            self.container5 = Container(5.8, 1,storage=[2,3,4],literal_name="Container")
+            self.container6 = Container(1, 4.1,storage=[2,3,4],literal_name="Container")
             if not isinstance(self.container1.x, int) or not isinstance(self.container2.y, int) or not isinstance(self.container3.x, int) or not isinstance(self.container4.y, int) or not isinstance(self.container5.x, int) or not isinstance(self.container6.y, int):    
                 raise ValueError("Both x and y must be integers.")
         
         with self.assertRaises(TypeError):
-            self.container7 = Container(1, 3, literal_name=4, storage=[2,6,4])  
-            self.container8 = Container(1, 2, literal_name=4.1, storage=[2,6,4])  
-            self.container9 = Container(1, 2, literal_name=True, storage=[2,6,4])  
+            self.container7 = Container(1, 3,storage=[2,6,4], literal_name=4)  
+            self.container8 = Container(1, 2,storage=[2,6,4], literal_name=4.1)  
+            self.container9 = Container(1, 2,storage=[2,6,4], literal_name=True)  
             if not isinstance(self.container7.literal_name, str) or not isinstance(self.container8.literal_name, str) or not isinstance(self.container9.literal_name, str):
                 raise TypeError("literal_name must be a string.")
 
@@ -127,7 +127,7 @@ class TestContainer(unittest.TestCase):
         Assertions:
         - Container should be an instance of Thing class.
         """
-        self.container = Container(1, 2, "Container", storage=[1,2])
+        self.container = Container(1, 2, storage=[1,2],literal_name="Container")
         self.assertIsInstance(self.container, Thing)
 
 if __name__ == '__main__':

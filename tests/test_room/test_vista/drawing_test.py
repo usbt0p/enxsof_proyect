@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '.')
 
 import unittest
-from tkinter import Tk, Canvas
+import tkinter as tk
 from src.mvc.view import View, HouseModel
 
 class TestDrawGrid(unittest.TestCase):
@@ -10,9 +10,9 @@ class TestDrawGrid(unittest.TestCase):
 
     def setUp(self):
         """Set up conditions for the test"""
-        self.root = Tk()  # Create an instance of Tkinter to simulate a window
-        self.canvas = Canvas(self.root)  # Create a canvas within the simulated window
-        self.view = View("Test View", matrix=[], height=400, width=400)  # Create an instance of the View class
+        self.root = tk.Tk()  # Create an instance of Tkinter to simulate a window
+        self.canvas = tk.Canvas(self.root)  # Create a canvas within the simulated window
+        self.view = View("Test View", matrix=[], agent_list=[], height=400, width=400)  # Create an instance of the View class
         self.view.canvas = self.canvas  # Assign the canvas to the view's canvas attribute
 
     def test_draw_grid(self):

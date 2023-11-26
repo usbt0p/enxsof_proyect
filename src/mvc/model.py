@@ -4,7 +4,6 @@ sys.path.insert(0, '.')
 from utiles.commons import *
 from src.mvc.subject import Subject
 import json
-from icecream import ic
 
 """
     Model class.
