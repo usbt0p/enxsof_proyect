@@ -128,7 +128,7 @@ class View(tk.Tk, ConcreteObserver):
 
     def handle_click(event):
         print("Button clicked!")
-    
+        
 
 
 # Ejemplo de uso

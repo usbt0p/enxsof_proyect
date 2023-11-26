@@ -17,13 +17,12 @@ y ver las propiedades de colisión del obj en el otro mapa: ESTO SERÍA EL CONTR
 
 class Controller(ConcreteObserver):
 
-    def __init__(self, model:Model, view:View) -> None:
 
-        """ 
-        A controller class that acts as an observer to manage agents in the MVC architecture.
-        It connects the model and view, handling user interactions and updating the view
-        based on changes in the model.
-        """
+    """ 
+    A controller class that acts as an observer to manage agents in the MVC architecture.
+    It connects the model and view, handling user interactions and updating the view
+    based on changes in the model.
+    """
 
     def __init__(self, model, view):
         """
@@ -86,3 +85,94 @@ if __name__ == '__main__':
     controller.remove_agent('agent1')
 
     view.mainloop()
+
+
+# TODO PLACEHOLDERS, NO ELIMINAR, DAN UNA PLANTILLA PARA COMO CONTINUAR
+'''
+class Agent:
+    """
+    Represents an agent in the environment.
+    """
+    def __init__(self, name, position=(0, 0)):
+        """
+        Initializes an Agent object.
+        Parameters:
+        - name (str): The name of the agent.
+        - position (tuple): The initial position of the agent. Defaults to (0, 0).
+        """
+        self.name = name
+        self.position = position
+        self.inventory = []
+class Object:
+    """
+    Represents an object in the environment.
+    """
+    def __init__(self, name, position=(0, 0)):
+        """
+        Initializes an Object object.
+        Parameters:
+        - name (str): The name of the object.
+        - position (tuple): The initial position of the object. Defaults to (0, 0).
+        """
+        self.name = name
+        self.position = position
+class HouseModel:
+    def __init__(self):
+        self.agents = {
+            'robot': Agent('robot', position=(0, 0)),
+            'human': Agent('human', position=(0, 0))
+        }
+        self.objects = {
+            'beer': Object('beer', position=(0, 0)),
+            'medkit': Object('medkit', position=(0, 0))
+        }
+        
+        
+    def move_agent(self, agent_name, new_position):
+        """
+        Moves the specified agent to a new position.
+        Parameters:
+        - agent_name (str): The name of the agent to be moved.
+        - new_position (tuple): The new position for the agent.
+        Returns:
+        - bool: True if the agent is moved successfully, False otherwise.
+        """
+        if agent_name in self.agents:
+            self.agents[agent_name].position = new_position
+            return True
+        return False
+    def agent_pick_object(self, agent_name, object_name):
+        """
+        Allows an agent to pick up an object.
+        Parameters:
+        - agent_name (str): The name of the agent.
+        - object_name (str): The name of the object to be picked up.
+        Returns:
+        - bool: True if the agent picks up the object successfully, False otherwise.
+        """
+        if agent_name in self.agents and object_name in self.objects:
+            agent = self.agents[agent_name]
+            obj = self.objects[object_name]
+            if agent.position == obj.position:
+                agent.inventory.append(obj)
+                del self.objects[object_name]
+                return True
+        return False    
+        
+        
+class View(tk.Tk, ConcreteObserver):
+        
+    def animate_movement(self, movements, index=0):
+        """
+        Animates the movement of the agent in the view.
+        Parameters:
+        - movements (list): List of tuples representing the agent's movements.
+        - index (int): Index to keep track of the current movement. Defaults to 0.
+        """
+        if index < len(movements):
+            pos = movements[index]
+            self.model.move_agent('robot', pos)
+            self.update_view()
+            # Programa el siguiente movimiento después de un segundo
+            self.after(1000, lambda: self.animate_movement(movements, index + 1))
+        '''
