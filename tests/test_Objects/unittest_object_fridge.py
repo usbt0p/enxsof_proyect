@@ -6,7 +6,7 @@ import unittest
 
 class TestFridge(unittest.TestCase):
 
-    def test_fridge_creation_default_values(self):
+    def test_fridge_initialization(self):
         """
         Test the creation of a Fridge instance with default values.
 
@@ -15,7 +15,9 @@ class TestFridge(unittest.TestCase):
 
         Assertions:
         - literal_name should be "Fridge".
-        - interactive and collision should be True.
+        - interactive should be True. 
+        - collision should be False.
+        - movable should be True.
         """
         self.fridge = Fridge(6, 8)
         self.assertEqual(self.fridge.x, 6)
@@ -23,7 +25,8 @@ class TestFridge(unittest.TestCase):
         self.assertEqual(self.fridge.literal_name, "Fridge")
         self.assertEqual(self.fridge.storage, {})
         self.assertTrue(self.fridge.interactive)
-        self.assertTrue(self.fridge.collision)
+        self.assertFalse(self.fridge.collision)
+        self.assertTrue(self.fridge.movable)
 
 
     def test_fridge_creation_custom_values(self):
@@ -38,13 +41,14 @@ class TestFridge(unittest.TestCase):
         - literal_name should be "CustomFridgeAttribute".
         - interactive and collision should be False.
         """
-        self.fridge = Fridge(1, 4, "CustomFridgeAttribute",{"view":"observer"}, False, False)
+        self.fridge = Fridge(1, 4, {"view":"observer"}, "CustomFridgeAttribute", False, True, False)
         self.assertEqual(self.fridge.x, 1)
         self.assertEqual(self.fridge.y, 4)
         self.assertEqual(self.fridge.literal_name, "CustomFridgeAttribute")
         self.assertEqual(self.fridge.storage, {"view":"observer"})
         self.assertFalse(self.fridge.interactive)
-        self.assertFalse(self.fridge.collision)
+        self.assertTrue(self.fridge.collision)
+        self.assertFalse(self.fridge.movable)
 
     def test_fridge_creation_with_invalid_values(self):
         """
@@ -54,19 +58,15 @@ class TestFridge(unittest.TestCase):
         providing invalid values results in an expected exception.
 
         Assertions:
-        - First case should raise a ValueError because x and y are not an integer.
-        - Second case should raise a ValueError because literal_name is not a string.
-        - Third case should raise a ValueError because interactive and collision is not a boolean.
-
+        - Case should raise a ValueError because x and y are not an integer.
         """
-        print("Testing Fridge creation with invalid values...")
         with self.assertRaises(ValueError):
-            self.fridge1 = Fridge("invalid", 1, "Fridge", {"view":"observer"}) 
-            self.fridge2 = Fridge(1, "invalid", "Fridge", {"view":"observer"}) 
-            self.fridge3 = Fridge(None, 1, "Fridge", {"view":"observer"}) 
-            self.fridge4 = Fridge(1, None, "Fridge", {"view":"observer"}) 
-            self.fridge5 = Fridge(1.1, 4, "Fridge", {"view":"observer"}) 
-            self.fridge6 = Fridge(1, 4.1, "Fridge", {"view":"observer"}) 
+            self.fridge1 = Fridge("invalid", 1, {"view":"observer"},"Fridge") 
+            self.fridge2 = Fridge(1, "invalid", {"view":"observer"},"Fridge") 
+            self.fridge3 = Fridge(None, 1, {"view":"observer"},"Fridge") 
+            self.fridge4 = Fridge(1, None, {"view":"observer"},"Fridge") 
+            self.fridge5 = Fridge(1.1, 4, {"view":"observer"},"Fridge") 
+            self.fridge6 = Fridge(1, 4.1, {"view":"observer"},"Fridge") 
             if not isinstance(self.fridge1.x, int) or not isinstance(self.fridge2.y, int) or not isinstance(self.fridge3.x, int) or not isinstance(self.fridge4.y, int) or not isinstance(self.fridge5.x, int) or not isinstance(self.fridge6.y, int):    
                 raise ValueError("Both x and y must be integers.")
             

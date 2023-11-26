@@ -6,7 +6,7 @@ import unittest
 
 class TestWall(unittest.TestCase):
 
-    def test_wall_creation_default_values(self):
+    def test_wall_initialization(self):
         """
         Test the creation of a Wall instance with default values.
 
@@ -16,6 +16,7 @@ class TestWall(unittest.TestCase):
         Assertions:
         - literal_name should be "Wall".
         - interactive should be False and collision should be True.
+        - movable should be False.
         """
         self.wall = Wall(2, 2)
         self.assertEqual(self.wall.x, 2)
@@ -23,6 +24,7 @@ class TestWall(unittest.TestCase):
         self.assertEqual(self.wall.literal_name, "Wall")
         self.assertFalse(self.wall.interactive)
         self.assertTrue(self.wall.collision)
+        self.assertFalse(self.wall.movable)
 
 
     def test_wall_creation_custom_values(self):
@@ -35,14 +37,16 @@ class TestWall(unittest.TestCase):
 
         Assertions:
         - literal_name should be "CustomWallAttribute".
-        - interactive and collision should be True.
+        - interactive and movable should be True.
+        - collision should be False.
         """
-        self.wall = Wall(1, 4, "CustomWallAttribute", True, False)
+        self.wall = Wall(1, 4, "CustomWallAttribute", True, False, True)
         self.assertEqual(self.wall.x, 1)
         self.assertEqual(self.wall.y, 4)
         self.assertEqual(self.wall.literal_name, "CustomWallAttribute")
         self.assertTrue(self.wall.interactive)
         self.assertFalse(self.wall.collision)
+        self.assertTrue(self.wall.movable)
 
     def test_wall_creation_with_invalid_values(self):
         """
@@ -52,9 +56,7 @@ class TestWall(unittest.TestCase):
         providing invalid values results in an expected exception.
 
         Assertions:
-        - First case should raise a ValueError because x and y are not an integer.
-        - Second case should raise a ValueError because literal_name is not a string.
-        - Third case should raise a ValueError because interactive and collision is not a boolean.
+        - Case should raise a ValueError because x and y are not an integer.
         """
         print("Testing Wall creation with invalid values...")
         with self.assertRaises(ValueError):

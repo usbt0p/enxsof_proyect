@@ -15,8 +15,10 @@ class TestContainer(unittest.TestCase):
         values results in the expected default values for attributes.
 
         Assertions:
-        - interactive and collision should be True.
-        - storage should be "initial_value".
+        - interactive should be True.
+        - collision should be False.
+        - movable should be True.
+        - storage should be a list.
         - literal_name should be "Container".
         """
         self.container = Container(1, 2, literal_name="Container", storage=[1,2])
@@ -25,7 +27,8 @@ class TestContainer(unittest.TestCase):
         self.assertEqual(self.container.literal_name, "Container")
         self.assertEqual(self.container.storage, [1,2])
         self.assertTrue(self.container.interactive)
-        self.assertTrue(self.container.collision)
+        self.assertFalse(self.container.collision)
+        self.assertTrue(self.container.movable)
 
     def test_container_assignment(self):
         """
@@ -37,14 +40,22 @@ class TestContainer(unittest.TestCase):
 
         Assertions:
         - literal_name should be "Container".
-        - interactive and collision should be True.
+        - interactive should be True.
+        - collision should be False.
+        - movable should be True.
         - storage should be [].
         - literal_name should be "Container".
         """
         self.container = Container(1, 2, literal_name="Container", storage=[1,2])
         new_storage = [3,4,5]
         self.container.storage = new_storage
+        self.assertEqual(self.container.x, 1)
+        self.assertEqual(self.container.y, 2)
+        self.assertEqual(self.container.literal_name, "Container")
         self.assertEqual(self.container.storage, new_storage)
+        self.assertTrue(self.container.interactive)
+        self.assertFalse(self.container.collision)
+        self.assertTrue(self.container.movable)
 
     def test_str_representation(self):
         """
@@ -53,14 +64,14 @@ class TestContainer(unittest.TestCase):
         Verify the instance of Container it is represented like is expected to prove __str__ method.
 
         Assertions:
-        - Represenation should be "Container: coords=(1,2), interactive=True, collision=True,
-        storage=[]".
+        - Represenation should be "Container: coords=(1,2), interactive=True, collision=False,
+        movable=True, storage=[]"
         """
         self.container = Container(1,2, literal_name="Container", storage=[4,6])
-        expected_str = "Container: coords=(1, 2), interactive=True, collision=True, storage=[4, 6]"
+        expected_str = "Container: coords=(1, 2), interactive=True, collision=False, movable=True storage=[4, 6]"
         self.assertEqual(str(self.container), expected_str)
 
-    def test_container_creation_with_custom_values(self):
+    def test_container_creation_custom_values(self):
         """
         Test the creation of a Container instance with custom values.
 
@@ -69,16 +80,17 @@ class TestContainer(unittest.TestCase):
 
         Assertions:
         - interactive and collision should be False.
-        - storage should be "initial_value".
+        - storage should be a list.
         - literal_name should be "CustomContainer".
         """
-        container = Container(2, 5, literal_name="CustomContainer", storage=[3,5], interactive=False, collision=False)
+        container = Container(2, 5, literal_name="CustomContainer", storage=[3,5], interactive=False, collision=False, movable=False)
         self.assertEqual(container.x, 2)
         self.assertEqual(container.y, 5)
         self.assertEqual(container.literal_name, "CustomContainer")
         self.assertEqual(container.storage,[3,5])
         self.assertFalse(container.interactive)
         self.assertFalse(container.collision)
+        self.assertFalse(container.movable)
         
     def test_container_creation_with_invalid_values(self):
         """
@@ -91,7 +103,6 @@ class TestContainer(unittest.TestCase):
         - First case should raise a TypeError because x and y are not an integer.
         - Second case should raise a TypeError because literal_name is not an string.
         """
-        print("Testing Container creation with invalid values...")
         with self.assertRaises(ValueError):
             self.container1 = Container("invalid", 1,literal_name="Container",storage=[2,3,4]) 
             self.container2 = Container(1, "invalid",literal_name="Container",storage=[2,3,4])

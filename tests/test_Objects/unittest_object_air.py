@@ -6,7 +6,7 @@ import unittest
 
 class TestAir(unittest.TestCase):
 
-    def test_air_creation_default_values(self):
+    def test_air_initialization(self):
         """
         Test the creation of an Air instance with default values.
 
@@ -16,6 +16,7 @@ class TestAir(unittest.TestCase):
         Assertions:
         - literal_name should be "Air".
         - interactive and collision should be False.
+        - movable should be True.
         """
         self.air = Air(3, 3)
         self.assertEqual(self.air.x, 3)
@@ -23,6 +24,7 @@ class TestAir(unittest.TestCase):
         self.assertEqual(self.air.literal_name, "Air")
         self.assertFalse(self.air.interactive)
         self.assertFalse(self.air.collision)
+        self.assertTrue(self.air.movable)
 
 
     def test_air_creation_custom_values(self):
@@ -37,13 +39,15 @@ class TestAir(unittest.TestCase):
         - x, y should be set to 0 by default.
         - literal_name should be "CustomAirAttribute".
         - interactive and collision should be True.
+        - movable should be True.
         """
-        self.air = Air(1, 4, "CustomAirAttribute", True, True)
+        self.air = Air(1, 4, "CustomAirAttribute", True, True, True)
         self.assertEqual(self.air.x, 1)
         self.assertEqual(self.air.y, 4)
         self.assertEqual(self.air.literal_name, "CustomAirAttribute")
         self.assertTrue(self.air.interactive)
         self.assertTrue(self.air.collision)
+        self.assertTrue(self.air.movable)
  
     def test_air_creation_with_invalid_values(self):
         """
@@ -53,11 +57,8 @@ class TestAir(unittest.TestCase):
         providing invalid values results in an expected exception.
 
         Assertions:
-        - First case should raise a ValueError because x and y are not an integer.
-        - Second case should raise a ValueError because literal_name is not a string.
-        - Third case should raise a ValueError because interactive and collision is not a boolean.
+        - Test should raise a ValueError because x and y are not an integer.
         """
-        print("Testing Air creation with invalid values...")
         with self.assertRaises(ValueError):
             self.air1 = Air("invalid", 1)
             self.air2 = Air(1, "invalid") 

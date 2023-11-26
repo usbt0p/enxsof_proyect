@@ -6,7 +6,7 @@ import unittest
 
 class TestTable(unittest.TestCase):
 
-    def test_table_creation_default_values(self):
+    def test_table_initialization(self):
         """
         Test the creation of a Table instance with default values.
 
@@ -16,6 +16,7 @@ class TestTable(unittest.TestCase):
         Assertions:
         - literal_name should be "Table".
         - interactive should be False and collision should be True.
+        - movable should be True.
         """
         self.table = Table(1, 1)
         self.assertEqual(self.table.x, 1)
@@ -23,6 +24,7 @@ class TestTable(unittest.TestCase):
         self.assertEqual(self.table.literal_name, "Table")
         self.assertFalse(self.table.interactive)
         self.assertTrue(self.table.collision)
+        self.assertTrue(self.table.movable)
 
 
     def test_table_creation_custom_values(self):
@@ -35,14 +37,16 @@ class TestTable(unittest.TestCase):
 
         Assertions:
         - literal_name should be "CustomTableAttribute".
-        - interactive and collision should be True.
+        - movable and collision should be False.
+        . interactive should be True.
         """
-        self.table = Table(1, 4, "CustomTableAttribute", True, False)
+        self.table = Table(1, 4, "CustomTableAttribute", True, False, False)
         self.assertEqual(self.table.x, 1)
         self.assertEqual(self.table.y, 4)
         self.assertEqual(self.table.literal_name, "CustomTableAttribute")
         self.assertTrue(self.table.interactive)
         self.assertFalse(self.table.collision)
+        self.assertFalse(self.table.movable)
 
     def test_table_creation_with_invalid_values(self):
         """
@@ -52,9 +56,7 @@ class TestTable(unittest.TestCase):
         providing invalid values results in an expected exception.
 
         Assertions:
-        - First case should raise a ValueError because x and y are not an integer.
-        - Second case should raise a ValueError because literal_name is not a string.
-        - Third case should raise a ValueError because interactive and collision is not a boolean.
+        - Case should raise a ValueError because x and y are not an integer.
         """
         print("Testing Table creation with invalid values...")
         with self.assertRaises(ValueError):
