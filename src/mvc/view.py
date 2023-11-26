@@ -56,7 +56,15 @@ class View(tk.Tk, Observer):
         self.CELL_SIZE = 40 
         self.title("Entorno Domótico")
         self.geometry(str(width) + "x" + str(height+30))
-        self.minsize(self.min_width, self.min_height)  
+        self.minsize(self.min_width, self.min_height)
+
+        frame = tk.Frame(self)
+        frame.pack(fill=tk.BOTH, expand=True)
+
+        button = tk.Button(frame, text="TEST MOVIMIENTO")
+        button.pack(fill=tk.BOTH, expand=True)
+
+        button.bind("<Button-1>", self.handle_click)  
 
         #It defines the srpites for each object's representation
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")

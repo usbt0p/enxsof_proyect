@@ -51,8 +51,12 @@ main_controller = Controller(room, view_house)
 
 room.notify(view_house, "Override the ConcreteObserver's method `update method` for personalized logic")
 
+print(room.agents[0])
+main_controller.test_movement(room.agents[0])
 
 view_house.mainloop()
+
+
 
 
 

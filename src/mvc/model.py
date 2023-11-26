@@ -34,7 +34,7 @@ class Model(Subject):
         for agent_name in agent_names:
             self.agents.append(agent.Agent(agent_name, 0, 0))
 
-
+    #PLACE HOLDER
     def add_agent(self, agent) -> None:
         """
         Adds an agent to the room.
