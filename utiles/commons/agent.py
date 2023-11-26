@@ -29,11 +29,6 @@ class Agent(Subject):
     def print_position(self):
         print(f"({self.x}, {self.y})")
 
-    '''@property
-    def position(self):
-        return self.x, self.y'''
-    
-    #@position.setter
     def position(self, position):
         print(f"Agent {self.name} moved to {position}")
         # Se podría mandar una notif a controller para que compruebe si el movimiento es válido

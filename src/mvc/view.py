@@ -36,10 +36,15 @@ class View(tk.Tk, Observer):
     Depending on the following parameters, you can change the behaviour of the representation of the view
     """
 
+
     def __init__(self, name, matrix, agent_list, height, width):
 
         tk.Tk.__init__(self)
         Observer.__init__(self, name)
+
+        def handle_click(event):
+            print("Button clicked!")
+            self.controller.handle_click()
 
         self.controller = None
 
@@ -58,10 +63,20 @@ class View(tk.Tk, Observer):
         frame = tk.Frame(self)
         frame.pack(fill=tk.BOTH, expand=True)
 
+        button = tk.Button(frame, text="Button")
+        button.pack(fill=tk.BOTH, expand=True)
+        button.bind("<Button-1>", handle_click)
+
+        """
+        frame = tk.Frame(self)
+        frame.pack(fill=tk.BOTH, expand=True)
+
         button = tk.Button(frame, text="TEST MOVIMIENTO")
         button.pack(fill=tk.BOTH, expand=True)
 
-        button.bind("<Button-1>", self.handle_click)  
+        button.bind("<Button-1>", self.handle_click("movement"))
+        """
+
 
         #It defines the srpites for each object's representation
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
@@ -83,6 +98,16 @@ class View(tk.Tk, Observer):
         self.draw_grid(width, height) #Draw Grid
         self.attributes('-topmost', True) #Show Window on Top of other Windows
 
+
+    
+
+
+    """   
+    def handle_click(self, event):
+        print("Button clicked!")
+        if self.controller:
+            self.controller.handle_click(event)
+    """
 
     def resize_window(self):
         self.update_idletasks()
@@ -149,10 +174,6 @@ class View(tk.Tk, Observer):
         self.draw_grid(self.width, self.height)
 
 
-    def handle_click(event):
-        print("Button clicked!")
-        if self.controller:
-            self.controller.handle_click(event)
 
 
 
@@ -172,8 +193,8 @@ if __name__ == '__main__':
     #AÑADIR BOTONES
      
     # Define the handle_click function
-    def handle_click(event):
-        print("Button clicked!")
+    #def handle_click(event):
+    #    print("Button clicked!")
 
 
     frame = tk.Frame(view)
@@ -183,15 +204,17 @@ if __name__ == '__main__':
     button.pack(fill=tk.BOTH, expand=True)
 
     # Create a button
-   # button = tk.Button(view, text="Click Me")
-   # button.pack(fill=tk.BOTH, expand=True)
+    # button = tk.Button(view, text="Click Me")
+    # button.pack(fill=tk.BOTH, expand=True)
 
     # Bind the button's click event to the handle_click function
     button.bind("<Button-1>", handle_click)
 
+    """
     movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
     # Inicia la animación después de un segundo
     view.after(1000, lambda: view.animate_movement(movements))
+    """
 
     
 

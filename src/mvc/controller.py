@@ -19,8 +19,9 @@ class Controller(Observer):
         
 
         # Start a thread for handling terminal inputs
-        threading.Thread(target=self.handle_terminal_input, daemon=True).start()
+       # threading.Thread(target=self.handle_terminal_input, daemon=True).start()
 
+    """
     def handle_terminal_input(self):
         while True:
             user_input = input("Enter commands as requested: ")
@@ -34,6 +35,7 @@ class Controller(Observer):
             self.model.open_door()  # Assuming this method exists in the model
             # Schedule a GUI update in the main thread
             self.view.after(0, self.view.update_view)  # Assuming update_view method in view
+            """
     
     def update_observer(self, *new_state):
         
@@ -84,8 +86,9 @@ class Controller(Observer):
             self.view.after(1000, lambda: self.animate_movement(agent, movements, index + 1))
     
 
-    def handle_click():
-        pass
+    def handle_click(self):
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        self.test_movement(self.model.agents[0])
 
 
     def test_movement(self, agent):

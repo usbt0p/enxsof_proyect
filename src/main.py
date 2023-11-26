@@ -52,7 +52,7 @@ main_controller = Controller(room, view_house)
 room.notify(view_house, "Override the ConcreteObserver's method `update method` for personalized logic")
 
 print(room.agents[0])
-main_controller.test_movement(room.agents[0])
+#main_controller.test_movement(room.agents[0])
 
 view_house.mainloop()
 
@@ -86,7 +86,7 @@ if __name__ == "__main__":
     objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestDoor))
     objects_tests_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestObstacle))
 
-    populate_instance_test = TestPopulateRoom(file_path)
+    populate_instance_test = TestPopulateRoom()
     initialization_instance_test = TestRoomInitialization()
 
     model_tests_suite = unittest.TestSuite()
