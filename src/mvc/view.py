@@ -7,7 +7,7 @@ from icecream import ic
 
 import src.mvc.model as model
 from utiles.commons import *
-from src.mvc.observer import ConcreteObserver, Observer
+from src.mvc.observer import Observer
 
 
 class HouseModel:
@@ -32,7 +32,7 @@ class HouseModel:
 
 
 
-class View(tk.Tk, ConcreteObserver):
+class View(tk.Tk, Observer):
     """ Create View to be Represented
 
     It generates the view, it inherits from ConcreteObserver (Observer Class).
@@ -42,7 +42,7 @@ class View(tk.Tk, ConcreteObserver):
     def __init__(self, name, matrix, agent_list, height, width):
 
         tk.Tk.__init__(self)
-        ConcreteObserver.__init__(self, name)
+        Observer.__init__(self, name)
 
         self.controller = None
 
@@ -131,7 +131,7 @@ class View(tk.Tk, ConcreteObserver):
             )
 
         # Dibuja los agentes
-        print(self.agents_list[0])
+        
         for agent in self.agents_list:
 
             img_agent = self.img_dict.get(agent.name)
@@ -161,7 +161,7 @@ if __name__ == '__main__':
     file_path = 'assets/default_16x16_room.json'
     room.populate_room(file_path)
 
-    view = View('view', room.matrix, height, width)
+    view = View('view', room.matrix,[], height, width)
     #view.mainloop()
 
     #AÑADIR BOTONES

@@ -22,7 +22,7 @@ class Subject:
 
     def notify(self, observer, *args:list, **kwargs:dict) -> None:
         assert observer in self._observers, 'Observer must be in attached list'
-        observer.update(*args, **kwargs)
+        observer.update_observer(*args, **kwargs)
 
 
 if "__main__" == __name__:

@@ -6,22 +6,25 @@ from src.mvc.view import View
 from src.mvc.controller import Controller
 import unittest
 
-#Show menu to select grid 
+# Show menu to select grid
 opcion = 0
 while opcion != 1 and opcion != 2 and opcion != 3:
-    opcion = int(input("Ingrese el tamaño de la casa \n1.10x10 \n2.16x10 \n3.16x16 \n--> "))
-    
-    if opcion == 1:
-        X_MATRIX = 10
-        Y_MATRIX = 10
-    elif opcion == 2:
-        X_MATRIX = 16
-        Y_MATRIX = 10
-    elif opcion == 3:
-        X_MATRIX = 16
-        Y_MATRIX = 16
-    else:
-        print("Opción no válida. Por favor, elija 1, 2 o 3.")
+    try:
+        opcion = int(input("Ingrese el tamaño de la casa \n1.10x10 \n2.16x10 \n3.16x16 \n--> "))
+        
+        if opcion == 1:
+            X_MATRIX = 10
+            Y_MATRIX = 10
+        elif opcion == 2:
+            X_MATRIX = 16
+            Y_MATRIX = 10
+        elif opcion == 3:
+            X_MATRIX = 16
+            Y_MATRIX = 16
+        else:
+            print("Opción no válida. Por favor, elija 1, 2 o 3.")
+    except ValueError:
+        print("Error: Ingrese un número válido.")
 
 # Constants:
 HEIGHT = 40 * Y_MATRIX

@@ -5,12 +5,14 @@ import threading
 import tkinter as tk
 import src.mvc.model as model
 import src.mvc.view as view
+from src.mvc.observer import Observer
 
 
-class Controller:
+class Controller(Observer):
     def __init__(self, model, view):
         self.model = model
         self.view = view
+        
         self.view.set_controller(self)
         self.model.attach(self)
         self.model.attach(self.view)
@@ -32,6 +34,9 @@ class Controller:
             self.model.open_door()  # Assuming this method exists in the model
             # Schedule a GUI update in the main thread
             self.view.after(0, self.view.update_view)  # Assuming update_view method in view
+    
+    def update(self, message):
+        pass
 
     # Other controller methods to interact with model and view
     # ...
@@ -40,5 +45,3 @@ class Controller:
 
 
 # Start the Tkinter main loop (if this is the entry point of your application)
-if __name__ == '__main__':
-    tk.mainloop()
