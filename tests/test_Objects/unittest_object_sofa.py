@@ -62,7 +62,6 @@ class TestSofa(unittest.TestCase):
         Assertions:
         - Case should raise a ValueError because x and y are not an integer.
         """
-        print("Testing Sofa creation with invalid values...")
         with self.assertRaises(ValueError):
             self.sofa1 = Sofa("invalid", 1, storage=(6,1))
             self.sofa2 = Sofa(1, "invalid", storage=(6,1)) 
