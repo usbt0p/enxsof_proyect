@@ -7,6 +7,7 @@ import src.mvc.model as model
 import src.mvc.view as view
 from src.mvc.observer import Observer
 import time
+import random
 
 
 
@@ -80,6 +81,8 @@ class Controller(Observer):
         agent.position(new_position)
 
     def animate_movement(self, agent, movements, index=0):
+        agent.x = 7
+        agent.y = 7
         if index < len(movements):
             pos = movements[index]
             self.move_agent(agent, pos)
@@ -88,8 +91,8 @@ class Controller(Observer):
             self.view.after(1000, lambda: self.animate_movement(agent, movements, index + 1))
 
     def animate_movement_collision(self, agent, movements, index=0):
-        agent.x = 1
-        agent.y = 1
+        agent.x = 7
+        agent.y = 7
         if index < len(movements):
             pos = movements[index]
             eval_object = self.model.is_position_occupied(pos)
@@ -108,31 +111,38 @@ class Controller(Observer):
             # Programa el siguiente movimiento después de un segundo
             self.view.after(1000, lambda: self.animate_movement_collision(agent, movements, index + 1))
 
-    def animate_door(self, agent, movements, index=0):
+    def animate_movement_door(self, agent, movements, index=0):
         agent.x = 5
         agent.y = 3
         if index < len(movements):
             pos = movements[index]
-            eval_object = self.model.is_position_occupied(pos)
-            if (eval_object.interactive) and not(eval_object.movable) and not(eval_object.collision):
-                if eval_object.isOpen:
-                    eval_object.close()
-                    print("\nI'm closing the door\n")
-                    time.sleep(1)
 
-                elif not(eval_object.isOpen):
+            eval_object = self.model.is_position_occupied(pos)
+
+        
+            if eval_object.literal_name == "Door":
+                print("\nIs the door open? ", eval_object.isOpen)
+                time.sleep(3)
+
+                if not(eval_object.isOpen):
                     eval_object.open()
                     print("\nI'm opening the door\n")
-                    time.sleep(1)
+                    time.sleep(2)
+
+                elif eval_object.isOpen:
+                    eval_object.close()
+                    print("\nI'm closing the door\n")
+                    time.sleep(2)
+
 
             self.move_agent(agent, pos)
             self.view.update_view()
             # Programa el siguiente movimiento después de un segundo
-            self.view.after(1000, lambda: self.animate_door(agent, movements, index + 1))
+            self.view.after(1000, lambda: self.animate_movement_door(agent, movements, index + 1))
     
 
     def handle_click(self, event):
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("\n/////////////// TEST START ///////////////")
         if event == "movement":
             self.test_movement(self.model.agents[0])
         elif event == "collision":
@@ -142,19 +152,39 @@ class Controller(Observer):
 
 
     def test_movement(self, agent):
-        movements = [[1,1],[2,2],[3,3],[4,4],[5,5],[5,4]]
+        movements = [[[7,7],[7,6],[7,5],[7,4],[8,4],[9,4],[9,3],[10,3],[11,2],[12,1],[12,3],[12,4],[14,4],[15,5]],
+        [[7,7],[5,7],[3,7],[3,8],[3,9],[4,10],[5,10],[6,10],[5,11],[4,13],[4,14],[5,13],[6,12],[8,12],[9,12],[10,12],[12,11]],
+        [[7,7],[5,7],[2,7],[2,6],[2,5],[2,4],[2,3],[3,2],[2,2],[1,4],[2,5],[2,6],[2,8],[3,9],[3,11],[2,12],[1,13],[3,13]],
+        [[7,7],[9,8],[9,10],[9,12],[10,12],[11,12],[11,11],[11,10],[12,9],[12,8],[12,7],[12,6],[12,5],[11,4],[11,3],[10,3],[9,2],[8,1],[8,0]]]
+    
+        random_index = random.randint(0, len(movements) - 1)
+
     # Inicia la animación después de un segundo
-        self.view.after(1000, lambda: self.animate_movement(agent, movements))
+        self.view.after(1000, lambda: self.animate_movement(agent, movements[random_index]))
+
+        print("\n/////////////// TEST END ///////////////")
 
     def test_collision(self, agent):
-        movements = [[1,1],[2,2],[3,3],[4,4],[5,5],[5,4]]
+        movements = [[[7,7],[7,6],[7,5],[7,4],[8,4],[9,4],[9,3],[10,3],[11,2],[12,1],[12,3],[12,4],[14,4],[15,5]],
+        [[7,7],[5,7],[3,7],[3,8],[3,9],[4,10],[5,10],[6,10],[5,11],[4,13],[4,14],[5,13],[6,12],[8,12],[9,12],[10,12],[12,11]],
+        [[7,7],[5,7],[2,7],[2,6],[2,5],[2,4],[2,3],[3,2],[2,2],[1,4],[2,5],[2,6],[2,8],[3,9],[3,11],[2,12],[1,13],[3,13]],
+        [[7,7],[9,8],[9,10],[9,12],[10,12],[11,12],[11,11],[11,10],[12,9],[12,8],[12,7],[12,6],[12,5],[11,4],[11,3],[10,3],[9,2],[8,1],[8,0]]]
+    
+        random_index = random.randint(0, len(movements) - 1)
+    
     # Inicia la animación después de un segundo
-        self.view.after(1000, lambda: self.animate_movement_collision(agent, movements))
+        self.view.after(1000, lambda: self.animate_movement_collision(agent, movements[random_index]))
+
+        print("\n/////////////// TEST END ///////////////")
+
 
     def test_door(self, agent):
-        movements = [[5,3],[5,4],[5,5],[5,6],[5,7],[5,8]]
+        movements = [[5,3],[6,3],[7,3],[8,3],[9,3],[10,3],[11,3],[12,3],[13,3],[14,3],[13,3],[12,3],[11,3],[10,3],[9,3],[8,3],[7,3],[6,3],[5,3],
+                     [5,4],[5,5],[5,6],[5,7],[5,8],[4,8],[3,8],[3,9],[3,10],[3,11]]
     # Inicia la animación después de un segundo
-        self.view.after(1000, lambda: self.animate_movement_collision(agent, movements))
+        self.view.after(1000, lambda: self.animate_movement_door(agent, movements))
+
+        print("\n/////////////// TEST END ///////////////")
 
 
 

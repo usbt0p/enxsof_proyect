@@ -82,7 +82,7 @@ class TestDoor(unittest.TestCase):
         """
         self.door = Door(1, 2)
         self.door.close()
-        self.assertFalse(self.door._is_open)
+        self.assertFalse(self.door.is_open)
     
     def test_door_open(self):
         """
@@ -96,7 +96,7 @@ class TestDoor(unittest.TestCase):
         """
         self.door = Door(1, 2)
         self.door.open()
-        self.assertTrue(self.door._is_open)
+        self.assertTrue(self.door.is_open)
 
     def test_inheritance(self):
         """

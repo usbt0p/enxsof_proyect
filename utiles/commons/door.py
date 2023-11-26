@@ -12,10 +12,10 @@ class Door(Obstacle):
 
     @property    
     def isOpen(self):
-        return self._is_open
+        return self.is_open
     
     def open(self):
-        self._is_open = True
+        self.is_open = True
 
     def close(self):
-        self._is_open = False
+        self.is_open = False

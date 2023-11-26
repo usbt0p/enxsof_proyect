@@ -31,7 +31,7 @@ class Model(Subject):
         Adds an agent to the room.
         """
         for agent_name in agent_names:
-            self.agents.append(agent.Agent(agent_name, 1, 1))
+            self.agents.append(agent.Agent(agent_name, 7, 7))
 
     #PLACE HOLDER
     def add_agent(self, agent) -> None:
@@ -107,8 +107,8 @@ class Model(Subject):
         - bool: True if the position is occupied, False otherwise.
         """
         x, y = position
-        print(x, y)
         print(self.matrix[y][x])
+        print("\n")
         return self.matrix[y][x]
 
 
@@ -138,5 +138,4 @@ if __name__ == '__main__':
             print(elem)'''
     room.populate_room(file_path)
     print(room.matrix)
-    ic(room.matrix)
     

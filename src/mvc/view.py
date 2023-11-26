@@ -72,7 +72,7 @@ class View(tk.Tk, Observer):
         button2 = tk.Button(frame, text="Collision Test", command=self.button2_clicked)
         button2.grid(row=0, column=1, sticky='nsew')
 
-        button3 = tk.Button(frame, text="Door Test", command=self.button3_clicked)
+        button3 = tk.Button(frame, text="Door Test (16x16 Room Size ONLY)", command=self.button3_clicked)
         button3.grid(row=0, column=2, sticky='nsew')
 
         # Configure the columns to distribute extra space equally
@@ -99,12 +99,15 @@ class View(tk.Tk, Observer):
         self.sofa_image = tk.PhotoImage(file="./assets/sprites/sofa.png")
         self.table_image = tk.PhotoImage(file="./assets/sprites/table.png")
         self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
+        self.door_open_image = tk.PhotoImage(file="./assets/sprites/door_open.png")
         self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
         self.agent_image = tk.PhotoImage(file="./assets/sprites/gato.png")
+        
 
         #Links the skins with the object literal name
         self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
-                          "Table": self.table_image, "Door": self.door_image, "Fridge": self.fridge_image}
+                          "Table": self.table_image, "Door_Closed": self.door_image, 
+                          "Door_Open": self.door_open_image, "Fridge": self.fridge_image}
 
         #Initialices the model with all the atributes
         self.canvas = tk.Canvas(self, bg='white', height=height, width=width)
@@ -168,7 +171,13 @@ class View(tk.Tk, Observer):
         # Draw the objects
         for object, matrix_pos in self.house_model.objects.items():
 
-            img = self.img_dict.get(object.literal_name)
+            if object.literal_name != "Door":
+                img = self.img_dict.get(object.literal_name)
+            else:
+                if object.isOpen:
+                    img = self.img_dict.get("Door_Open")
+                else:
+                    img = self.img_dict.get("Door_Closed")
             
             # Paints the image of the object based on it's sprite PNG.
             self.canvas.create_image(
@@ -232,8 +241,6 @@ if __name__ == '__main__':
     # button = tk.Button(view, text="Click Me")
     # button.pack(fill=tk.BOTH, expand=True)
 
-    # Bind the button's click event to the handle_click function
-    button.bind("<Button-1>", handle_click)
 
     """
     movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
