@@ -159,6 +159,13 @@ class HouseModel:
                 return True
         return False    
         
+    def animate_movement(self, movements, index=0):
+        if index < len(movements):
+            pos = movements[index]
+            self.model.move_agent('robot', pos)
+            self.update_view()
+            # Programa el siguiente movimiento después de un segundo
+            self.after(1000, lambda: self.animate_movement(movements, index + 1))
         
 class View(tk.Tk, ConcreteObserver):
         
@@ -175,4 +182,20 @@ class View(tk.Tk, ConcreteObserver):
             self.update_view()
             # Programa el siguiente movimiento después de un segundo
             self.after(1000, lambda: self.animate_movement(movements, index + 1))
-        '''
+
+
+
+
+    if __name__ == '__main__':
+    model = HouseModel()
+    view = HouseView(model)
+
+    # Movimientos de prueba
+    movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
+    # Inicia la animación después de un segundo
+    view.after(1000, lambda: view.animate_movement(movements))
+
+    view.mainloop()
+
+    
+    '''
