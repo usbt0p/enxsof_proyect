@@ -3,7 +3,6 @@ sys.path.insert(0, '.')
 
 import tkinter as tk
 
-import multiprocessing
 from icecream import ic
 
 import src.mvc.model as model
@@ -44,6 +43,8 @@ class View(tk.Tk, ConcreteObserver):
 
         tk.Tk.__init__(self)
         ConcreteObserver.__init__(self, name)
+
+        self.controller = None
 
         self.house_model = HouseModel(matrix)
         self.agents_list = agent_list
@@ -88,9 +89,13 @@ class View(tk.Tk, ConcreteObserver):
 
 
     # Override the ConcreteObserver's method for personalized logic
-    def update(self, *new_state):
+    def notify(self, *new_state):
         print(f'{self.name} ha recibido una actualización: {new_state}')
+        self.update_view(self)
         #Method of the action when you are notified by the subject of a modification
+
+    def set_controller(self, controller):
+        self.controller = controller
 
     def draw_grid(self, width:int, height:int):
         """
@@ -141,6 +146,8 @@ class View(tk.Tk, ConcreteObserver):
 
     def handle_click(event):
         print("Button clicked!")
+        if self.controller:
+            self.controller.handle_click(event)
 
 
 

@@ -3,6 +3,7 @@ sys.path.insert(0, '.')
 
 from src.mvc.model import Model
 from src.mvc.view import View
+from src.mvc.controller import Controller
 import unittest
 
 #Show menu to select grid 
@@ -39,10 +40,11 @@ room.generate_agents(['Gato'])
 # Crea una vista de la casa, 'frontend' del proyecto:
 # Procesa todos los objetos, los añade a un modelo para la vista, 
 view_house = View('view_house', room.matrix, room.agents, HEIGHT, WIDTH)
+main_controller = Controller(room, view_house)
 
 
 # Adjuntar los observadores al sujeto
-room.attach(view_house) # TODO crea y attachea controller
+#room.attach(view_house) # TODO crea y attachea controller
 
 room.notify(view_house, "Override the ConcreteObserver's method `update method` for personalized logic")
 
