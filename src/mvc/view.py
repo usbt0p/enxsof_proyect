@@ -176,7 +176,7 @@ class View(tk.Tk, Observer):
             else:
                 if object.isOpen:
                     img = self.img_dict.get("Door_Open")
-                else:
+                elif object.isOpen == False:
                     img = self.img_dict.get("Door_Closed")
             
             # Paints the image of the object based on it's sprite PNG.

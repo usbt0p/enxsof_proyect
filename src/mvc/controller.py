@@ -114,6 +114,7 @@ class Controller(Observer):
     def animate_movement_door(self, agent, movements, index=0):
         agent.x = 5
         agent.y = 3
+
         if index < len(movements):
             pos = movements[index]
 
@@ -179,6 +180,7 @@ class Controller(Observer):
 
 
     def test_door(self, agent):
+        self.model.matrix[9][3].open()
         movements = [[5,3],[6,3],[7,3],[8,3],[9,3],[10,3],[11,3],[12,3],[13,3],[14,3],[13,3],[12,3],[11,3],[10,3],[9,3],[8,3],[7,3],[6,3],[5,3],
                      [5,4],[5,5],[5,6],[5,7],[5,8],[4,8],[3,8],[3,9],[3,10],[3,11]]
     # Inicia la animación después de un segundo
