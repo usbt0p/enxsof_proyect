@@ -3,6 +3,8 @@ sys.path.insert(0, '.')
 
 import tkinter as tk
 
+import multiprocessing
+
 import src.mvc.model as model
 from utiles.commons import *
 from src.mvc.observer import ConcreteObserver, Observer
@@ -45,11 +47,14 @@ class View(tk.Tk, ConcreteObserver):
 
         self.model = HouseModel(matrix)
 
-        self.height = height 
-        self.width = width 
+        self.height = height
+        self.min_height = height 
+        self.width = width
+        self.min_width = width 
         self.CELL_SIZE = 40 
         self.title("Entorno Domótico")
-        self.geometry(str(width) + "x" + str(height))  
+        self.geometry(str(width) + "x" + str(height+30))
+        self.minsize(self.min_width, self.min_height)  
 
         #It defines the srpites for each object's representation
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
@@ -69,6 +74,14 @@ class View(tk.Tk, ConcreteObserver):
         self.update_view() #Show view
         self.draw_grid(width, height) #Draw Grid
         self.attributes('-topmost', True) #Show Window on Top of other Windows
+
+
+    def resize_window(self):
+        self.update_idletasks()
+        width = self.winfo_reqwidth()
+        height = self.winfo_reqheight()
+        self.geometry(f"{width}x{height+30}")
+        self.minsize(self.min_width, self.min_height) 
 
 
 
@@ -113,20 +126,49 @@ class View(tk.Tk, ConcreteObserver):
         self.draw_grid(self.width, self.height)
 
 
+    def handle_click(event):
+        print("Button clicked!")
+    
+
+
 # Ejemplo de uso
 if __name__ == '__main__':
 
     height = 640
     width = 640
 
-
     room = model.Model(16, 16)
     file_path = 'assets/default_16x16_room.json'
     room.populate_room(file_path)
 
     view = View('view', room.matrix, height, width)
+    #view.mainloop()
 
+    #AÑADIR BOTONES
+     
+    # Define the handle_click function
+    def handle_click(event):
+        print("Button clicked!")
+
+
+    frame = tk.Frame(view)
+    frame.pack(fill=tk.BOTH, expand=True)
+
+    button = tk.Button(frame, text="Button")
+    button.pack(fill=tk.BOTH, expand=True)
+
+    # Create a button
+   # button = tk.Button(view, text="Click Me")
+   # button.pack(fill=tk.BOTH, expand=True)
+
+    # Bind the button's click event to the handle_click function
+    button.bind("<Button-1>", handle_click)
+    
+
+    # Start the main event loop
     view.mainloop()
+
+
 
 # TODO PLACEHOLDERS, NO ELIMINAR, DAN UNA PLANTILLA PARA COMO CONTINUAR
 """

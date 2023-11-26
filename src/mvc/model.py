@@ -4,6 +4,7 @@ sys.path.insert(0, '.')
 from utiles.commons import *
 from src.mvc.subject import Subject
 import json
+from icecream import ic
 
 """
     Model class.
@@ -108,5 +109,5 @@ if __name__ == '__main__':
             print(elem)'''
     room.populate_room(file_path)
     print(room.matrix)
-        
+    ic(room.matrix)
     
