@@ -10,7 +10,6 @@ import time
 import random
 
 
-
 class Controller(Observer):
     def __init__(self, model, view):
         self.model = model
@@ -19,6 +18,10 @@ class Controller(Observer):
         self.view.set_controller(self)
         self.model.attach(self)
         self.model.attach(self.view)
+
+        self.animation_running = False
+        self.animation_id = None
+        self.previous_event = None
         
 
         # Start a thread for handling terminal inputs
@@ -41,7 +44,6 @@ class Controller(Observer):
             """
     
     def update_observer(self, *new_state):
-        
         self.view.after(0, self.view.update_view)
 
 
@@ -87,8 +89,14 @@ class Controller(Observer):
             pos = movements[index]
             self.move_agent(agent, pos)
             self.view.update_view()
+
+        if index >= len(movements):
+            print("\n/////////////// TEST END ///////////////")
+            self.animation_running = False
+            return
             # Programa el siguiente movimiento después de un segundo
-            self.view.after(1000, lambda: self.animate_movement(agent, movements, index + 1))
+        self.animation_id = self.view.after(1000, lambda: self.animate_movement(agent, movements, index + 1))
+
 
     def animate_movement_collision(self, agent, movements, index=0):
         agent.x = 7
@@ -99,17 +107,25 @@ class Controller(Observer):
             # If the new position is occupied, stop the animation
             if ((not eval_object.interactive) and eval_object.movable and eval_object.literal_name != "Air"):
                 print("\nI can maybe try to move this obstacle... but I'm not sure if I can do it alone, I'm just a cat!")
+                print("\n/////////////// TEST END ///////////////")
                 return
             elif ((eval_object.interactive) and (eval_object.movable)):
-                print("\nI like to jump on the sofa!\n")
+                print("\nI like to jump on the sofa or the fridge!\n")
             elif ((eval_object.collision) and not (eval_object.movable)):
                 print("\nOoops! It looks like there is an obstacle in the way!\n")
+                print("\n/////////////// TEST END ///////////////")
                 return
-                    
+
             self.move_agent(agent, pos)
             self.view.update_view()
+
+            if index >= len(movements):
+                print("\n/////////////// TEST END ///////////////")
+                self.animation_running = False
+                return
+        
             # Programa el siguiente movimiento después de un segundo
-            self.view.after(1000, lambda: self.animate_movement_collision(agent, movements, index + 1))
+            self.animation_id = self.view.after(1000, lambda: self.animate_movement_collision(agent, movements, index + 1))
 
     def animate_movement_door(self, agent, movements, index=0):
         agent.x = 5
@@ -138,18 +154,36 @@ class Controller(Observer):
 
             self.move_agent(agent, pos)
             self.view.update_view()
-            # Programa el siguiente movimiento después de un segundo
-            self.view.after(1000, lambda: self.animate_movement_door(agent, movements, index + 1))
-    
 
+            if index >= len(movements):
+                print("\n/////////////// TEST END ///////////////")
+                self.animation_running = False
+                return
+
+            # Programa el siguiente movimiento después de un segundo
+            self.animation_id = self.view.after(1000, lambda: self.animate_movement_door(agent, movements, index + 1))
+       
     def handle_click(self, event):
+        
+        if self.animation_running:
+            print("Stopping current animation")
+            self.view.after_cancel(self.animation_id)
+            self.animation_running = False
+            if event == self.previous_event:
+                return
+
+        self.previous_event = event
+        
         print("\n/////////////// TEST START ///////////////")
         if event == "movement":
-            self.test_movement(self.model.agents[0])
+            self.animation_running = True
+            self.animation_id = self.test_movement(self.model.agents[0])
         elif event == "collision":
-            self.test_collision(self.model.agents[0])
+            self.animation_running = True
+            self.animation_id = self.test_collision(self.model.agents[0])
         elif event == "door":
-            self.test_door(self.model.agents[0])
+            self.animation_running = True
+            self.animation_id = self.test_door(self.model.agents[0])
 
 
     def test_movement(self, agent):
@@ -163,7 +197,7 @@ class Controller(Observer):
     # Inicia la animación después de un segundo
         self.view.after(1000, lambda: self.animate_movement(agent, movements[random_index]))
 
-        print("\n/////////////// TEST END ///////////////")
+        
 
     def test_collision(self, agent):
         movements = [[[7,7],[7,6],[7,5],[7,4],[8,4],[9,4],[9,3],[10,3],[11,2],[12,1],[12,3],[12,4],[14,4],[15,5]],
@@ -176,7 +210,6 @@ class Controller(Observer):
     # Inicia la animación después de un segundo
         self.view.after(1000, lambda: self.animate_movement_collision(agent, movements[random_index]))
 
-        print("\n/////////////// TEST END ///////////////")
 
 
     def test_door(self, agent):
@@ -186,7 +219,6 @@ class Controller(Observer):
     # Inicia la animación después de un segundo
         self.view.after(1000, lambda: self.animate_movement_door(agent, movements))
 
-        print("\n/////////////// TEST END ///////////////")
 
 
 
