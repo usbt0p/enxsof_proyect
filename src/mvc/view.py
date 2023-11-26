@@ -65,11 +65,11 @@ class View(tk.Tk, Observer):
         frame = tk.Frame(self)
         frame.pack(fill=tk.BOTH, expand=True)
 
-        button1 = tk.Button(frame, text="Movement Test", command=self.button1_clicked)
+        button1 = tk.Button(frame, text="Movement Test (16x16)", command=self.button1_clicked)
         button1.grid(row=0, column=0, sticky='nsew')
         #button.bind("<Button-1>", handle_click)
 
-        button2 = tk.Button(frame, text="Collision Test", command=self.button2_clicked)
+        button2 = tk.Button(frame, text="Collision Test (16x16)", command=self.button2_clicked)
         button2.grid(row=0, column=1, sticky='nsew')
 
         button3 = tk.Button(frame, text="Door Test (16x16 Room Size ONLY)", command=self.button3_clicked)
