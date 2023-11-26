@@ -22,28 +22,18 @@ class Controller(Observer):
         self.animation_running = False
         self.animation_id = None
         self.previous_event = None
-        
-
-        # Start a thread for handling terminal inputs
-       # threading.Thread(target=self.handle_terminal_input, daemon=True).start()
-
-    """
-    def handle_terminal_input(self):
-        while True:
-            user_input = input("Enter commands as requested: ")
-            # Process the input and update model or view
-            self.process_input(user_input)
-
-    def process_input(self, user_input):
-        # Implement logic based on input
-        if user_input == 'open door':
-            # Example: Update model and view
-            self.model.open_door()  # Assuming this method exists in the model
-            # Schedule a GUI update in the main thread
-            self.view.after(0, self.view.update_view)  # Assuming update_view method in view
-            """
+    
     
     def update_observer(self, *new_state):
+        """
+        Update the observer with the new state and schedule the view to be updated.
+
+        Args:
+            *new_state: Variable number of arguments representing the new state.
+
+        Returns:
+            None
+        """
         self.view.after(0, self.view.update_view)
 
 
@@ -82,7 +72,16 @@ class Controller(Observer):
         """
         agent.position(new_position)
 
+    # Test function for agent movement, not part of the final product
     def animate_movement(self, agent, movements, index=0):
+        """
+        Animates the movement of an agent based on a list of positions.
+
+        Args:
+            agent (Agent): The agent to animate.
+            movements (list): A list of positions representing the movements.
+            index (int, optional): The current index in the movements list. Defaults to 0.
+        """
         agent.x = 7
         agent.y = 7
         if index < len(movements):
@@ -97,8 +96,16 @@ class Controller(Observer):
             # Programa el siguiente movimiento después de un segundo
         self.animation_id = self.view.after(1000, lambda: self.animate_movement(agent, movements, index + 1))
 
-
+    # Test function for agent movement, not part of the final product
     def animate_movement_collision(self, agent, movements, index=0):
+        """
+        Animates the movement of the agent and checks for collisions with objects in the model.
+
+        Args:
+            agent (Agent): The agent object to be moved.
+            movements (list): A list of positions representing the movements to be animated.
+            index (int, optional): The current index of the movements list. Defaults to 0.
+        """
         agent.x = 7
         agent.y = 7
         if index < len(movements):
@@ -127,7 +134,16 @@ class Controller(Observer):
             # Programa el siguiente movimiento después de un segundo
             self.animation_id = self.view.after(1000, lambda: self.animate_movement_collision(agent, movements, index + 1))
 
+    # Test function for agent movement, not part of the final product
     def animate_movement_door(self, agent, movements, index=0):
+        """
+        Animates the movement of the agent and interacts with doors along the way.
+
+        Args:
+            agent (Agent): The agent object.
+            movements (list): List of positions representing the agent's movements.
+            index (int, optional): The current index in the movements list. Defaults to 0.
+        """
         agent.x = 5
         agent.y = 3
 
@@ -136,7 +152,7 @@ class Controller(Observer):
 
             eval_object = self.model.is_position_occupied(pos)
 
-        
+
             if eval_object.literal_name == "Door":
                 print("\nIs the door open? ", eval_object.isOpen)
                 time.sleep(3)
@@ -151,7 +167,6 @@ class Controller(Observer):
                     print("\nI'm closing the door\n")
                     time.sleep(2)
 
-
             self.move_agent(agent, pos)
             self.view.update_view()
 
@@ -164,7 +179,15 @@ class Controller(Observer):
             self.animation_id = self.view.after(1000, lambda: self.animate_movement_door(agent, movements, index + 1))
        
     def handle_click(self, event):
-        
+        """
+        Handles the click event and initiates the corresponding animation based on the event type.
+
+        Parameters:
+        - event (str): The type of event triggered by the click.
+
+        Returns:
+        None
+        """
         if self.animation_running:
             print("Stopping current animation")
             try:
@@ -188,7 +211,7 @@ class Controller(Observer):
             self.animation_running = True
             self.animation_id = self.test_door(self.model.agents[0])
 
-
+    # Test function for agent movement, not part of the final product
     def test_movement(self, agent):
         movements = [[[7,7],[7,6],[7,5],[7,4],[8,4],[9,4],[9,3],[10,3],[11,2],[12,1],[12,3],[12,4],[14,4],[15,5]],
         [[7,7],[5,7],[3,7],[3,8],[3,9],[4,10],[5,10],[6,10],[5,11],[4,13],[4,14],[5,13],[6,12],[8,12],[9,12],[10,12],[12,11]],
@@ -201,7 +224,7 @@ class Controller(Observer):
         self.view.after(1000, lambda: self.animate_movement(agent, movements[random_index]))
 
         
-
+    # Test function for agent movement, not part of the final product
     def test_collision(self, agent):
         movements = [[[7,7],[7,6],[7,5],[7,4],[8,4],[9,4],[9,3],[10,3],[11,2],[12,1],[12,3],[12,4],[14,4],[15,5]],
         [[7,7],[5,7],[3,7],[3,8],[3,9],[4,10],[5,10],[6,10],[5,11],[4,13],[4,14],[5,13],[6,12],[8,12],[9,12],[10,12],[12,11]],
@@ -214,7 +237,7 @@ class Controller(Observer):
         self.view.after(1000, lambda: self.animate_movement_collision(agent, movements[random_index]))
 
 
-
+    # Test function for agent movement, not part of the final product
     def test_door(self, agent):
         self.model.matrix[9][3].open()
         movements = [[5,3],[6,3],[7,3],[8,3],[9,3],[10,3],[11,3],[12,3],[13,3],[14,3],[13,3],[12,3],[11,3],[10,3],[9,3],[8,3],[7,3],[6,3],[5,3],

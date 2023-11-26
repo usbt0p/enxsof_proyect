@@ -42,12 +42,7 @@ class View(tk.Tk, Observer):
         tk.Tk.__init__(self)
         Observer.__init__(self, name)
 
-        #def handle_click(event):
-        #    print("Button clicked!")
-        #    self.controller.handle_click()
-
     
-
         self.controller = None
 
         self.house_model = HouseModel(matrix)
@@ -67,7 +62,6 @@ class View(tk.Tk, Observer):
 
         button1 = tk.Button(frame, text="Movement Test (16x16)", command=self.button1_clicked)
         button1.grid(row=0, column=0, sticky='nsew')
-        #button.bind("<Button-1>", handle_click)
 
         button2 = tk.Button(frame, text="Collision Test (16x16)", command=self.button2_clicked)
         button2.grid(row=0, column=1, sticky='nsew')
@@ -81,16 +75,6 @@ class View(tk.Tk, Observer):
         frame.columnconfigure(2, weight=1)
 
 
-
-        """
-        frame = tk.Frame(self)
-        frame.pack(fill=tk.BOTH, expand=True)
-
-        button = tk.Button(frame, text="TEST MOVIMIENTO")
-        button.pack(fill=tk.BOTH, expand=True)
-
-        button.bind("<Button-1>", self.handle_click("movement"))
-        """
 
 
         #It defines the srpites for each object's representation
@@ -117,22 +101,17 @@ class View(tk.Tk, Observer):
         self.attributes('-topmost', True) #Show Window on Top of other Windows
 
 
-    
 
-
-    """   
-    def handle_click(self, event):
-        print("Button clicked!")
-        if self.controller:
-            self.controller.handle_click(event)
-    """
 
     def resize_window(self):
+        """
+        Resizes the window to fit the required width and height.
+        """
         self.update_idletasks()
         width = self.winfo_reqwidth()
         height = self.winfo_reqheight()
         self.geometry(f"{width}x{height+30}")
-        self.minsize(self.min_width, self.min_height) 
+        self.minsize(self.min_width, self.min_height)
 
 
 
@@ -143,6 +122,15 @@ class View(tk.Tk, Observer):
         #Method of the action when you are notified by the subject of a modification
 
     def set_controller(self, controller):
+        """
+        Set the controller for the view.
+
+        Parameters:
+        - controller: The controller object to be set.
+
+        Returns:
+        None
+        """
         self.controller = controller
 
     def draw_grid(self, width:int, height:int):
@@ -184,7 +172,7 @@ class View(tk.Tk, Observer):
                 object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
             )
 
-        # Dibuja los agentes
+        # Draw the agents
         
         for agent in self.agents_list:
 
@@ -197,15 +185,31 @@ class View(tk.Tk, Observer):
 
         self.draw_grid(self.width, self.height)
 
+
     def button1_clicked(self):
+        """
+        Handle the click event for button1.
+
+        If a controller is available, call its handle_click method with the argument "movement".
+        """
         if self.controller:
             self.controller.handle_click("movement")
 
     def button2_clicked(self):
+        """
+        Handle the click event for button2.
+
+        If a controller is set, call its handle_click method with the argument "collision".
+        """
         if self.controller:
             self.controller.handle_click("collision")
 
     def button3_clicked(self):
+        """
+        Handle the click event for button3.
+
+        If a controller is available, call its handle_click method with the argument "door".
+        """
         if self.controller:
             self.controller.handle_click("door")
 
@@ -224,11 +228,7 @@ if __name__ == '__main__':
     view = View('view', room.matrix,[], height, width)
     #view.mainloop()
 
-    #AÑADIR BOTONES
-     
-    # Define the handle_click function
-    #def handle_click(event):
-    #    print("Button clicked!")
+
 
 
     frame = tk.Frame(view)
@@ -237,101 +237,9 @@ if __name__ == '__main__':
     button = tk.Button(frame, text="Button")
     button.pack(fill=tk.BOTH, expand=True)
 
-    # Create a button
-    # button = tk.Button(view, text="Click Me")
-    # button.pack(fill=tk.BOTH, expand=True)
 
-
-    """
-    movements = [(1,1),(2,2),(3,3),(4,4),(5,5),(5,4)]
-    # Inicia la animación después de un segundo
-    view.after(1000, lambda: view.animate_movement(movements))
-    """
 
     
 
     # Start the main event loop
     view.mainloop()
-
-
-
-# TODO PLACEHOLDERS, NO ELIMINAR, DAN UNA PLANTILLA PARA COMO CONTINUAR
-"""
-class Agent:
-
-    Represents an agent in the environment.
-
-    def __init__(self, name, position=(0, 0)):
-
-        Initializes an Agent object.
-
-        Parameters:
-        - name (str): The name of the agent.
-        - position (tuple): The initial position of the agent. Defaults to (0, 0).
-
-        self.name = name
-        self.position = position
-        self.inventory = []
-
-class Object:
-
-    Represents an object in the environment.
-    def __init__(self, name, position=(0, 0)):
-
-        Initializes an Object object.
-
-        Parameters:
-        - name (str): The name of the object.
-        - position (tuple): The initial position of the object. Defaults to (0, 0).
-
-        self.name = name
-        self.position = position
-
-class HouseModel:
-    def __init__(self):
-        self.agents = {
-            'robot': Agent('robot', position=(0, 0)),
-            'human': Agent('human', position=(0, 0))
-        }
-        self.objects = {
-            'beer': Object('beer', position=(0, 0)),
-            'medkit': Object('medkit', position=(0, 0))
-        }
-        
-        
-    def move_agent(self, agent_name, new_position):
-
-        Moves the specified agent to a new position.
-
-        Parameters:
-        - agent_name (str): The name of the agent to be moved.
-        - new_position (tuple): The new position for the agent.
-
-        Returns:
-        - bool: True if the agent is moved successfully, False otherwise.
-
-        if agent_name in self.agents:
-            self.agents[agent_name].position = new_position
-            return True
-        return False
-
-    def agent_pick_object(self, agent_name, object_name):
-
-        Allows an agent to pick up an object.
-
-        Parameters:
-        - agent_name (str): The name of the agent.
-        - object_name (str): The name of the object to be picked up.
-
-        Returns:
-        - bool: True if the agent picks up the object successfully, False otherwise.
-
-        if agent_name in self.agents and object_name in self.objects:
-            agent = self.agents[agent_name]
-            obj = self.objects[object_name]
-            if agent.position == obj.position:
-                agent.inventory.append(obj)
-                del self.objects[object_name]
-                return True
-        return False    
-"""
