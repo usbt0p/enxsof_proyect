@@ -6,6 +6,13 @@ import src.mvc.model as model
 from utiles.commons import *
 from src.mvc.observer import Observer
 
+# COSAS POR ARREGLAR EN LA VISTA:
+# TODO añadir un boton para que se pueda abrir la puerta
+# TODO eliminar la helper class HouseModel
+# TODO que la vista no almacene el modelo, sino que lo reciba como parametro
+# TODO que la vista no almacene los agentes, sino que los reciba como parametro
+# TODO que  partir del método update_view, se llame a un método que dibuje los objetos y otro que dibuje los agentes
+
 
 class HouseModel:
     """
@@ -37,7 +44,7 @@ class View(tk.Tk, Observer):
     """
 
 
-    def __init__(self, name, matrix, agent_list, height, width):
+    def __init__(self, name, height, width): # matrix, agent_list, 
 
         tk.Tk.__init__(self)
         Observer.__init__(self, name)
@@ -45,8 +52,8 @@ class View(tk.Tk, Observer):
     
         self.controller = None
 
-        self.house_model = HouseModel(matrix)
-        self.agents_list = agent_list
+        #self.house_model = HouseModel(matrix)
+        #self.agents_list = agent_list
 
         self.height = height
         self.min_height = height 
@@ -74,9 +81,6 @@ class View(tk.Tk, Observer):
         frame.columnconfigure(1, weight=1)
         frame.columnconfigure(2, weight=1)
 
-
-
-
         #It defines the srpites for each object's representation
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
         self.air_image = tk.PhotoImage(file="./assets/sprites/air.png")
@@ -96,8 +100,10 @@ class View(tk.Tk, Observer):
         #Initialices the model with all the atributes
         self.canvas = tk.Canvas(self, bg='white', height=height, width=width)
         self.canvas.pack(expand=True, fill='both')
-        self.update_view() #Show view
-        self.draw_grid(width, height) #Draw Grid
+        
+        
+        #self.update_view() #Show view
+        #self.draw_grid(width, height) #Draw Grid
         self.attributes('-topmost', True) #Show Window on Top of other Windows
 
 
@@ -113,13 +119,6 @@ class View(tk.Tk, Observer):
         self.geometry(f"{width}x{height+30}")
         self.minsize(self.min_width, self.min_height)
 
-
-
-    # Override the ConcreteObserver's method for personalized logic
-    def notify(self, *new_state):
-        print(f'{self.name} ha recibido una actualización: {new_state}')
-        self.update_view(self)
-        #Method of the action when you are notified by the subject of a modification
 
     def set_controller(self, controller):
         """
@@ -143,9 +142,19 @@ class View(tk.Tk, Observer):
 
         for i in range(0, height, self.CELL_SIZE):
             self.canvas.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
-            
 
-    def update_view(self):
+    
+    def update_self(self, agents, matrix):
+
+        # TODO este es el objetivo, falta añadir una capa para cada cosa
+        if matrix:
+            self.draw_map(self, matrix)
+
+        if agents:
+            self.draw_agents(self, agents)
+
+                            
+    def draw_map(self, map, grid = True):
         """
         Representents a new view
 
@@ -154,11 +163,13 @@ class View(tk.Tk, Observer):
         do not need to be deleted and redrawn.
         """
 
+        
         self.canvas.delete("agent", "object")
         
         # Draw the objects
-        for object, matrix_pos in self.house_model.objects.items():
-
+        for object in map:
+            print('hey')
+            # TODO arreglar que si la puerta está abierta sea no colisionable
             if object.literal_name != "Door":
                 img = self.img_dict.get(object.literal_name)
             else:
@@ -172,9 +183,14 @@ class View(tk.Tk, Observer):
                 object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
             )
 
+        if grid:
+            self.draw_grid(self.width, self.height)
+
+    def draw_agents(self, agents):
+        
         # Draw the agents
         
-        for agent in self.agents_list:
+        for agent in agents:
 
             img_agent = self.img_dict.get(agent.name)
 
@@ -183,7 +199,7 @@ class View(tk.Tk, Observer):
                 agent.x * 40, agent.y * 40, image=img_agent, anchor='nw', tags="agent"
             )
 
-        self.draw_grid(self.width, self.height)
+        
 
 
     def button1_clicked(self):
@@ -224,22 +240,20 @@ if __name__ == '__main__':
     room = model.Model(16, 16)
     file_path = 'assets/default_16x16_room.json'
     room.populate_room(file_path)
+    room.generate_agents(['Gato'])
 
-    view = View('view', room.matrix,[], height, width)
-    #view.mainloop()
+    view = View('view', height, width)
 
-
-
-
-    frame = tk.Frame(view)
-    frame.pack(fill=tk.BOTH, expand=True)
-
-    button = tk.Button(frame, text="Button")
-    button.pack(fill=tk.BOTH, expand=True)
-
-
-
+    room.attach(view)
+    #print(room.matrix)
+    room.notify(view, agents=room.agents, matrix=room.matrix)
     
+    def runtasks():
+        room.notify(view, agents=room.agents, matrix=room.matrix)
+
+        view.after(5000, runtasks)  # reschedule event in 2 seconds
+
+    view.after(5000, runtasks)
 
     # Start the main event loop
     view.mainloop()

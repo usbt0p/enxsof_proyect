@@ -61,7 +61,7 @@ class Subject:
             AssertionError: If the observer is not in the attached list.
         """
         assert observer in self._observers, 'Observer must be in attached list'
-        observer.update_observer(*args, **kwargs)
+        observer.update_self(*args, **kwargs)
 
 
 if "__main__" == __name__:
