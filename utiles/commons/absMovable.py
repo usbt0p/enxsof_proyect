@@ -35,28 +35,35 @@ class AbstractMovable(ABC):
 
 #TODO ESTO VA EN OTRO ARCHIVO!!!!!!!!!!!!!!!!!!!!!!!!!!!
 class PathPlanning(ABC):
+
     @staticmethod
-    def generate_random_position(self, max_x, max_y):
+    def generate_random_position(max_x, max_y):
         """Generate a random position within the given boundaries."""
         new_x = random.randint(0, max_x - 1)
         new_y = random.randint(0, max_y - 1)
         return new_x, new_y
-
+    
     @staticmethod
+    def is_position_occupied(x, y, grid): #TODO GRID SHOULD BE SELF??????????????!!!!!!!!!!!!!!!
+        """Check if the position is occupied."""    
+        # Assuming the grid is a list of lists
+        return grid[y][x] != 0
+
+    
     def is_valid_position(self, x, y, max_x, max_y):
         """Check if the position is valid (within boundaries and not occupied)."""
         # Check boundaries
         if x < 0 or x >= max_x or y < 0 or y >= max_y:
             return False
         # Check if position is occupied (assuming is_position_occupied is defined)
-        return not is_position_occupied(x, y)
+        return not self.is_position_occupied(x, y)
     
-    @staticmethod
+    
     def move_randomly(self, max_x, max_y):
         """Move the agent to a valid random position."""
         new_x, new_y = self.generate_random_position(max_x, max_y)
         if self.is_valid_position(new_x, new_y, max_x, max_y):
-            self.position((new_x, new_y))
+            self.position((new_x, new_y))  #### TODO !!!!!!!!!!!CONTROLADOR O PATHPALNNING?????????!!!!!!!!!!!!
         else:
             # Optionally, try again or handle invalid move
             pass
@@ -87,23 +94,8 @@ class PathPlanning(ABC):
         return path
         """
     
-
-
     @staticmethod
-    def a_star_search(start, goal, grid):
-        """
-        Perform A* search algorithm to find the shortest path from the start node to the goal node on a grid.
-
-        Args:
-            start (tuple): The starting node position as a tuple (x, y).
-            goal (tuple): The goal node position as a tuple (x, y).
-            grid (list): The grid representing the environment, where 0 represents an obstacle and any other value represents a valid node.
-
-        Returns:
-            list or bool: The path from the start node to the goal node as a list of node positions (tuples), or False if no path is found.
-        """
-           
-        def heuristic(a, b):
+    def heuristic(a, b):
             """
             Calculate the heuristic value for A* pathfinding.
 
@@ -125,7 +117,19 @@ class PathPlanning(ABC):
             # Manhattan distance is the sum of the horizontal and vertical distances.
             return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
-            
+
+    def a_star_search(self, start, goal, grid):
+        """
+        Perform A* search algorithm to find the shortest path from the start node to the goal node on a grid.
+
+        Args:
+            start (tuple): The starting node position as a tuple (x, y).
+            goal (tuple): The goal node position as a tuple (x, y).
+            grid (list): The grid representing the environment, where 0 represents an obstacle and any other value represents a valid node.
+
+        Returns:
+            list or bool: The path from the start node to the goal node as a list of node positions (tuples), or False if no path is found.
+        """
 
         # Initialize the neighbors for 4-directional movement on the grid.
         # Each tuple represents a relative movement direction (up, right, down, left).
@@ -135,7 +139,7 @@ class PathPlanning(ABC):
         close_set = set()  # Set to keep track of nodes that have already been evaluated.
         came_from = {}  # Dictionary to store the parent node of each visited node.
         gscore = {start: 0}  # Dictionary to store the cost of the cheapest path from start to each node.
-        fscore = {start: heuristic(start, goal)}  # Dictionary to store the estimated total cost from start to goal through each node.
+        fscore = {start: self.heuristic(start, goal)}  # Dictionary to store the estimated total cost from start to goal through each node.
 
         # Initialize a priority queue (min-heap) to manage nodes to be visited, starting with the start node.
         open_heap = []
@@ -163,7 +167,7 @@ class PathPlanning(ABC):
                 neighbor = current[0] + i, current[1] + j
 
                 # Calculate the tentative g-score of the neighbor node.
-                tentative_g_score = gscore[current] + heuristic(current, neighbor)
+                tentative_g_score = gscore[current] + self.heuristic(current, neighbor)
 
                 # Check if the neighbor node is within the grid boundaries and not an obstacle.
                 if 0 <= neighbor[0] < len(grid) and 0 <= neighbor[1] < len(grid[0]):
@@ -178,7 +182,7 @@ class PathPlanning(ABC):
                 if tentative_g_score < gscore.get(neighbor, 0) or neighbor not in [i[1]for i in open_heap]:
                     came_from[neighbor] = current
                     gscore[neighbor] = tentative_g_score
-                    fscore[neighbor] = tentative_g_score + heuristic(neighbor, goal)
+                    fscore[neighbor] = tentative_g_score + self.heuristic(neighbor, goal)
                     heapq.heappush(open_heap, (fscore[neighbor], neighbor))
 
         # Return False if no path is found from the start to the goal.
