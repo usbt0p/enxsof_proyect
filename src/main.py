@@ -6,25 +6,9 @@ from src.mvc.view import View
 from src.mvc.controller import Controller
 import unittest
 
-# Show menu to select grid
-opcion = 0
-while opcion != 1 and opcion != 2 and opcion != 3:
-    try:
-        opcion = int(input("Ingrese el tamaño de la casa \n1.10x10 \n2.16x10 \n3.16x16 \n--> "))
-        
-        if opcion == 1:
-            X_MATRIX = 10
-            Y_MATRIX = 10
-        elif opcion == 2:
-            X_MATRIX = 16
-            Y_MATRIX = 10
-        elif opcion == 3:
-            X_MATRIX = 16
-            Y_MATRIX = 16
-        else:
-            print("Opción no válida. Por favor, elija 1, 2 o 3.")
-    except ValueError:
-        print("Error: Ingrese un número válido.")
+# Una única casa
+X_MATRIX = 16
+Y_MATRIX = 16
 
 # Constants:
 HEIGHT = 40 * Y_MATRIX
@@ -34,7 +18,6 @@ file_path = f'assets/default_{X_MATRIX}x{Y_MATRIX}_room.json'
 # Filepath para los tests y la ejecucion posterior
 
 
-
 # Creamos el Modelo, que es el sujeto del programa al que se subscribirán los obs y alamcena el environment
 room = Model(X_MATRIX, Y_MATRIX)
 room.populate_room(file_path)
@@ -42,20 +25,20 @@ room.generate_agents(['Gato'])
 
 # Crea una vista de la casa, 'frontend' del proyecto:
 # Procesa todos los objetos, los añade a un modelo para la vista, 
-view_house = View('view_house', room.matrix, room.agents, HEIGHT, WIDTH)
+view_house = View('view_house', HEIGHT, WIDTH)
+
+
 main_controller = Controller(room, view_house)
 
-
 # Adjuntar los observadores al sujeto
-#room.attach(view_house) # TODO crea y attachea controller
+room.attach(view_house)
 
-room.notify(view_house, "Override the ConcreteObserver's method `update method` for personalized logic")
+room.notify(view_house, agents=room.agents, matrix=room.matrix)
 
 print(room.agents[0])
 #main_controller.test_movement(room.agents[0])
 
 view_house.mainloop()
-
 
 
 
