@@ -1,4 +1,5 @@
 import sys
 sys.path.insert(0, '.')
 
-__all__ = ["thing", "air", "container", "door", "fridge", "obstacle", "sofa", "table", "wall", "agent"]
+# TODO: Add all the classes to the __all__ list
+__all__ = 

@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '.')
+
 from  absMovable import AbstractMovable
 from thing import Thing
 
