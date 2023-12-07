@@ -93,14 +93,13 @@ class View(tk.Tk, Observer):
                           "Door_Open": self.door_open_image, "Fridge": self.fridge_image}
 
         #Initialices the model with all the atributes
-        self.canvas1 = tk.Canvas(self, bg='white', height=height, width=width)
-        self.canvas1.pack(expand=True, fill='both')
+        self.canvas= tk.Canvas(self, bg='white', height=height, width=width)
+        self.canvas.pack(expand=True, fill='both')
 
-        self.canvas2 = tk.Canvas(self, height=height, width=width)
-        self.canvas2.pack(expand=True, fill='both')
         
         # TODO inicializar la vista antes de la primera uptdate
-    
+        self.update() #Show view
+        self.draw_grid(width, height) #Draw Grid
         self.attributes('-topmost', True) #Show Window on Top of other Windows
 
 
@@ -135,10 +134,10 @@ class View(tk.Tk, Observer):
         """
         
         for i in range(0, width, self.CELL_SIZE):
-            self.canvas1.create_line([(i, 0), (i, height)], tag='grid_line', fill='grey')
+            self.canvas.create_line([(i, 0), (i, height)], tag='grid_line', fill='grey')
 
         for i in range(0, height, self.CELL_SIZE):
-            self.canvas1.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
+            self.canvas.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
 
     
     def update_self(self, *args, **kwargs):
@@ -163,7 +162,7 @@ class View(tk.Tk, Observer):
         """
 
         
-        self.canvas1.delete("object")
+        self.canvas.delete("object")
         
         # Draw the objects
         for row in map:
@@ -178,7 +177,7 @@ class View(tk.Tk, Observer):
                         img = self.img_dict.get("Door_Closed")
                 
                 # Paints the image of the object based on it's sprite PNG.
-                self.canvas1.create_image(
+                self.canvas.create_image(
                     object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
                 )
 
@@ -194,7 +193,7 @@ class View(tk.Tk, Observer):
             img_agent = self.img_dict.get(agent.name)
 
            
-            self.canvas2.create_image(
+            self.canvas.create_image(
                 agent.x * 40, agent.y * 40, image=img_agent, anchor='nw', tags="agent"
             )
 
@@ -250,7 +249,7 @@ if __name__ == '__main__':
 
         view.after(1000, runtasks) 
 
-    view.after(1000, runtasks)
+    runtasks()
 
     # Start the main event loop
     view.mainloop()
