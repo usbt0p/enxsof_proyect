@@ -52,9 +52,6 @@ class View(tk.Tk, Observer):
     
         self.controller = None
 
-        #self.house_model = HouseModel(matrix)
-        #self.agents_list = agent_list
-
         self.height = height
         self.min_height = height 
         self.width = width
@@ -101,9 +98,8 @@ class View(tk.Tk, Observer):
         self.canvas = tk.Canvas(self, bg='white', height=height, width=width)
         self.canvas.pack(expand=True, fill='both')
         
-        
-        #self.update_view() #Show view
-        #self.draw_grid(width, height) #Draw Grid
+        # TODO inicializar la vista antes de la primera uptdate
+    
         self.attributes('-topmost', True) #Show Window on Top of other Windows
 
 
@@ -144,14 +140,16 @@ class View(tk.Tk, Observer):
             self.canvas.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
 
     
-    def update_self(self, agents, matrix):
+    def update_self(self, *args, **kwargs):
 
         # TODO este es el objetivo, falta añadir una capa para cada cosa
-        if matrix:
-            self.draw_map(self, matrix)
+        
+            if kwargs['matrix']:
+                print(kwargs['matrix'])
+                self.draw_map(kwargs['matrix'])
 
-        if agents:
-            self.draw_agents(self, agents)
+            if kwargs['agents']:
+                self.draw_agents(kwargs['agents'])
 
                             
     def draw_map(self, map, grid = True):
@@ -167,21 +165,21 @@ class View(tk.Tk, Observer):
         self.canvas.delete("agent", "object")
         
         # Draw the objects
-        for object in map:
-            print('hey')
-            # TODO arreglar que si la puerta está abierta sea no colisionable
-            if object.literal_name != "Door":
-                img = self.img_dict.get(object.literal_name)
-            else:
-                if object.isOpen:
-                    img = self.img_dict.get("Door_Open")
-                elif object.isOpen == False:
-                    img = self.img_dict.get("Door_Closed")
-            
-            # Paints the image of the object based on it's sprite PNG.
-            self.canvas.create_image(
-                object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
-            )
+        for row in map:
+            for object in row:
+                # TODO arreglar que si la puerta está abierta sea no colisionable
+                if object.literal_name != "Door":
+                    img = self.img_dict.get(object.literal_name)
+                else:
+                    if object.isOpen:
+                        img = self.img_dict.get("Door_Open")
+                    elif object.isOpen == False:
+                        img = self.img_dict.get("Door_Closed")
+                
+                # Paints the image of the object based on it's sprite PNG.
+                self.canvas.create_image(
+                    object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
+                )
 
         if grid:
             self.draw_grid(self.width, self.height)
@@ -245,15 +243,13 @@ if __name__ == '__main__':
     view = View('view', height, width)
 
     room.attach(view)
-    #print(room.matrix)
-    room.notify(view, agents=room.agents, matrix=room.matrix)
     
     def runtasks():
         room.notify(view, agents=room.agents, matrix=room.matrix)
 
-        view.after(5000, runtasks)  # reschedule event in 2 seconds
+        view.after(1000, runtasks) 
 
-    view.after(5000, runtasks)
+    view.after(1000, runtasks)
 
     # Start the main event loop
     view.mainloop()
