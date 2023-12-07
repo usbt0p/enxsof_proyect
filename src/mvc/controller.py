@@ -1,10 +1,6 @@
 import sys
 sys.path.insert(0, '.')
 
-import threading
-import tkinter as tk
-import src.mvc.model as model
-import src.mvc.view as view
 from src.mvc.observer import Observer
 import time
 import random

@@ -137,7 +137,9 @@ class View(tk.Tk, Observer):
         # Draw the objects
         for row in map:
             for object in row:
-                if object.literal_name != "Door":
+                if object == 0:
+                    continue
+                elif object.literal_name != "Door":
                     img = self.img_dict.get(object.literal_name)
                 else:
                     if object.isOpen:

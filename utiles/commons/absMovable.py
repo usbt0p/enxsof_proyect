@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 class AbstractMovable(ABC):
+    
     def move_up(self):
         assert self.y > 0, "You can't move there!"
         self.y -= 1
