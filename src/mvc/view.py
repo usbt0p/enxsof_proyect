@@ -7,10 +7,8 @@ from utiles.commons import *
 from src.mvc.observer import Observer
 
 # COSAS POR ARREGLAR EN LA VISTA:
-# TODO añadir un boton para que se pueda abrir la puerta
+# TODO añadir un boton para que se pueda abrir la puerta????
 # TODO eliminar la helper class HouseModel
-# TODO que la vista no almacene el modelo, sino que lo reciba como parametro
-# TODO que la vista no almacene los agentes, sino que los reciba como parametro
 # TODO que  partir del método update_view, se llame a un método que dibuje los objetos y otro que dibuje los agentes
 
 
@@ -95,8 +93,11 @@ class View(tk.Tk, Observer):
                           "Door_Open": self.door_open_image, "Fridge": self.fridge_image}
 
         #Initialices the model with all the atributes
-        self.canvas = tk.Canvas(self, bg='white', height=height, width=width)
-        self.canvas.pack(expand=True, fill='both')
+        self.canvas1 = tk.Canvas(self, bg='white', height=height, width=width)
+        self.canvas1.pack(expand=True, fill='both')
+
+        self.canvas2 = tk.Canvas(self, height=height, width=width)
+        self.canvas2.pack(expand=True, fill='both')
         
         # TODO inicializar la vista antes de la primera uptdate
     
@@ -134,10 +135,10 @@ class View(tk.Tk, Observer):
         """
         
         for i in range(0, width, self.CELL_SIZE):
-            self.canvas.create_line([(i, 0), (i, height)], tag='grid_line', fill='grey')
+            self.canvas1.create_line([(i, 0), (i, height)], tag='grid_line', fill='grey')
 
         for i in range(0, height, self.CELL_SIZE):
-            self.canvas.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
+            self.canvas1.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
 
     
     def update_self(self, *args, **kwargs):
@@ -162,7 +163,7 @@ class View(tk.Tk, Observer):
         """
 
         
-        self.canvas.delete("agent", "object")
+        self.canvas1.delete("object")
         
         # Draw the objects
         for row in map:
@@ -177,7 +178,7 @@ class View(tk.Tk, Observer):
                         img = self.img_dict.get("Door_Closed")
                 
                 # Paints the image of the object based on it's sprite PNG.
-                self.canvas.create_image(
+                self.canvas1.create_image(
                     object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
                 )
 
@@ -193,7 +194,7 @@ class View(tk.Tk, Observer):
             img_agent = self.img_dict.get(agent.name)
 
            
-            self.canvas.create_image(
+            self.canvas2.create_image(
                 agent.x * 40, agent.y * 40, image=img_agent, anchor='nw', tags="agent"
             )
 
