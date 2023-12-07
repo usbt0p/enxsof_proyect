@@ -6,32 +6,6 @@ import src.mvc.model as model
 from utiles.commons import *
 from src.mvc.observer import Observer
 
-# COSAS POR ARREGLAR EN LA VISTA:
-# TODO añadir un boton para que se pueda abrir la puerta????
-# TODO eliminar la helper class HouseModel
-# TODO que  partir del método update_view, se llame a un método que dibuje los objetos y otro que dibuje los agentes
-
-
-class HouseModel:
-    """
-    Represents the model of the house environment.
-
-    Includes the strucure of the house, the grid, objects...
-    Those elements will be later represented.
-    """
-
-    OBJECTS = ("Air", "Door", "Fridge", "Sofa", "Table", "Wall")
-    # Constant of Allowed Objects
-
-    def __init__(self, model) -> None:
-
-        self.objects = dict()
-
-        for row in model:
-            for elem in row: 
-                if elem.literal_name in self.OBJECTS:
-                    self.objects[elem] = [elem.x, elem.y]
-
 
 
 class View(tk.Tk, Observer):
