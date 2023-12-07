@@ -40,7 +40,7 @@ class Model(Subject):
         """
         self.agents.append(agent)
 
-        # TODO self.notifyAll()
+        self.notifyAll()
 
 
     def populate_room(self, filepath:str) -> list:
@@ -59,7 +59,7 @@ class Model(Subject):
         assert self.y_size == len(config) and self.x_size == len(config[0]),\
               "Size of the map must be equal to size of the config file's map" 
         
-        for y, row in enumerate(config): # TODO es posible q esto saque la "transpuesta" del mapa, veremos
+        for y, row in enumerate(config):
             for x, literal in enumerate(row):
                 match literal:
                     case "Wall":

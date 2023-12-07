@@ -11,7 +11,7 @@ from src.mvc.observer import Observer
 class View(tk.Tk, Observer):
     """ Create View to be Represented
 
-    It generates the view, it inherits from ConcreteObserver (Observer Class).
+    It generates the view, inherits from Observer Class.
     Depending on the following parameters, you can change the behaviour of the representation of the view
     """
 
@@ -70,8 +70,6 @@ class View(tk.Tk, Observer):
         self.canvas= tk.Canvas(self, bg='white', height=height, width=width)
         self.canvas.pack(expand=True, fill='both')
 
-        
-        # TODO inicializar la vista antes de la primera uptdate
         self.update() #Show view
         self.draw_grid(width, height) #Draw Grid
         self.attributes('-topmost', True) #Show Window on Top of other Windows
@@ -115,8 +113,6 @@ class View(tk.Tk, Observer):
 
     
     def update_self(self, *args, **kwargs):
-
-        # TODO este es el objetivo, falta añadir una capa para cada cosa
         
             if kwargs['matrix']:
                 print(kwargs['matrix'])
@@ -141,7 +137,6 @@ class View(tk.Tk, Observer):
         # Draw the objects
         for row in map:
             for object in row:
-                # TODO arreglar que si la puerta está abierta sea no colisionable
                 if object.literal_name != "Door":
                     img = self.img_dict.get(object.literal_name)
                 else:
