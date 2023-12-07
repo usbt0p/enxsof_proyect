@@ -1,26 +1,30 @@
 import sys
 sys.path.insert(0, '.')
 
-from abc import ABC, abstractmethod
+from abc import ABC, staticmethod
 import random
 import heapq
 
 class AbstractMovable(ABC):
     """Abstract class for movable objects."""
     
+    
     def move_up(self):
-        assert self.y > 0, "You can't move there!"
-        self.y -= 1
+        assert self.y > 0, "You can't move there!"   #LUCAS !!!!!!!!!!! ESTO ESTÁ AL REVÉS, NO?!!!!!!!!!!!!!!!!!!!!!!!!!
+        y -= 1
+
 
     def move_down(self):
         #TODO cambiar esto para cuando esté el mapa
         #assert self.y < len(self.grid) - 1, "You can't move there!"
         self.y += 1
 
+  
     def move_left(self):
         assert self.x > 0, "You can't move there!"
         self.x -= 1
 
+    
     def move_right(self):
         #TODO cambiar esto para cuando esté el mapa
         # assert self.x < len(self.grid[0]) - 1, "You can't move there!"
@@ -28,12 +32,17 @@ class AbstractMovable(ABC):
 
 
 
+
+#TODO ESTO VA EN OTRO ARCHIVO!!!!!!!!!!!!!!!!!!!!!!!!!!!
+class PathPlanning(ABC):
+    @staticmethod
     def generate_random_position(self, max_x, max_y):
         """Generate a random position within the given boundaries."""
         new_x = random.randint(0, max_x - 1)
         new_y = random.randint(0, max_y - 1)
         return new_x, new_y
 
+    @staticmethod
     def is_valid_position(self, x, y, max_x, max_y):
         """Check if the position is valid (within boundaries and not occupied)."""
         # Check boundaries
@@ -42,6 +51,7 @@ class AbstractMovable(ABC):
         # Check if position is occupied (assuming is_position_occupied is defined)
         return not is_position_occupied(x, y)
     
+    @staticmethod
     def move_randomly(self, max_x, max_y):
         """Move the agent to a valid random position."""
         new_x, new_y = self.generate_random_position(max_x, max_y)
@@ -77,31 +87,46 @@ class AbstractMovable(ABC):
         return path
         """
     
-    def heuristic(self, a, b):
-        """
-        Calculate the heuristic value for A* pathfinding.
 
-        This function computes the Manhattan distance between two points, 
-        which is used as a heuristic in the A* algorithm. The Manhattan distance 
-        is the sum of the absolute differences of their Cartesian coordinates. 
-        It is a suitable heuristic for grid-based pathfinding where only 
-        4-directional movement is allowed (up, down, left, right).
+
+    @staticmethod
+    def a_star_search(start, goal, grid):
+        """
+        Perform A* search algorithm to find the shortest path from the start node to the goal node on a grid.
 
         Args:
-            a (tuple): The current node position as a tuple (x, y).
-            b (tuple): The goal node position as a tuple (x, y).
+            start (tuple): The starting node position as a tuple (x, y).
+            goal (tuple): The goal node position as a tuple (x, y).
+            grid (list): The grid representing the environment, where 0 represents an obstacle and any other value represents a valid node.
 
         Returns:
-            int: The Manhattan distance between the current node and the goal node.
+            list or bool: The path from the start node to the goal node as a list of node positions (tuples), or False if no path is found.
         """
+           
+        def heuristic(a, b):
+            """
+            Calculate the heuristic value for A* pathfinding.
 
-        # Calculate and return the Manhattan distance.
-        # Manhattan distance is the sum of the horizontal and vertical distances.
-        return abs(a[0] - b[0]) + abs(a[1] - b[1])
+            This function computes the Manhattan distance between two points, 
+            which is used as a heuristic in the A* algorithm. The Manhattan distance 
+            is the sum of the absolute differences of their Cartesian coordinates. 
+            It is a suitable heuristic for grid-based pathfinding where only 
+            4-directional movement is allowed (up, down, left, right).
 
+            Args:
+                a (tuple): The current node position as a tuple (x, y).
+                b (tuple): The goal node position as a tuple (x, y).
 
-    
-    def a_star_search(self, start, goal, grid):
+            Returns:
+                int: The Manhattan distance between the current node and the goal node.
+            """
+
+            # Calculate and return the Manhattan distance.
+            # Manhattan distance is the sum of the horizontal and vertical distances.
+            return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
+            
+
         # Initialize the neighbors for 4-directional movement on the grid.
         # Each tuple represents a relative movement direction (up, right, down, left).
         neighbors = [(0, 1), (1, 0), (0, -1), (-1, 0)]
@@ -110,7 +135,7 @@ class AbstractMovable(ABC):
         close_set = set()  # Set to keep track of nodes that have already been evaluated.
         came_from = {}  # Dictionary to store the parent node of each visited node.
         gscore = {start: 0}  # Dictionary to store the cost of the cheapest path from start to each node.
-        fscore = {start: self.heuristic(start, goal)}  # Dictionary to store the estimated total cost from start to goal through each node.
+        fscore = {start: heuristic(start, goal)}  # Dictionary to store the estimated total cost from start to goal through each node.
 
         # Initialize a priority queue (min-heap) to manage nodes to be visited, starting with the start node.
         open_heap = []
@@ -138,12 +163,12 @@ class AbstractMovable(ABC):
                 neighbor = current[0] + i, current[1] + j
 
                 # Calculate the tentative g-score of the neighbor node.
-                tentative_g_score = gscore[current] + self.heuristic(current, neighbor)
+                tentative_g_score = gscore[current] + heuristic(current, neighbor)
 
                 # Check if the neighbor node is within the grid boundaries and not an obstacle.
                 if 0 <= neighbor[0] < len(grid) and 0 <= neighbor[1] < len(grid[0]):
-                    if grid[neighbor[0]][neighbor[1]] == 1:  # Assuming '1' represents an obstacle.
-                        continue # TODO NOT 1 BUT FUCKING OBJECT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    if grid[neighbor[0]][neighbor[1]] != 0:  # Assuming '0' represents NOT an obstacle.
+                        continue # TODO CHECK THE FUCKING OBJECT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                 # Skip the neighbor node if it has already been evaluated with a lower g-score.
                 if neighbor in close_set and tentative_g_score >= gscore.get(neighbor, 0):
@@ -153,7 +178,7 @@ class AbstractMovable(ABC):
                 if tentative_g_score < gscore.get(neighbor, 0) or neighbor not in [i[1]for i in open_heap]:
                     came_from[neighbor] = current
                     gscore[neighbor] = tentative_g_score
-                    fscore[neighbor] = tentative_g_score + self.heuristic(neighbor, goal)
+                    fscore[neighbor] = tentative_g_score + heuristic(neighbor, goal)
                     heapq.heappush(open_heap, (fscore[neighbor], neighbor))
 
         # Return False if no path is found from the start to the goal.
