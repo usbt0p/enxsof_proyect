@@ -78,45 +78,83 @@ class AbstractMovable(ABC):
         """
     
     def heuristic(self, a, b):
+        """
+        Calculate the heuristic value for A* pathfinding.
+
+        This function computes the Manhattan distance between two points, 
+        which is used as a heuristic in the A* algorithm. The Manhattan distance 
+        is the sum of the absolute differences of their Cartesian coordinates. 
+        It is a suitable heuristic for grid-based pathfinding where only 
+        4-directional movement is allowed (up, down, left, right).
+
+        Args:
+            a (tuple): The current node position as a tuple (x, y).
+            b (tuple): The goal node position as a tuple (x, y).
+
+        Returns:
+            int: The Manhattan distance between the current node and the goal node.
+        """
+
+        # Calculate and return the Manhattan distance.
+        # Manhattan distance is the sum of the horizontal and vertical distances.
         return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
 
     
     def a_star_search(self, start, goal, grid):
-        neighbors = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # 4-directional movement
-        close_set = set()
-        came_from = {}
-        gscore = {start: 0}
-        fscore = {start: self.heuristic(start, goal)}
+        # Initialize the neighbors for 4-directional movement on the grid.
+        # Each tuple represents a relative movement direction (up, right, down, left).
+        neighbors = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
+        # Initialize sets and dictionaries for managing nodes during search.
+        close_set = set()  # Set to keep track of nodes that have already been evaluated.
+        came_from = {}  # Dictionary to store the parent node of each visited node.
+        gscore = {start: 0}  # Dictionary to store the cost of the cheapest path from start to each node.
+        fscore = {start: self.heuristic(start, goal)}  # Dictionary to store the estimated total cost from start to goal through each node.
+
+        # Initialize a priority queue (min-heap) to manage nodes to be visited, starting with the start node.
         open_heap = []
-
-        
-
         heapq.heappush(open_heap, (fscore[start], start))
-        
+
+        # Main loop of the A* algorithm.
         while open_heap:
+            # Pop the node with the lowest f-score from the priority queue.
             current = heapq.heappop(open_heap)[1]
 
+            # Check if the current node is the goal. If so, reconstruct and return the path found.
             if current == goal:
                 path = []
                 while current in came_from:
                     path.append(current)
                     current = came_from[current]
-                return path[::-1]
+                return path[::-1]  # Return the path in correct order, from start to goal.
 
+            # Add the current node to the set of evaluated nodes.
             close_set.add(current)
+
+            # Evaluate all neighboring nodes of the current node.
             for i, j in neighbors:
-                neighbor = current[0] + i, current[1] + j            
+                # Calculate the position of the neighbor node.
+                neighbor = current[0] + i, current[1] + j
+
+                # Calculate the tentative g-score of the neighbor node.
                 tentative_g_score = gscore[current] + self.heuristic(current, neighbor)
+
+                # Check if the neighbor node is within the grid boundaries and not an obstacle.
                 if 0 <= neighbor[0] < len(grid) and 0 <= neighbor[1] < len(grid[0]):
-                    if grid[neighbor[0]][neighbor[1]] == 1:  # Assuming 1 is an obstacle
-                        continue
+                    if grid[neighbor[0]][neighbor[1]] == 1:  # Assuming '1' represents an obstacle.
+                        continue # TODO NOT 1 BUT FUCKING OBJECT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                # Skip the neighbor node if it has already been evaluated with a lower g-score.
                 if neighbor in close_set and tentative_g_score >= gscore.get(neighbor, 0):
                     continue
-                    
+
+                # If this path to the neighbor node is better, update its scores and parent node.
                 if tentative_g_score < gscore.get(neighbor, 0) or neighbor not in [i[1]for i in open_heap]:
                     came_from[neighbor] = current
                     gscore[neighbor] = tentative_g_score
                     fscore[neighbor] = tentative_g_score + self.heuristic(neighbor, goal)
                     heapq.heappush(open_heap, (fscore[neighbor], neighbor))
-        
-        return False  # No path found
+
+        # Return False if no path is found from the start to the goal.
+        return False
