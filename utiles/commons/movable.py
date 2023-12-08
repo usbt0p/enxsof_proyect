@@ -1,8 +1,8 @@
 import sys
 sys.path.insert(0, '.')
 
-from  absMovable import AbstractMovable
-from thing import Thing
+from utiles.commons.absMovable import AbstractMovable
+from utiles.commons.thing import Thing
 
 
 class Movable(Thing, AbstractMovable):

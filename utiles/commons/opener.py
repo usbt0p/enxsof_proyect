@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '.')
 
-from thing import Thing
+from utiles.commons.thing import Thing
 
 
 class Opener(Thing):

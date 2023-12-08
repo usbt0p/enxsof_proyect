@@ -3,6 +3,7 @@ sys.path.insert(0, '.')
 
 from utiles.commons import *
 from src.mvc.subject import Subject
+from copy import deepcopy
 import json
 
 """
@@ -33,15 +34,13 @@ class Model(Subject):
         for agent_name in agent_names:
             self.agents.append(agent.Agent(agent_name, 7, 7))
 
-    #PLACE HOLDER
     def add_agent(self, agent) -> None:
         """
         Adds an agent to the room.
         """
         self.agents.append(agent)
 
-        self.notifyAll()
-
+        self.notifyAll() # TODO esto pa q sirve?
 
     def populate_room(self, filepath:str) -> list:
         """
@@ -52,7 +51,7 @@ class Model(Subject):
 
         config = self.read_grid_config_file(filepath)
 
-        # Posible test de unidad
+        # TODO Posible test de unidad
         '''print(self.y_size == len(config), self.y_size, len(config)) 
         print(self.x_size == len(config[0]), self.x_size, len(config[0]))'''
 
@@ -63,17 +62,13 @@ class Model(Subject):
             for x, literal in enumerate(row):
                 match literal:
                     case "Wall":
-                        self.matrix[y][x] = wall.Wall(x, y)
-                    case "Air":
-                        self.matrix[y][x] = air.Air(x, y)
-                    case "Sofa":
-                        self.matrix[y][x] = sofa.Sofa(x, y)
+                        self.matrix[y][x] = thing.Thing(x, y, literal)
+                    case "Sofa" | "Table":
+                        self.matrix[y][x] = movable.Movable(x, y, literal)
                     case "Door":
-                        self.matrix[y][x] = door.Door(x, y)
-                    case "Table":
-                        self.matrix[y][x] = table.Table(x, y)
+                        self.matrix[y][x] = opener.Opener(x, y, literal)
                     case "Fridge":
-                        self.matrix[y][x] = fridge.Fridge(x, y)
+                        self.matrix[y][x] = mixed.Mixed(x, y, literal)
                                       
         
 
@@ -98,7 +93,7 @@ class Model(Subject):
             print(f"Error decoding JSON in file {file_path}: {e}")
             return None
         
-    def is_position_occupied(self, position):
+    def is_position_occupied(self, x, y) -> bool:
         """
         Checks if a position is occupied by an object.
         Parameters:
@@ -106,10 +101,24 @@ class Model(Subject):
         Returns:
         - bool: True if the position is occupied, False otherwise.
         """
-        x, y = position
-        print(self.matrix[y][x])
-        print("\n")
-        return self.matrix[y][x]
+        return self.matrix[y][x] != 0
+    
+    def move_object(self, origin, new_position) -> None:
+        """
+        Moves an object to a new position.
+        Parameters:
+        - origin (tuple): The position of the object to move.
+        - new_position (tuple): The new position of the object.        
+        Returns:
+        None
+        """
+        # TODO cambiar esto: tiene que usar los metodos de movable para moverse!!!
+        # Por tanto, tambien tiene que hacer try catch de si se intenta ejecutar sobre un no-movible
+        assert not self.is_position_occupied(new_position[0], new_position[1]), "The new position is occupied"
+        if not self.is_position_occupied(new_position[0], new_position[1]):
+            self.matrix[origin[1]][origin[0]] = self.matrix[new_position[1]][new_position[0]]
+            self.matrix[new_position[1]][new_position[0]] = 0
+        
 
 
 

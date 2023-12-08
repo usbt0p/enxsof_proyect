@@ -4,8 +4,6 @@ sys.path.insert(0, '.')
 from abc import ABC
 
 class AbstractMovable(ABC):
-    """Abstract class for movable objects."""
-    
     
     def move_up(self):
         assert self.y > 0, "You can't move there!"   #LUCAS !!!!!!!!!!! ESTO ESTÁ AL REVÉS, NO?!!!!!!!!!!!!!!!!!!!!!!!!!
