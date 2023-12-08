@@ -14,9 +14,8 @@ Y_MATRIX = 16
 HEIGHT = 40 * Y_MATRIX
 WIDTH = 40 * X_MATRIX
 
-file_path = f'assets/default_{X_MATRIX}x{Y_MATRIX}_room.json' 
 # Filepath para los tests y la ejecucion posterior
-
+file_path = f'assets/default_{X_MATRIX}x{Y_MATRIX}_room.json' 
 
 # Creamos el Modelo, que es el sujeto del programa al que se subscribirán los obs y alamcena el environment
 room = Model(X_MATRIX, Y_MATRIX)

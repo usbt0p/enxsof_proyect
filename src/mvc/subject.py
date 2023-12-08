@@ -46,7 +46,7 @@ class Subject:
             None
         """
         for observer in self._observers:
-            observer.update(*args, **kwargs)
+            observer.update_self(*args, **kwargs)
 
     def notify(self, observer, *args:list, **kwargs:dict) -> None:
         """
@@ -70,12 +70,13 @@ if "__main__" == __name__:
     subject = Subject()
 
     # Crear observadores
-    view = ob.ConcreteObserver('view')
-    controller = ob.ConcreteObserver('controller')
+    view = ob.Observer('view')
+    pringau = ob.Observer('pringau')
+    controller = ob.Observer('controller')
 
     # Adjuntar los observadores al sujeto
-    subject.attach(view, controller)
+    subject.attach(view, controller, pringau)
 
     # Notificar a todos los observadores
-    subject.notifyAll('¡Hola, Observadores!')
-    subject.notify(view, 'actualiza la vista')
+    subject.notifyAll(notifyAll='Manda datos a todos los observadores')
+    subject.notify(view, notify='solamente notifica a la vista')

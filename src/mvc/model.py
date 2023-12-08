@@ -103,7 +103,7 @@ class Model(Subject):
         """
         return self.matrix[y][x] != 0
     
-    def move_object(self, origin, new_position) -> None:
+    def move_object(self, origin_x , origin_y, new_position_x, new_position_y) -> None:
         """
         Moves an object to a new position.
         Parameters:
@@ -114,37 +114,28 @@ class Model(Subject):
         """
         # TODO cambiar esto: tiene que usar los metodos de movable para moverse!!!
         # Por tanto, tambien tiene que hacer try catch de si se intenta ejecutar sobre un no-movible
-        assert not self.is_position_occupied(new_position[0], new_position[1]), "The new position is occupied"
-        if not self.is_position_occupied(new_position[0], new_position[1]):
-            self.matrix[origin[1]][origin[0]] = self.matrix[new_position[1]][new_position[0]]
-            self.matrix[new_position[1]][new_position[0]] = 0
+        # TODO esto está asi para evitar errores de paso por referencia y de que el objeto
+        # pasado no sea el original de la matriz... se puede mejorar???
+        assert not self.is_position_occupied(
+            new_position_x, new_position_y), "The new position is occupied"
+        
+        if not self.is_position_occupied(new_position_x, new_position_y):
+            self.matrix[new_position_y][new_position_x] = self.matrix[origin_y][origin_x]
+            self.matrix[origin_y][origin_x] = 0
+
+        self.notifyAll(
+            delete=self.matrix[new_position_y][new_position_x].id, 
+            draw=(new_position_x, new_position_y))
         
 
 
 
 if __name__ == '__main__':
     room = Model(16, 16)
-    '''print(room.room)
-    obj = Object("Wall", False, True)
-    print(obj)
-    for elem in room.room:
-        print(elem)'''
-    '''
-    a = obj.collision
-    b = obj._collision
-    
-    print(a, b)
-    obj.collision = False
-    print(obj)'''
 
-        # Example usage:
+    # Example usage:
     file_path = 'assets/default_16x16_room.json'
-    '''    json_data = room.read_grid_config_file(file_path)
 
-    if json_data is not None:
-        print("JSON data:")
-        for elem in json_data:
-            print(elem)'''
     room.populate_room(file_path)
     print(room.matrix)
     

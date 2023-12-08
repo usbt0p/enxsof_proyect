@@ -7,6 +7,7 @@ class Thing:
         self.y = y
         self._literal_name = literal_name
         self._collision = True # FIXME esto por ahora está hardcodeado, pero igual hay q cambiarlo
+        self._id = None
 
     @property
     def literal_name(self):
@@ -15,6 +16,14 @@ class Thing:
     @literal_name.setter
     def literal_name(self, value):
         self._literal_name = value
+
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        self._id = value
 
     @property
     def collision(self):
@@ -26,8 +35,8 @@ class Thing:
     
 
     def __str__(self) -> str:
-        return '{}: coords=({}, {}), collision={}'.format(
-            self.literal_name, self.x, self.y, self.collision)
+        return '{}: coords=({}, {}), collision={}, id={}'.format(
+            self.literal_name, self.x, self.y, self.collision, self.id)
     
 
 if __name__ == '__main__':
@@ -36,4 +45,6 @@ if __name__ == '__main__':
     print(asdf)
     print(id(obj))
     print(id(asdf))
+
+    print(obj.literal_name) # FIXME WTF
 

@@ -113,13 +113,63 @@ class View(tk.Tk, Observer):
 
     
     def update_self(self, *args, **kwargs):
-        
-            if kwargs['matrix']:
-                print(kwargs['matrix'])
-                self.draw_map(kwargs['matrix'])
+            '''
+            Update manager, inspired by the MQTT system.
+            Recieves a dictionary with a possible set of keys and manages the
+            response of the view based on the keys recieved.
+            For example, an update might come with keys containing Thing objects,
+            a whole matrix, a list of agents or a coordinate tuple.
+            Since we don't have specific objects defined for data structures, there
+            are a set of valid keys that can be passed for processing.
+            '''
+            #esta es la notificación que manda el modelo a la vista
+            #self.notifyAll(delete=origin, draw=self.matrix[new_position[1]][new_position[0]])
+            
+            NOTIFY_KEYS = ('delete', 'draw', 'agents', 'matrix')
 
-            if kwargs['agents']:
-                self.draw_agents(kwargs['agents'])
+            for key, value in kwargs.items():
+                if key not in NOTIFY_KEYS:
+                    raise KeyError(f"Invalid key: {key}")
+                else:
+                            
+                    match key:
+                        case 'delete':
+                                self.delete_object(value)
+                        case 'draw':
+                            self.draw_object(value)
+                        case 'agents':
+                            self.draw_agents(value)
+                        case 'matrix':
+                            self.draw_map(value)
+
+    def delete_object(self, object):
+        """
+        Deletes an object from the canvas.
+
+        Parameters:
+        - object: The object to be deleted.
+
+        Returns:
+        None
+        """
+        self.canvas.delete(object.id)
+    
+    def draw_object(self, coords):
+        """
+        Draws an object on the canvas.
+
+        Parameters:
+        - object: The object to be drawn.
+
+        Returns:
+        None
+        """
+        x, y = coords
+        img = self.img_dict.get(object.literal_name)
+        object_id = self.canvas.create_image(
+            x * 40, y * 40, image=img, anchor='nw' , tags="object"
+        )
+        object.id = object_id
 
                             
     def draw_map(self, map, grid = True):
@@ -137,6 +187,7 @@ class View(tk.Tk, Observer):
         # Draw the objects
         for row in map:
             for object in row:
+                print(object)
                 if object == 0:
                     continue
                 elif object.literal_name != "Door":
@@ -148,9 +199,10 @@ class View(tk.Tk, Observer):
                         img = self.img_dict.get("Door_Closed")
                 
                 # Paints the image of the object based on it's sprite PNG.
-                self.canvas.create_image(
+                object_id = self.canvas.create_image(
                     object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
                 )
+                object.id = object_id
 
         if grid:
             self.draw_grid(self.width, self.height)
@@ -220,8 +272,15 @@ if __name__ == '__main__':
         room.notify(view, agents=room.agents, matrix=room.matrix)
 
         view.after(1000, runtasks) 
+    
+    def move():
+        room.move_object(7, 4, 8, 5)
+        #esta es la notificación que manda el modelo a la vista
+        #self.notifyAll(delete=origin, draw=self.matrix[new_position[1]][new_position[0]])
+        view.after(5000, move)
 
     runtasks()
+    move()
 
     # Start the main event loop
     view.mainloop()
