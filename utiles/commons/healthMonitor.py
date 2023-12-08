@@ -214,5 +214,8 @@ canvas_widget.pack(fill=tk.BOTH, expand=True)
 ani1 = animation.FuncAnimation(fig, update_vital, interval=500, frames=itertools.count(), init_func=init, blit=True, cache_frame_data=False)
 ani2 = animation.FuncAnimation(fig, update_ecg, interval=20, frames=itertools.count(), init_func=init, blit=True, cache_frame_data=False)
 
+
+
 # Starting the Tkinter event loop to run the application
-root.mainloop()
+if __name__ == "__main__":
+    root.mainloop()
