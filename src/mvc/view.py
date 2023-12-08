@@ -6,8 +6,6 @@ import src.mvc.model as model
 from utiles.commons import *
 from src.mvc.observer import Observer
 
-
-
 class View(tk.Tk, Observer):
     """ Create View to be Represented
 
@@ -74,9 +72,6 @@ class View(tk.Tk, Observer):
         self.draw_grid(width, height) #Draw Grid
         self.attributes('-topmost', True) #Show Window on Top of other Windows
 
-
-
-
     def resize_window(self):
         """
         Resizes the window to fit the required width and height.
@@ -86,7 +81,6 @@ class View(tk.Tk, Observer):
         height = self.winfo_reqheight()
         self.geometry(f"{width}x{height+30}")
         self.minsize(self.min_width, self.min_height)
-
 
     def set_controller(self, controller):
         """
@@ -110,66 +104,19 @@ class View(tk.Tk, Observer):
 
         for i in range(0, height, self.CELL_SIZE):
             self.canvas.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
-
     
-    def update_self(self, *args, **kwargs):
-            '''
-            Update manager, inspired by the MQTT system.
-            Recieves a dictionary with a possible set of keys and manages the
-            response of the view based on the keys recieved.
-            For example, an update might come with keys containing Thing objects,
-            a whole matrix, a list of agents or a coordinate tuple.
-            Since we don't have specific objects defined for data structures, there
-            are a set of valid keys that can be passed for processing.
-            '''
-            #esta es la notificación que manda el modelo a la vista
-            #self.notifyAll(delete=origin, draw=self.matrix[new_position[1]][new_position[0]])
-            
-            NOTIFY_KEYS = ('delete', 'draw', 'agents', 'matrix')
+    def update_self(self, *args, **kwargs):                   
+        NOTIFY_KEYS = ('agents', 'matrix')
 
-            for key, value in kwargs.items():
-                if key not in NOTIFY_KEYS:
-                    raise KeyError(f"Invalid key: {key}")
-                else:
-                            
-                    match key:
-                        case 'delete':
-                                self.delete_object(value)
-                        case 'draw':
-                            self.draw_object(value)
-                        case 'agents':
-                            self.draw_agents(value)
-                        case 'matrix':
-                            self.draw_map(value)
-
-    def delete_object(self, object):
-        """
-        Deletes an object from the canvas.
-
-        Parameters:
-        - object: The object to be deleted.
-
-        Returns:
-        None
-        """
-        self.canvas.delete(object.id)
-    
-    def draw_object(self, coords):
-        """
-        Draws an object on the canvas.
-
-        Parameters:
-        - object: The object to be drawn.
-
-        Returns:
-        None
-        """
-        x, y = coords
-        img = self.img_dict.get(object.literal_name)
-        object_id = self.canvas.create_image(
-            x * 40, y * 40, image=img, anchor='nw' , tags="object"
-        )
-        object.id = object_id
+        for key, value in kwargs.items():
+            if key not in NOTIFY_KEYS:
+                raise KeyError(f"Invalid key: {key}")
+            else:        
+                match key:
+                    case 'agents':
+                        self.draw_agents(value)
+                    case 'matrix':
+                        self.draw_map(value)
 
                             
     def draw_map(self, map, grid = True):
@@ -180,14 +127,11 @@ class View(tk.Tk, Observer):
         You can specify which objects you want to delete. For example, fixed objects like walls,
         do not need to be deleted and redrawn.
         """
-
-        
         self.canvas.delete("object")
         
         # Draw the objects
         for row in map:
             for object in row:
-                print(object)
                 if object == 0:
                     continue
                 elif object.literal_name != "Door":
@@ -199,30 +143,24 @@ class View(tk.Tk, Observer):
                         img = self.img_dict.get("Door_Closed")
                 
                 # Paints the image of the object based on it's sprite PNG.
-                object_id = self.canvas.create_image(
-                    object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object"
-                )
-                object.id = object_id
+                self.canvas.create_image(
+                    object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object")
 
         if grid:
             self.draw_grid(self.width, self.height)
 
-    def draw_agents(self, agents):
-        
+        self.update()
+
+    def draw_agents(self, agents):        
         # Draw the agents
         self.canvas.delete("agent")
         
         for agent in agents:
-
             img_agent = self.img_dict.get(agent.name)
 
-           
             self.canvas.create_image(
                 agent.x * 40, agent.y * 40, image=img_agent, anchor='nw', tags="agent"
             )
-
-        
-
 
     def button1_clicked(self):
         """
@@ -255,7 +193,8 @@ class View(tk.Tk, Observer):
 
 # Ejemplo de uso
 if __name__ == '__main__':
-
+    import time
+    from random import randint
     height = 640
     width = 640
 
@@ -271,16 +210,52 @@ if __name__ == '__main__':
     def runtasks():
         room.notify(view, agents=room.agents, matrix=room.matrix)
 
-        view.after(1000, runtasks) 
+        view.after(2000, runtasks) 
     
-    def move():
+    def start_moving():
+        move1()
+        view.after(100, move2)
+
+    def move1():
         room.move_object(7, 4, 8, 5)
-        #esta es la notificación que manda el modelo a la vista
-        #self.notifyAll(delete=origin, draw=self.matrix[new_position[1]][new_position[0]])
-        view.after(5000, move)
+        view.after(500, move1)
+
+    def move2():
+        room.move_object(8, 5, 7, 4)
+        view.after(500, move2)
+
+    def bailoteo_gatete():
+        paso1()
+        view.after(100, paso2)
+
+    def paso1():
+        room.agents[0].x += 1
+        room.agents[0].y -= 1
+        view.draw_agents(room.agents)
+
+        view.after(500, paso1)
+        
+    def paso2():
+        room.agents[0].x -= 1
+        room.agents[0].y += 1
+        view.draw_agents(room.agents)
+
+        view.after(500, paso2)
+
+    def shitty_draw():
+
+        view.draw_agents(room.agents)
+        room.agents[0].x += 1
+        room.agents[0].y += 1
+
+        view.after(2000, shitty_draw)
 
     runtasks()
-    move()
+    #view.after_cancel(runtasks)
+    #shitty_draw()
+    start_moving()
+    bailoteo_gatete()
+    
 
     # Start the main event loop
     view.mainloop()

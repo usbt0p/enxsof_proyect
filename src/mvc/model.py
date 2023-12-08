@@ -116,16 +116,22 @@ class Model(Subject):
         # Por tanto, tambien tiene que hacer try catch de si se intenta ejecutar sobre un no-movible
         # TODO esto está asi para evitar errores de paso por referencia y de que el objeto
         # pasado no sea el original de la matriz... se puede mejorar???
-        assert not self.is_position_occupied(
-            new_position_x, new_position_y), "The new position is occupied"
+        '''assert not self.is_position_occupied(
+            new_position_x, new_position_y), "The new position is occupied"'''
         
         if not self.is_position_occupied(new_position_x, new_position_y):
-            self.matrix[new_position_y][new_position_x] = self.matrix[origin_y][origin_x]
+            new = deepcopy(self.matrix[origin_y][origin_x])
+            new.x = new_position_x
+            new.y = new_position_y
+            self.matrix[new_position_y][new_position_x] = new
             self.matrix[origin_y][origin_x] = 0
 
-        self.notifyAll(
-            delete=self.matrix[new_position_y][new_position_x].id, 
-            draw=(new_position_x, new_position_y))
+        '''print('hey')
+        print(self.matrix[4][7])'''
+        #self.matrix[4][7] = 0
+
+
+        self.notifyAll(matrix=self.matrix)
         
 
 
@@ -137,5 +143,12 @@ if __name__ == '__main__':
     file_path = 'assets/default_16x16_room.json'
 
     room.populate_room(file_path)
-    print(room.matrix)
+    #print(room.matrix)
+    print('epa')
+    print(room.matrix[4][7])
+
+    room.move_object(7, 4, 8, 5)
+
+    print(room.matrix[4][7])
+    print(room.matrix[5][8])
     
