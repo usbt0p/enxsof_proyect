@@ -104,7 +104,7 @@ class PathPlanning(ABC):
 
         # Initialize the neighbors for 4-directional movement on the grid.
         # Each tuple represents a relative movement direction (up, right, down, left).
-        neighbors = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        neighbors = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
         # Initialize sets and dictionaries for managing nodes during search.
         close_set = set()  # Set to keep track of nodes that have already been evaluated.
