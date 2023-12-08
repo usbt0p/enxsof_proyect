@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '.')
 
-from abc import ABC, staticmethod
+from abc import ABC
 import random
 import heapq
 
