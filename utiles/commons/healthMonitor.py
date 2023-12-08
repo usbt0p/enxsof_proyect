@@ -201,7 +201,7 @@ def update_ecg(frame):
 
     # Adjust x-axis limits for a scrolling effect
     if t > ax2.get_xlim()[1]:  
-        ax2.set_xlim(ax2.get_xlim()[0] + 1, ax2.get_xlim()[1] + 1)
+        ax2.set_xlim(ax2.get_xlim()[0] + 1.5, ax2.get_xlim()[1] + 1.5)
 
     return (ln2,)
 
