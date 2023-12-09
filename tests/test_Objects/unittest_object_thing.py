@@ -18,13 +18,11 @@ class TestThing(unittest.TestCase):
         - movable should be True.
         
         """
-        self.thing = Thing(1, 2, "Thing", interactive=True, collision=True, movable=True)
+        self.thing = Thing(1, 2, "Thing", collision=True)
         self.assertEqual(self.thing.x, 1)
-        self.assertEqual(self.thing.y, 2)
+        self.assertEqual(self.thing.y, 2)  
         self.assertEqual(self.thing.literal_name, "Thing")
-        self.assertTrue(self.thing.interactive)
         self.assertTrue(self.thing.collision)
-        self.assertTrue(self.thing.movable)
 
     def test_thing_str_representation(self):
         """
@@ -33,25 +31,12 @@ class TestThing(unittest.TestCase):
         Verify the instance of Thing is represented like is expected to prove __str__ method.
 
         Assertions:
-        - Represenation should be "Thing: coords=(1,2), interactive=True, collision=True,.
+        - Represenation should be "Thing: coords=(1,2). collision=False.
         """
-        self.thing = Thing(1, 2, "Thing", interactive=True, collision=False, movable=True)
-        expected_str = "Thing: coords=(1, 2), interactive=True, collision=False, movable=True"
+        self.thing = Thing(1, 2, "Thing", collision=False)
+        expected_str = "Thing: coords=(1, 2), collision=False"
         self.assertEqual(str(self.thing), expected_str)
 
-    def test_thing_interactive_setter(self):
-        """
-        Test the interactive setter method of a Thing instance.
-
-        This test verifies that the interactive setter method of Thing instance
-        sets interactive attribute to True or False.
-
-        Assertion:
-        - interactive should be False.
-        """
-        self.thing = Thing(1, 2, "Thing", interactive=True, collision=True, movable=False)
-        self.thing.interactive = False
-        self.assertFalse(self.thing.interactive)
 
     def test_thing_collision_setter(self):
         """
@@ -63,24 +48,9 @@ class TestThing(unittest.TestCase):
         Assertion:
         - collision should be True.
         """
-        self.thing = Thing(1, 2, "Thing", interactive=True, collision=False, movable=False)
+        self.thing = Thing(1, 2, "Thing", collision=False)
         self.thing.collision = True
         self.assertTrue(self.thing.collision)
-
-    def test_thing_movable_setter(self):
-        """
-        Test the movable setter method of a Thing instance.
-
-        This test verifies that the movable setter method of Thing instance
-        sets movable attribute to True or False.
-
-        Assertion:
-        - movable should be True.
-        """
-        self.thing = Thing(1, 2, "Thing", interactive=True, collision=False, movable=True)
-        self.thing.movable = False
-        self.assertFalse(self.thing.movable)
-
 
     def test_thing_literal_name_setter(self):
         """
@@ -92,7 +62,7 @@ class TestThing(unittest.TestCase):
         Assertion:
         - literal_name should be "Thing".
         """
-        self.thing = Thing(1, 2, "Cosa", interactive=True, collision=True, movable=False)
+        self.thing = Thing(1, 2, "Cosa", collision=True)
         self.thing.literal_name = "Thing"
         self.assertEqual(self.thing.literal_name, "Thing")
 
@@ -107,13 +77,13 @@ class TestThing(unittest.TestCase):
         - Case should raise a ValueError because x and y are not an integer.
         """
         with self.assertRaises(ValueError):
-            self.thing1 = Thing("invalid", 1, "Thing", True,True, True) 
-            self.thing2 = Thing(1, "invalid", "Thing", True,True, True)
-            self.thing3 = Thing(None, 1, "Thing", True,True, True) 
-            self.thing4 = Thing(1, None, "Thing", True,True, True) 
-            self.thing5 = Thing(1.1, 4, "Thing", True,True, True)
-            self.thing6 = Thing(1, 4.1, "Thing", True,True, True) 
-            if not isinstance(self.thing1.x, int) or not isinstance(self.thing2.y, int) or not isinstance(self.thing3.x, int) or not isinstance(self.thing4.y, int) or not isinstance(self.thing5.x, int) or not isinstance(self.thing6.y, int):    
+            self.thing1 = Thing("invalid", 1, "Thing", True) 
+            self.thing2 = Thing(1, "invalid", "Thing", True)
+            self.thing3 = Thing(None, 1, "Thing", True) 
+            self.thing4 = Thing(1, None, "Thing", True) 
+            self.thing5 = Thing(1.1, 4, "Thing", True)
+            self.thing6 = Thing(1, 4.1, "Thing", True) 
+            if not isinstance(self.thing1.x, int) or not isinstance(self.thing2.y, int) or not isinstance(self.thing3.x, int) or not isinstance(self.thing4.y, int):    
                 raise ValueError("Both x and y must be integers.")
             
 

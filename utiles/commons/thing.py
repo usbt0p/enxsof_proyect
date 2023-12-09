@@ -6,8 +6,7 @@ class Thing:
         self.x = x
         self.y = y
         self._literal_name = literal_name
-        self._collision = True # FIXME esto por ahora está hardcodeado, pero igual hay q cambiarlo
-
+        self._collision = collision #Lo he cambiado para que se pueda especificar al instanciar la clase
     @property
     def literal_name(self):
         return self._literal_name

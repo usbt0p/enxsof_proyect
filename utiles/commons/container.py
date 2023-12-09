@@ -6,8 +6,10 @@ from utiles.commons.thing import Thing
 class Container(Thing):
 
     def __init__(self, x, y, storage, literal_name, interactive=True, collision=False, movable=True):
-        super().__init__( x, y, literal_name, interactive, collision, movable)
+        super().__init__( x, y, literal_name, collision)
         self._storage = storage  # Use a different name for the attribute
+        self.interactive = interactive
+        self.movable = movable  # Se ha cambiado ya que thing no tenia este atributo
 
     @property
     def storage(self):
