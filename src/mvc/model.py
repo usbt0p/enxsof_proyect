@@ -27,12 +27,13 @@ class Model(Subject):
         return [[0] * self.x_size for _ in range(self.y_size)]
 
 
-    def generate_agents(self, agent_names) -> None:
+    def generate_agents(self, agents) -> None:
         """
         Adds an agent to the room.
         """
-        for agent_name in agent_names:
-            self.agents.append(agent.Agent(agent_name, 7, 7))
+        # TODO spawnearlos en sitios coherentes!!!!
+        for agent_name in agents:
+            self.agents.append(agent_name)
 
     def add_agent(self, agent) -> None:
         """

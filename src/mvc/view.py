@@ -56,13 +56,15 @@ class View(tk.Tk, Observer):
         self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
         self.door_open_image = tk.PhotoImage(file="./assets/sprites/door_open.png")
         self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
-        self.agent_image = tk.PhotoImage(file="./assets/sprites/gato.png")
+        self.gato_image = tk.PhotoImage(file="./assets/sprites/gato.png")
+        self.jeizee_image = tk.PhotoImage(file="./assets/sprites/jeizee.png")
         
 
         #Links the skins with the object literal name
-        self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
+        self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.gato_image, 
                           "Table": self.table_image, "Door_Closed": self.door_image, 
-                          "Door_Open": self.door_open_image, "Fridge": self.fridge_image}
+                          "Door_Open": self.door_open_image, "Fridge": self.fridge_image,
+                          "Jeizee": self.jeizee_image}
 
         #Initialices the model with all the atributes
         self.canvas= tk.Canvas(self, bg='white', height=height, width=width)
@@ -201,7 +203,7 @@ if __name__ == '__main__':
     room = model.Model(16, 16)
     file_path = 'assets/default_16x16_room.json'
     room.populate_room(file_path)
-    room.generate_agents(['Gato'])
+    room.generate_agents([agent.Agent('Gato', 7, 7), agent.Agent('Jeizee', 5, 12)])
 
     view = View('view', height, width)
 
@@ -242,6 +244,24 @@ if __name__ == '__main__':
 
         view.after(500, paso2)
 
+    def bailoteo_jeizee():
+        paso3()
+        view.after(100, paso4)
+
+    def paso3():
+        room.agents[1].x += 1
+        room.agents[1].y -= 1
+        view.draw_agents(room.agents)
+
+        view.after(500, paso3)
+        
+    def paso4():
+        room.agents[1].x -= 1
+        room.agents[1].y += 1
+        view.draw_agents(room.agents)
+
+        view.after(500, paso4)
+
     def shitty_draw():
 
         view.draw_agents(room.agents)
@@ -255,6 +275,7 @@ if __name__ == '__main__':
     #shitty_draw()
     start_moving()
     bailoteo_gatete()
+    bailoteo_jeizee()
     
 
     # Start the main event loop
