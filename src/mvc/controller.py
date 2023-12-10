@@ -2,9 +2,11 @@ import sys
 sys.path.insert(0, '.')
 
 from src.mvc.observer import Observer
+from utiles.commons.owner import Owner
+import utiles.commons.healthGenerator as HG
 import time
 import random
-
+import threading
 
 class Controller(Observer):
     def __init__(self, model, view):
@@ -241,7 +243,16 @@ class Controller(Observer):
     # Inicia la animación después de un segundo
         self.view.after(1000, lambda: self.animate_movement_door(agent, movements))
 
-
-
-
-
+    @staticmethod
+    def generate_vital():
+        while True:
+            time.sleep(1)
+            print("Generating new vital signs")
+            HG.generate_vital()
+        
+    @staticmethod
+    # Create and start the thread
+    def vital_threading():
+        thread = threading.Thread(target=Controller.generate_vital)
+        thread.daemon = True  # This makes the thread exit when the main program exits
+        thread.start()

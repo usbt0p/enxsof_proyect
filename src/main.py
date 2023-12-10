@@ -38,6 +38,8 @@ room.notify(view_house, agents=room.agents, matrix=room.matrix)
 print(room.agents[0])
 #main_controller.test_movement(room.agents[0])
 
+main_controller.vital_threading()
+
 view_house.mainloop()
 
 
