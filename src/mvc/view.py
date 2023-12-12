@@ -9,12 +9,6 @@ from src.mvc.observer import Observer
 
 
 class View(tk.Tk, Observer):
-    """ Create View to be Represented
-
-    It generates the view, inherits from Observer Class.
-    Depending on the following parameters, you can change the behaviour of the representation of the view
-    """
-
 
     def __init__(self, name, height, width): # matrix, agent_list, 
 
@@ -36,6 +30,7 @@ class View(tk.Tk, Observer):
         frame = tk.Frame(self)
         frame.pack(fill=tk.BOTH, expand=True)
 
+        """
         button1 = tk.Button(frame, text="Movement Test (16x16)", command=self.button1_clicked)
         button1.grid(row=0, column=0, sticky='nsew')
 
@@ -44,6 +39,7 @@ class View(tk.Tk, Observer):
 
         button3 = tk.Button(frame, text="Door Test (16x16 Room Size ONLY)", command=self.button3_clicked)
         button3.grid(row=0, column=2, sticky='nsew')
+        """
 
         # Configure the columns to distribute extra space equally
         frame.columnconfigure(0, weight=1)
@@ -73,9 +69,6 @@ class View(tk.Tk, Observer):
         self.update() #Show view
         self.draw_grid(width, height) #Draw Grid
         self.attributes('-topmost', True) #Show Window on Top of other Windows
-
-
-
 
     def resize_window(self):
         """
@@ -112,14 +105,23 @@ class View(tk.Tk, Observer):
             self.canvas.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
 
     
-    def update_self(self, *args, **kwargs):
-        
-            if kwargs['matrix']:
-                print(kwargs['matrix'])
-                self.draw_map(kwargs['matrix'])
+    def updateFromNotification(self, *args, **kwargs):
+        """
+        Update the view based on the notification.
 
-            if kwargs['agents']:
-                self.draw_agents(kwargs['agents'])
+        Args:
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            None
+        """
+        if kwargs['matrix']:
+            
+            self.draw_map(kwargs['matrix'])
+
+        if kwargs['agents']:
+            self.draw_agents(kwargs['agents'])
 
                             
     def draw_map(self, map, grid = True):
@@ -161,7 +163,6 @@ class View(tk.Tk, Observer):
         self.canvas.delete("agent")
         
         for agent in agents:
-
             img_agent = self.img_dict.get(agent.name)
 
            
@@ -169,9 +170,7 @@ class View(tk.Tk, Observer):
                 agent.x * 40, agent.y * 40, image=img_agent, anchor='nw', tags="agent"
             )
 
-        
-
-
+'''
     def button1_clicked(self):
         """
         Handle the click event for button1.
@@ -198,6 +197,7 @@ class View(tk.Tk, Observer):
         """
         if self.controller:
             self.controller.handle_click("door")
+'''
 
 
 
@@ -210,7 +210,9 @@ if __name__ == '__main__':
     room = model.Model(16, 16)
     file_path = 'assets/default_16x16_room.json'
     room.populate_room(file_path)
-    room.generate_agents(['Gato'])
+
+    gato = agent.Agent("Gato", 7, 7)
+    room.generate_agents(gato)
 
     view = View('view', height, width)
 
@@ -221,9 +223,9 @@ if __name__ == '__main__':
 
         view.after(1000, runtasks) 
 
+    
     runtasks()
 
     # Start the main event loop
     view.mainloop()
     
-    print('hola')

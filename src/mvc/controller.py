@@ -20,17 +20,9 @@ class Controller(Observer):
         self.previous_event = None
     
     
-    def update_observer(self, *new_state):
-        """
-        Update the observer with the new state and schedule the view to be updated.
-
-        Args:
-            *new_state: Variable number of arguments representing the new state.
-
-        Returns:
-            None
-        """
-        self.view.after(0, self.view.update_view)
+    def updateFromNotification(self, *new_state):
+        
+        pass
 
 
     def add_agent(self, agent_name:str, position:tuple) -> None:

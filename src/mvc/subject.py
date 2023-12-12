@@ -2,8 +2,28 @@ import sys
 sys.path.insert(0, '.')
 
 from src.mvc import observer as ob
+from abc import ABC
 
-class Subject:
+class Subject(ABC):
+    """
+    Represents a subject in the observer pattern.
+
+    Attributes:
+        _observers (set): A set of observers attached to the subject.
+
+    Methods:
+        attach(*observers: list) -> None:
+            Attaches one or more observers to the subject.
+
+        detach(observer: ob.Observer) -> None:
+            Detaches an observer from the subject.
+
+        notifyAll(*args: list, **kwargs: dict) -> None:
+            Notifies all the observers by calling their update method with the given arguments.
+
+        notify(observer, *args: list, **kwargs: dict) -> None:
+            Notifies the observer by calling its update_observer method with the provided arguments.
+    """
     def __init__(self) -> None:
         self._observers = set()
 
@@ -45,8 +65,9 @@ class Subject:
         Returns:
             None
         """
+
         for observer in self._observers:
-            observer.update(*args, **kwargs)
+            observer.updateFromNotification(*args, **kwargs)
 
     def notify(self, observer, *args:list, **kwargs:dict) -> None:
         """
@@ -61,21 +82,23 @@ class Subject:
             AssertionError: If the observer is not in the attached list.
         """
         assert observer in self._observers, 'Observer must be in attached list'
-        observer.update_self(*args, **kwargs)
+        observer.updateFromNotification(*args, **kwargs)
 
 
 if "__main__" == __name__:
 
-    # Crear un sujeto
+    # Crear sujeto
     subject = Subject()
 
     # Crear observadores
-    view = ob.ConcreteObserver('view')
-    controller = ob.ConcreteObserver('controller')
+    view = ob.Observer('view')
+    controller = ob.Observer('controller')
 
     # Adjuntar los observadores al sujeto
     subject.attach(view, controller)
 
+    prueba = {'jeizee': 1}
+
     # Notificar a todos los observadores
     subject.notifyAll('¡Hola, Observadores!')
-    subject.notify(view, 'actualiza la vista')
+    subject.notify(view, prueba)

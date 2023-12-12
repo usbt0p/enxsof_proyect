@@ -1,12 +1,11 @@
 import sys
 sys.path.insert(0, '.')
 
-from abc import ABCMeta
+from abc import ABC
 from abc import abstractmethod
 
-class Observer(object):
-    __metaclass__ = ABCMeta
-
+class Observer(ABC):
+    
     _object_counter = 0
 
     def __init__(self, name=None) -> None:
@@ -14,7 +13,7 @@ class Observer(object):
         Observer._object_counter += 1
 
     @abstractmethod
-    def update(self, *new_state: tuple):
+    def updateFromNotification(self, *new_state: tuple):
         """
         Called by the concrete Observable when data has changed passing its state.
         :param new_state: The new state.
@@ -31,19 +30,15 @@ class Observer(object):
         return Observer._object_counter
 
     @classmethod
-    def __subclasshook__(cls, sub_class):  # correct behavior when isinstance, issubclass is called
-        return any(cls.update.__str__() in klazz.__dict__ for klazz in sub_class.__mro__) != []
-    
+    def __subclasshook__(cls, sub_class):
+            """
+            Checks if the given subclass implements the required update method.
 
-    def update_self(self, *new_state, **keyword_states) -> str:
-        #print(f'{self.name} ha recibido una actualización: {new_state}')
-        # if they are present, add the states and keyword states to an fstring and return it
-        if new_state:
-            new_state = f' {new_state}'
-        else:
-            new_state = ''
-        if keyword_states:
-            keyword_states = f' {keyword_states}'
-        else:
-            keyword_states = ''
-        print(f'{self.name} ha recibido una actualización:{new_state}{keyword_states}')
+            Args:
+                cls: The class object.
+                sub_class: The subclass to be checked.
+
+            Returns:
+                True if the subclass implements the update method, False otherwise.
+            """
+            return any(cls.updateFromNotification.__str__() in klazz.__dict__ for klazz in sub_class.__mro__) != []

@@ -35,7 +35,7 @@ room.attach(view_house)
 
 room.notify(view_house, agents=room.agents, matrix=room.matrix)
 
-print(room.agents[0])
+#print(room.agents[0])
 #main_controller.test_movement(room.agents[0])
 
 view_house.mainloop()

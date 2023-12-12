@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '.')
 
 
-class Agent:
+class Agent():
     """
     Represents an agent in the environment.
     """
