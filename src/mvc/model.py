@@ -67,7 +67,7 @@ class Model(Subject, AbstractMovable):
                     case "Sofa" | "Table":
                         self.matrix[y][x] = movable.Movable(x, y, literal)
                     case "Door":
-                        self.matrix[y][x] = opener.Opener(x, y, literal)
+                        self.matrix[y][x] = openable.Openable(x, y, literal)
                     case "Fridge":
                         self.matrix[y][x] = mixed.Mixed(x, y, literal)
                                       
@@ -139,4 +139,7 @@ if __name__ == '__main__':
 
     print(room.matrix)
     print(room.agents[0])
+
+    room.move_object(7, 4, 1, 1)
+    print(room.matrix[1][1])
     
