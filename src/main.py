@@ -4,6 +4,7 @@ sys.path.insert(0, '.')
 from src.mvc.model import Model
 from src.mvc.view import View
 from src.mvc.controller import Controller
+from utiles.commons import agent
 import unittest
 
 # Una única casa
@@ -20,21 +21,29 @@ file_path = f'assets/default_{X_MATRIX}x{Y_MATRIX}_room.json'
 # Creamos el Modelo, que es el sujeto del programa al que se subscribirán los obs y alamcena el environment
 room = Model(X_MATRIX, Y_MATRIX)
 room.populate_room(file_path)
-room.generate_agents(['Gato'])
+room.generate_agents(agent.Agent('Gato', 7, 7), agent.Agent('Jeizee', 5, 12))
 
 # Crea una vista de la casa, 'frontend' del proyecto:
 # Procesa todos los objetos, los añade a un modelo para la vista, 
 view_house = View('view_house', HEIGHT, WIDTH)
 
-
-main_controller = Controller(room, view_house)
-
 # Adjuntar los observadores al sujeto
 room.attach(view_house)
 
+# Forzamos una notificación que inicializa la vista
 room.notify(view_house, agents=room.agents, matrix=room.matrix)
 
-print(room.agents[0])
+# Inicializamos las constantes vitales
+
+# Inicializamos el controlador
+main_controller = Controller(room, view_house)
+
+# TODO 
+'''Ahora, el controlador se encargará de que todo corra.
+Tiene que iniciar una serie de eventos predefinidos en el propio agente?
+Podemos hacer una función que los llame todos a la vez, o llamarlos en el init del controlador?
+La otra opción es que los eventos estén en funciones del controlador que las inician '''
+
 #main_controller.test_movement(room.agents[0])
 
 view_house.mainloop()

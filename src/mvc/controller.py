@@ -4,6 +4,7 @@ sys.path.insert(0, '.')
 from src.mvc.observer import Observer
 import time
 import random
+import time
 
 
 class Controller(Observer):
@@ -240,6 +241,50 @@ class Controller(Observer):
                      [5,4],[5,5],[5,6],[5,7],[5,8],[4,8],[3,8],[3,9],[3,10],[3,11]]
     # Inicia la animación después de un segundo
         self.view.after(1000, lambda: self.animate_movement_door(agent, movements))
+
+    # TODO 
+    def tick(self, period):
+        # count seconds since the start of this function call
+        start = time.time()
+        while True:
+            # wait until the next multiple of period seconds
+            time.sleep(period - ((time.time() - start) % period))
+            
+
+
+if __name__ == "__main__":
+    from src.mvc.model import Model
+    from src.mvc.view import View
+    from src.mvc.controller import Controller
+    from utiles.commons import agent
+
+    X_MATRIX = 16
+    Y_MATRIX = 16
+
+    # Constants:
+    HEIGHT = 40 * Y_MATRIX
+    WIDTH = 40 * X_MATRIX
+
+    # Filepath para los tests y la ejecucion posterior
+    file_path = f'assets/default_{X_MATRIX}x{Y_MATRIX}_room.json' 
+
+    # Creamos el Modelo, que es el sujeto del programa al que se subscribirán los obs y alamcena el environment
+    room = Model(X_MATRIX, Y_MATRIX)
+    room.populate_room(file_path)
+    room.generate_agents(agent.Agent('Gato', 7, 7), agent.Agent('Jeizee', 5, 12))
+
+    # Crea una vista de la casa, 'frontend' del proyecto:
+    # Procesa todos los objetos, los añade a un modelo para la vista, 
+    view_house = View('view_house', HEIGHT, WIDTH)
+
+    # Adjuntar los observadores al sujeto
+    room.attach(view_house)
+
+    # Forzamos una notificación que inicializa la vista
+    #room.notify(view_house, agents=room.agents, matrix=room.matrix)
+
+    controller = Controller(room, view_house)
+    controller.tick(1)
 
 
 

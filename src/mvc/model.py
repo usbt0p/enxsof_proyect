@@ -27,7 +27,7 @@ class Model(Subject):
         return [[0] * self.x_size for _ in range(self.y_size)]
 
 
-    def generate_agents(self, agents) -> None:
+    def generate_agents(self, *agents):
         """
         Adds an agent to the room.
         """

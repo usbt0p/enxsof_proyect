@@ -121,7 +121,7 @@ class View(tk.Tk, Observer):
                         self.draw_map(value)
 
                             
-    def draw_map(self, map, grid = True):
+    def draw_map(self, map):
         """
         Representents a new view
 
@@ -148,10 +148,8 @@ class View(tk.Tk, Observer):
                 self.canvas.create_image(
                     object.x * 40, object.y * 40, image=img, anchor='nw' , tags="object")
 
-        if grid:
-            self.draw_grid(self.width, self.height)
-
-        self.update()
+        
+        self.draw_grid(self.width, self.height)
 
     def draw_agents(self, agents):        
         # Draw the agents
@@ -163,6 +161,9 @@ class View(tk.Tk, Observer):
             self.canvas.create_image(
                 agent.x * 40, agent.y * 40, image=img_agent, anchor='nw', tags="agent"
             )
+        
+        # FIXME Poco óptimo, pero evita el bug visual de la grid solapando a los agentes
+        self.draw_grid(self.width, self.height)
 
     def button1_clicked(self):
         """
@@ -203,79 +204,113 @@ if __name__ == '__main__':
     room = model.Model(16, 16)
     file_path = 'assets/default_16x16_room.json'
     room.populate_room(file_path)
-    room.generate_agents([agent.Agent('Gato', 7, 7), agent.Agent('Jeizee', 5, 12)])
+    room.generate_agents(agent.Agent('Gato', 7, 7), agent.Agent('Jeizee', 5, 12))
 
     view = View('view', height, width)
 
     room.attach(view)
     
-    def runtasks():
-        room.notify(view, agents=room.agents, matrix=room.matrix)
+    delay = 1000
+    time_after = 2000
 
-        view.after(2000, runtasks) 
+    # Para ejecutar eventos cancelables, hay que devolver el id del evento para poder cancelar despues
+    # Se pueden pasar argumentos a la funcion que se ejecuta en el after, 
+    # pero hay que pasarlos como una funcion lambda
+    def runtasks(i):
+        room.notify(view, agents=room.agents, matrix=room.matrix)
+        i += 1
+        room.matrix[0][i] = 0
+        id = view.after(delay, runtasks, i) 
+        return id
+
     
     def start_moving():
         move1()
-        view.after(100, move2)
+        view.after(delay, move2)
 
     def move1():
         room.move_object(7, 4, 8, 5)
-        view.after(500, move1)
+        view.after(time_after, move1)
 
     def move2():
         room.move_object(8, 5, 7, 4)
-        view.after(500, move2)
+        view.after(time_after, move2)
 
     def bailoteo_gatete():
         paso1()
-        view.after(100, paso2)
+        view.after(delay, paso2)
 
     def paso1():
         room.agents[0].x += 1
         room.agents[0].y -= 1
         view.draw_agents(room.agents)
 
-        view.after(500, paso1)
+        view.after(time_after, paso1)
         
     def paso2():
         room.agents[0].x -= 1
         room.agents[0].y += 1
         view.draw_agents(room.agents)
 
-        view.after(500, paso2)
+        view.after(time_after, paso2)
 
     def bailoteo_jeizee():
         paso3()
-        view.after(100, paso4)
+        view.after(delay, paso4)
 
     def paso3():
         room.agents[1].x += 1
         room.agents[1].y -= 1
         view.draw_agents(room.agents)
 
-        view.after(500, paso3)
+        view.after(time_after, paso3)
         
     def paso4():
         room.agents[1].x -= 1
         room.agents[1].y += 1
         view.draw_agents(room.agents)
 
-        view.after(500, paso4)
+        view.after(time_after, paso4)
 
-    def shitty_draw():
+    def shitty_draw(agentnumber):
 
         view.draw_agents(room.agents)
-        room.agents[0].x += 1
-        room.agents[0].y += 1
+        room.agents[agentnumber].x += 1
+        #room.agents[agentnumber].y += 1
 
-        view.after(2000, shitty_draw)
+        view.after(delay, shitty_draw, agentnumber)
 
-    runtasks()
-    #view.after_cancel(runtasks)
-    #shitty_draw()
-    start_moving()
-    bailoteo_gatete()
-    bailoteo_jeizee()
+    def delete_wall():
+        if room.agents[0].x > 13:
+            room.matrix[7][15] = 0
+            room.notify(view, matrix=room.matrix)
+        
+        if room.agents[1].x > 13:
+            room.matrix[12][15] = 0
+            room.notify(view, matrix=room.matrix)
+
+        view.after(100, delete_wall)
+
+    task_id = runtasks(0)
+    view.after_cancel(task_id)
+
+    # TODO 
+
+    # El bloque de código de arriba y el comentado hacen lo mismo a nivel funcional
+    #view.after(0, room.notify(view, agents=room.agents, matrix=room.matrix))
+
+    shitty_draw(0)
+    shitty_draw(1)
+    delete_wall()
+    # FIXME PROBLEMA: cuando actualizamos objetos se envia toda la matriz:
+    # si pilla a un agente encima de un objeto (p ej una puerta) pinta por encima!!!
+    #start_moving()
+    
+    # OJO!!! funciones complejas como estas hacen que el programa vaya acumulando delays
+    # y al final se dessincronizan los movimientos
+    '''bailoteo_gatete()
+    
+    bailoteo_jeizee()'''
     
 
     # Start the main event loop
