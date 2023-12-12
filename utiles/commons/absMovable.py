@@ -6,8 +6,8 @@ from abc import ABC
 class AbstractMovable(ABC):
     
     def move_up(self):
-        assert self.y > 0, "You can't move there!"   #LUCAS !!!!!!!!!!! ESTO ESTÁ AL REVÉS, NO?!!!!!!!!!!!!!!!!!!!!!!!!!
-        y -= 1
+        assert self.y > 0, "You can't move there!"
+        self.y -= 1
 
 
     def move_down(self):

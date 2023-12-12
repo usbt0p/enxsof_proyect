@@ -27,7 +27,7 @@ class Agent(Subject):
         self.y = y
 
     def print_position(self):
-        print(f"({self.x}, {self.y})")
+        return f"({self.x}, {self.y})"
 
     def position(self, position):
         print(f"Agent {self.name} moved to {position}")
@@ -52,7 +52,7 @@ class Agent(Subject):
         self.position(new_position)
 
     def __str__(self) -> str:
-        return f"Agent: {self.name} at position {self.position}"
+        return f"Agent: {self.name} at position {self.print_position()}"
 
 
     #TODO: A COMPLETAR EN EL FUUTURO

@@ -4,11 +4,11 @@ sys.path.insert(0, '.')
 from utiles.commons.thing import Thing
 
 
-class Opener(Thing):
+class Openable(Thing):
     def __init__(self, x:int, y:int, literal_name):
         Thing.__init__(self, x, y, literal_name)
         self.is_open = False
-
+        self.movable = False
     @property    
     def isOpen(self):
         return self.is_open
@@ -25,7 +25,7 @@ class Opener(Thing):
 
 
 if __name__ == '__main__':
-    obj = Opener(4, 4, "Thing")
+    obj = Openable(4, 4, "Thing")
     print(obj)
     obj.open()
     print(obj)

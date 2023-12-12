@@ -1,15 +1,14 @@
 import sys
 sys.path.insert(0, '.')
 
-from utiles.commons.absMovable import AbstractMovable
 from utiles.commons.thing import Thing
 
 
-class Movable(Thing, AbstractMovable):
+class Movable(Thing):
     def __init__(self, x:int, y:int, literal_name):
         Thing.__init__(self, x, y, literal_name)
-        AbstractMovable.__init__(self)
-
+        self.openable = False
+    
     
 if __name__ == '__main__':
     obj = Movable(4, 4, "Thing")

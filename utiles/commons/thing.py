@@ -34,6 +34,5 @@ if __name__ == '__main__':
     obj = Thing(1, 2, "Thing")
     asdf = Thing(1, 2, "Thing", False)
     print(asdf)
-    print(id(obj))
-    print(id(asdf))
+
 
