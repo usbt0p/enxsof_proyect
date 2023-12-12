@@ -225,3 +225,5 @@ if __name__ == '__main__':
 
     # Start the main event loop
     view.mainloop()
+    
+    print('hola')
