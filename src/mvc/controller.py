@@ -44,8 +44,9 @@ class Controller(Observer):
         self.model.agents[agent_index].y = path[0][1]
 
         self.model.notify(self.view, agents=self.model.agents)
-        id = self.view.after(1000, self.move_randomly, path[1:], agent_index) 
-        return id
+        if path != []:
+            id = self.view.after(1000, self.move_randomly, path[1:], agent_index) 
+            return id
         
 
     def add_agent(self, agent_name:str, position:tuple) -> None:
