@@ -4,6 +4,8 @@ sys.path.insert(0, '.')
 from src.mvc.observer import Observer
 import time
 import random
+import utiles.commons.vitalsGenerator as VG
+import threading
 
 
 class Controller(Observer):
@@ -76,7 +78,20 @@ class Controller(Observer):
         self.model.remove_agent(agent_name)
         self.view.update_view()
 
+
+    @staticmethod
+    def generate_vital():
+        while True:
+            time.sleep(1)
+            print("Generating new vital signs")
+            VG.generate_vital()
         
+    @staticmethod
+    # Create and start the thread
+    def vital_threading():
+        thread = threading.Thread(target=Controller.generate_vital)
+        thread.daemon = True  # This makes the thread exit when the main program exits
+        thread.start()       
 
    
 
