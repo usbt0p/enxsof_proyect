@@ -10,3 +10,6 @@ if __name__ == "__main__":
 
     # Execute main
     subprocess.run(["python", "src/main.py"], shell=True)
+
+
+    
