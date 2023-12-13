@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch,Mock
 from utiles.commons.healthMonitor import update_vital
 
 class TestHealthMonitor(unittest.TestCase):
