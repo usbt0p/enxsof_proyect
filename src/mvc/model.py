@@ -3,14 +3,14 @@ sys.path.insert(0, '.')
 
 from utiles.commons import *
 from src.mvc.subject import Subject
-from utiles.commons.movementSystem import Movements
+from utiles.commons.movementSystem import Movements, pathPlanning
 import json
 
 """
     Model class.
     This class represents a room in the pyhton project.
 """
-class Model(Subject, Movements):
+class Model(Subject, Movements, pathPlanning):
     def __init__(self, x_size, y_size) -> None:
         """
         Initialize the Model object.
@@ -89,7 +89,10 @@ class Model(Subject, Movements):
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON in file {file_path}: {e}")
             return None
-        
+               
+
+
+
 
 if __name__ == '__main__':
     import utiles.commons.agent as agent

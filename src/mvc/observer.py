@@ -13,7 +13,7 @@ class Observer(ABC):
         Observer._object_counter += 1
 
     @abstractmethod
-    def updateFromNotification(self, *new_state: tuple):
+    def updateFromNotification(self, *new_state, **kwargs):
         """
         Called by the concrete Observable when data has changed passing its state.
         :param new_state: The new state.
@@ -42,3 +42,11 @@ class Observer(ABC):
                 True if the subclass implements the update method, False otherwise.
             """
             return any(cls.updateFromNotification.__str__() in klazz.__dict__ for klazz in sub_class.__mro__) != []
+    
+
+    def __str__(self) -> str:
+        """
+        Returns the name of the observer.
+        :return: The name of the observer.
+        """
+        return f'Observer: name={self.name}'

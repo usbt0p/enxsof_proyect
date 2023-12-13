@@ -116,12 +116,17 @@ class View(tk.Tk, Observer):
         Returns:
             None
         """
-        if kwargs['matrix']:
-            
-            self.draw_map(kwargs['matrix'])
+        NOTIFY_KEYS = ('agents', 'matrix')
 
-        if kwargs['agents']:
-            self.draw_agents(kwargs['agents'])
+        for key, value in kwargs.items():
+            if key not in NOTIFY_KEYS:
+                raise KeyError(f"Invalid key: {key}")
+            else:        
+                match key:
+                    case 'agents':
+                        self.draw_agents(value)
+                    case 'matrix':
+                        self.draw_map(value)
 
                             
     def draw_map(self, map, grid = True):
@@ -157,6 +162,8 @@ class View(tk.Tk, Observer):
         if grid:
             self.draw_grid(self.width, self.height)
 
+        view.update()
+
     def draw_agents(self, agents):
         
         # Draw the agents
@@ -169,6 +176,8 @@ class View(tk.Tk, Observer):
             self.canvas.create_image(
                 agent.x * 40, agent.y * 40, image=img_agent, anchor='nw', tags="agent"
             )
+
+        view.update()
 
 '''
     def button1_clicked(self):
@@ -204,6 +213,8 @@ class View(tk.Tk, Observer):
 # Ejemplo de uso
 if __name__ == '__main__':
 
+    from src.mvc.controller import Controller
+
     height = 640
     width = 640
 
@@ -216,15 +227,32 @@ if __name__ == '__main__':
 
     view = View('view', height, width)
 
-    room.attach(view)
-    
-    def runtasks():
+    main_controller = Controller(room, view)
+
+    #room.attach(view)
+    #print(view.controller)
+    #print(room._observers)
+
+    #room.attach(view)
+    room.notify(view, agents=room.agents, matrix=room.matrix)
+
+
+    '''def runtasks(i):
         room.notify(view, agents=room.agents, matrix=room.matrix)
-
-        view.after(1000, runtasks) 
-
+        id = view.after(1000, runtasks, i) 
+        return id
     
-    runtasks()
+    task_id = runtasks(0)
+    view.after_cancel(task_id)'''
+
+    '''main_controller.updateFromNotification(agent_move_right=0)
+    main_controller.updateFromNotification(agent_move_right=0)
+    main_controller.updateFromNotification(agent_move_right=0)
+    main_controller.updateFromNotification(agent_move_right=0)
+    main_controller.updateFromNotification(agent_move_right=0)
+    main_controller.updateFromNotification(agent_move_right=0)'''
+
+    main_controller.updateFromNotification(random_movement=0)
 
     # Start the main event loop
     view.mainloop()
