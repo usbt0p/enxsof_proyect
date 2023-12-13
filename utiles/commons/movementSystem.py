@@ -223,6 +223,9 @@ class pathPlanning(ABC):
         # Return False if no path is found from the start to the goal.
         return False
 
+#El error de lo del path [0][0] puede deberse al false que hay aqui justo arriba.
+#Lo que habria que hacer es que si devuelve ese false deberia volver a empezar para que no salga el error 
+#todo el rato y se ejecute de una vez por todas sin tener que estar media hora dandole al run!!!!!!!
 
 
 
