@@ -23,6 +23,7 @@ class Controller(Observer):
     
     def updateFromNotification(self, *new_state, **kwargs):
         NOTIFY_KEYS = ('agent_move_right', 'random_movement')
+        path=False
         print(kwargs)
         for key, value in kwargs.items():
             if key not in NOTIFY_KEYS:
@@ -33,7 +34,9 @@ class Controller(Observer):
                         self.model.agent_move_right(value)
                     case 'random_movement':
                         # random movement necesita el indice del agente (del que luego se saca su posicion)
-                        path = self.model.path_generator(value)
+                        while path == False or path == None:
+                            path = self.model.path_generator(value)
+                            print(path)
                         self.move_randomly(path, value)
 
 
@@ -44,9 +47,10 @@ class Controller(Observer):
         self.model.agents[agent_index].y = path[0][1]
 
         self.model.notify(self.view, agents=self.model.agents)
-        if path != []:
-            id = self.view.after(1000, self.move_randomly, path[1:], agent_index) 
-            return id
+        
+        if len(path) > 1:
+            self.view.after(1000, self.move_randomly, path[1:], agent_index)
+        # habia un return id que da fallo que no se para que servia
         
 
     def add_agent(self, agent_name:str, position:tuple) -> None:
