@@ -43,7 +43,6 @@ class Controller(Observer):
 
 
     def move_randomly(self, path, agent_index):
-        print(self.model.agents)
         print(path)
         self.model.agents[agent_index].x = path[0][0]
         self.model.agents[agent_index].y = path[0][1]
@@ -79,17 +78,17 @@ class Controller(Observer):
         self.view.update_view()
 
 
-    @staticmethod
-    def generate_vital():
+    
+    def generate_vital(self):
         while True:
             time.sleep(1)
-            print("Generating new vital signs")
-            VG.generate_vital()
+            vital_constants = VG.generate_vital()
+            self.model.agents[0].vitals_setter(vital_constants[0], vital_constants[1], vital_constants[2], vital_constants[3], vital_constants[4], vital_constants[5])
+
         
-    @staticmethod
     # Create and start the thread
-    def vital_threading():
-        thread = threading.Thread(target=Controller.generate_vital)
+    def vital_threading(self):
+        thread = threading.Thread(target=self.generate_vital)
         thread.daemon = True  # This makes the thread exit when the main program exits
         thread.start()       
 

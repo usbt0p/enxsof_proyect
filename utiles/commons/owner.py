@@ -7,14 +7,6 @@ from utiles.commons.agent import Agent
 
 
 
-global heart_rate
-global blood_pressure
-global body_temperature
-global respiratory_rate
-global oxygen_saturation
-global gcs_score
-
-
 
 class Owner(Agent, Subject):
     """
@@ -38,10 +30,23 @@ class Owner(Agent, Subject):
             x (int): The x-coordinate of the owner's position.
             y (int): The y-coordinate of the owner's position.
         """
+
+        
+
         Agent.__init__(self, name, x, y)
         Subject.__init__(self)
         self.inventory = []  # owner's inventory, limited to one object for now
 
+        self.heart_rate = 60  # Initializing to prevent crash due to uninitialized variable
+        self.blood_pressure = "120/80"  # Example initialization
+        self.body_temperature = 36.6  # Example initialization
+        self.respiratory_rate = 16  # Example initialization
+        self.oxygen_saturation = 98  # Example initialization
+        self.gcs_score = 15  # Example initialization
+
+
+
+    def vitals_setter(self, heart_rate, blood_pressure, body_temperature, respiratory_rate, oxygen_saturation, gcs_score):
         self.heart_rate = heart_rate
         self.blood_pressure = blood_pressure
         self.body_temperature  = body_temperature
@@ -49,16 +54,9 @@ class Owner(Agent, Subject):
         self.oxygen_saturation = oxygen_saturation
         self.gcs_score = gcs_score
 
-
-
-    def vitals_setter(self):
-        self.heart_rate = heart_rate
-        self.blood_pressure = blood_pressure
-        self.body_temperature  = body_temperature
-        self.respiratory_rate = respiratory_rate
-        self.oxygen_saturation = oxygen_saturation
-        self.gcs_score = gcs_score
-
+    @property
+    def vitals(self):
+        return self.heart_rate, self.blood_pressure, self.body_temperature, self.respiratory_rate, self.oxygen_saturation, self.gcs_score
 
     def agent_pick_object(self, object):
         '''
@@ -96,7 +94,7 @@ class Owner(Agent, Subject):
 
 
 
-
+'''
 class Owner(Subject):
     """
     Represents an agent in the environment.
@@ -120,3 +118,4 @@ class Owner(Subject):
         self.respiratory_rate = respiratory_rate
         self.oxygen_saturation = oxygen_saturation
         self.gcs_score = gcs_score
+    '''

@@ -21,6 +21,8 @@ import utiles.commons.vitalsGenerator as VG
 
 class View(tk.Tk, Observer):
 
+    currentVitals = []
+
     def __init__(self, name, height, width): # matrix, agent_list, 
 
         tk.Tk.__init__(self)
@@ -28,6 +30,10 @@ class View(tk.Tk, Observer):
 
     
         self.controller = None
+
+        self.ani1 = None
+        self.ani2 = None
+        
 
         self.height = height
         self.min_height = height 
@@ -82,7 +88,7 @@ class View(tk.Tk, Observer):
         self.attributes('-topmost', True) #Show Window on Top of other Windows
 
         new_window_button = tk.Button(frame, text="Health Monitor", command=self.open_monitor_window)
-        new_window_button.grid(row=0, column=3, sticky='nsew')
+        new_window_button.grid(row=0, column=2, sticky='nsew')
 
         # Configure the new column
         frame.columnconfigure(3, weight=1)
@@ -134,7 +140,7 @@ class View(tk.Tk, Observer):
         Returns:
             None
         """
-        NOTIFY_KEYS = ('agents', 'matrix')
+        NOTIFY_KEYS = ('agents', 'matrix', 'vitals')
 
         for key, value in kwargs.items():
             if key not in NOTIFY_KEYS:
@@ -145,6 +151,10 @@ class View(tk.Tk, Observer):
                         self.draw_agents(value)
                     case 'matrix':
                         self.draw_map(value)
+                    case 'vitals':
+                        self.currentVitals.clear()
+                        self.currentVitals.extend(value)
+
 
                             
     def draw_map(self, map, grid = True):
@@ -226,89 +236,6 @@ class View(tk.Tk, Observer):
             self.controller.handle_click("door")
     '''
 
-
-    def update_vital(self):
-
-
-            print("I was here")
-
-            """
-            Update function for vital signs animation. Generates random data for vitals and updates the graph.
-
-            Args:
-            frame (int): The current frame number in the animation.
-
-            Returns:
-            tuple: A tuple containing the updated line object (ln1).
-            """
-
-            print("test3",HG.heart_rate)
-
-
-
-    def __init__(self, name, height, width): # matrix, agent_list, 
-
-        tk.Tk.__init__(self)
-        Observer.__init__(self, name)
-
-    
-        self.controller = None
-
-        self.height = height
-        self.min_height = height 
-        self.width = width
-        self.min_width = width 
-        self.CELL_SIZE = 40 
-        self.title("Entorno Domótico")
-        self.geometry(str(width) + "x" + str(height+30))
-        self.minsize(self.min_width, self.min_height)
-
-        frame = tk.Frame(self)
-        frame.pack(fill=tk.BOTH, expand=True)
-
-        #button1 = tk.Button(frame, text="Movement Test (16x16)", command=self.button1_clicked)
-        #button1.grid(row=0, column=0, sticky='nsew')
-
-        #button2 = tk.Button(frame, text="Collision Test (16x16)", command=self.button2_clicked)
-        #button2.grid(row=0, column=1, sticky='nsew')
-
-        #button3 = tk.Button(frame, text="Door Test (16x16 Room Size ONLY)", command=self.button3_clicked)
-        #button3.grid(row=0, column=2, sticky='nsew')
-
-        # Configure the columns to distribute extra space equally
-        frame.columnconfigure(0, weight=1)
-        frame.columnconfigure(1, weight=1)
-        frame.columnconfigure(2, weight=1)
-
-        #It defines the srpites for each object's representation
-        self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
-        self.air_image = tk.PhotoImage(file="./assets/sprites/air.png")
-        self.sofa_image = tk.PhotoImage(file="./assets/sprites/sofa.png")
-        self.table_image = tk.PhotoImage(file="./assets/sprites/table.png")
-        self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
-        self.door_open_image = tk.PhotoImage(file="./assets/sprites/door_open.png")
-        self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
-        self.agent_image = tk.PhotoImage(file="./assets/sprites/gato.png")
-        
-
-        #Links the skins with the object literal name
-        self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
-                          "Table": self.table_image, "Door_Closed": self.door_image, 
-                          "Door_Open": self.door_open_image, "Fridge": self.fridge_image}
-
-        #Initialices the model with all the atributes
-        self.canvas= tk.Canvas(self, bg='white', height=height, width=width)
-        self.canvas.pack(expand=True, fill='both')
-
-        self.update() #Show view
-        self.draw_grid(width, height) #Draw Grid
-        self.attributes('-topmost', True) #Show Window on Top of other Windows
-
-        new_window_button = tk.Button(frame, text="Health Monitor", command=self.open_monitor_window)
-        new_window_button.grid(row=0, column=3, sticky='nsew')
-
-        # Configure the new column
-        frame.columnconfigure(3, weight=1)
 
 
     def open_monitor_window(self):
@@ -413,9 +340,6 @@ class View(tk.Tk, Observer):
 
         def update_vital(frame):
 
-
-            print("I was here")
-
             """
             Update function for vital signs animation. Generates random data for vitals and updates the graph.
 
@@ -426,24 +350,22 @@ class View(tk.Tk, Observer):
             tuple: A tuple containing the updated line object (ln1).
             """
 
-            print("test3",HG.heart_rate)
-        
 
             # Formatting values for display
-            formatted_heart_rate = f"{HG.heart_rate:03}"
-            formatted_gcs_score = f"{gcs_score:02}"
+            formatted_heart_rate = f"{self.currentVitals[0]:03}"
+            formatted_gcs_score = f"{self.currentVitals[5]:02}"
 
             # Update the labels with new values
             heart_rate_label.config(text=f"Heart Rate: {formatted_heart_rate} bpm")
-            blood_pressure_label.config(text=f"Blood Pressure: {blood_pressure}")
-            temperature_label.config(text=f"Body Temperature: {body_temperature}°C")
-            respiratory_rate_label.config(text=f"Respiratory Rate: {respiratory_rate} bpm")
-            oxygen_saturation_label.config(text=f"Oxygen Saturation: {oxygen_saturation}%")
+            blood_pressure_label.config(text=f"Blood Pressure: {self.currentVitals[1]}")
+            temperature_label.config(text=f"Body Temperature: {self.currentVitals[2]}°C")
+            respiratory_rate_label.config(text=f"Respiratory Rate: {self.currentVitals[3]} bpm")
+            oxygen_saturation_label.config(text=f"Oxygen Saturation: {self.currentVitals[4]}%")
             gcs_label.config(text=f"Glasgow Coma Scale: {formatted_gcs_score}")
 
             # Update heart rate graph
             xdata1.append(frame)
-            ydata1.append(heart_rate)
+            ydata1.append(self.currentVitals[0])
             ln1.set_data(xdata1, ydata1)
 
             # Adjust x-axis limits for scrolling effect
@@ -474,7 +396,7 @@ class View(tk.Tk, Observer):
             t = frame / 50
 
             # Generate ECG waveform data
-            y = create_ecg_cycle(t, heart_rate)
+            y = VG.create_ecg_cycle(t, self.currentVitals[0]) #Hearth Rate
             xdata2.append(t)
             ydata2.append(y)
 
@@ -499,8 +421,8 @@ class View(tk.Tk, Observer):
         canvas_widget.pack(fill=tk.BOTH, expand=True)
 
         # Creating animations for vital signs and ECG waveform
-        ani1 = animation.FuncAnimation(fig, update_vital, interval=500, frames=itertools.count(), init_func=init, blit=True, cache_frame_data=False)
-        ani2 = animation.FuncAnimation(fig, update_ecg, interval=20, frames=itertools.count(), init_func=init, blit=True, cache_frame_data=False)
+        self.ani1 = animation.FuncAnimation(fig, update_vital, interval=500, frames=itertools.count(), init_func=init, blit=True, cache_frame_data=False)
+        self.ani2 = animation.FuncAnimation(fig, update_ecg, interval=20, frames=itertools.count(), init_func=init, blit=True, cache_frame_data=False)
 
 
 
@@ -518,12 +440,13 @@ if __name__ == '__main__':
     file_path = 'assets/default_16x16_room.json'
     room.populate_room(file_path)
 
-    gato = agent.Agent("Gato", 7, 7)
+    gato = owner.Owner("Gato", 7, 7)
     room.generate_agents(gato)
 
     view = View('view', height, width)
 
     main_controller = Controller(room, view)
+    Controller.vital_threading(main_controller)
 
     #room.attach(view)
     #print(view.controller)
@@ -531,22 +454,27 @@ if __name__ == '__main__':
 
     #room.attach(view)
     room.notify(view, agents=room.agents, matrix=room.matrix)
+    room.notify(view, vitals=room.agents[0].vitals)
 
 
-    '''def runtasks(i):
-        room.notify(view, agents=room.agents, matrix=room.matrix)
-        id = view.after(1000, runtasks, i) 
+    def runtasks(i):
+        #room.notify(view, agents=room.agents, matrix=room.matrix)
+        #view.after(1000, room.notify(view, vitals=room.agents[0].vitals))
+        view.after(1000, room.notify(view, vitals=room.agents[0].vitals))
+        id = view.after(1, runtasks, i) 
         return id
     
     task_id = runtasks(0)
-    view.after_cancel(task_id)'''
+    #view.after_cancel(task_id)
 
-    '''main_controller.updateFromNotification(agent_move_right=0)
+    '''
     main_controller.updateFromNotification(agent_move_right=0)
     main_controller.updateFromNotification(agent_move_right=0)
     main_controller.updateFromNotification(agent_move_right=0)
     main_controller.updateFromNotification(agent_move_right=0)
-    main_controller.updateFromNotification(agent_move_right=0)'''
+    main_controller.updateFromNotification(agent_move_right=0)
+    main_controller.updateFromNotification(agent_move_right=0)
+    '''
 
     main_controller.updateFromNotification(random_movement=0)
 

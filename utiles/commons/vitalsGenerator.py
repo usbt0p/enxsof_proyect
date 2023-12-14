@@ -6,16 +6,13 @@ import random
 import numpy as np
 
 
-global heart_rate
-global blood_pressure
-global body_temperature
-global respiratory_rate
-global oxygen_saturation
-global gcs_score
-global ecg
-
 # Global variable for heart rate
 heart_rate = 60  # Initializing to prevent crash due to uninitialized variable
+blood_pressure = "120/80"  # Example initialization
+body_temperature = 36.6  # Example initialization
+respiratory_rate = 16  # Example initialization
+oxygen_saturation = 98  # Example initialization
+gcs_score = 15  # Example initialization
 
 def create_ecg_cycle(t, heart_rate):
     """
@@ -51,7 +48,6 @@ def generate_vital():
     tuple: A tuple containing the updated line object (ln1).
     """
     
-    global heart_rate, blood_pressure, body_temperature, respiratory_rate, oxygen_saturation, gcs_score
     
     # Randomly generate new vital signs values
     heart_rate = random.randint(60, 140)
@@ -60,3 +56,4 @@ def generate_vital():
     respiratory_rate = random.randint(12, 20)
     oxygen_saturation = random.randint(95, 99)
     gcs_score = random.randint(3, 15)
+    return heart_rate, blood_pressure, body_temperature, respiratory_rate, oxygen_saturation, gcs_score
