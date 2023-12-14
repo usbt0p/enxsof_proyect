@@ -454,18 +454,20 @@ if __name__ == '__main__':
 
     #room.attach(view)
     room.notify(view, agents=room.agents, matrix=room.matrix)
-    room.notify(view, vitals=room.agents[0].vitals)
+  
 
 
+    """
     def runtasks(i):
         #room.notify(view, agents=room.agents, matrix=room.matrix)
         #view.after(1000, room.notify(view, vitals=room.agents[0].vitals))
-        view.after(1000, room.notify(view, vitals=room.agents[0].vitals))
-        id = view.after(1, runtasks, i) 
+        view.after(1, room.notify(view, vitals=room.agents[0].vitals))
+        id = view.after(1000, runtasks, i) 
         return id
     
     task_id = runtasks(0)
     #view.after_cancel(task_id)
+    """
 
     '''
     main_controller.updateFromNotification(agent_move_right=0)

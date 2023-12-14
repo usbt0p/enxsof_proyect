@@ -84,7 +84,7 @@ class Controller(Observer):
             time.sleep(1)
             vital_constants = VG.generate_vital()
             self.model.agents[0].vitals_setter(vital_constants[0], vital_constants[1], vital_constants[2], vital_constants[3], vital_constants[4], vital_constants[5])
-
+            self.model.notify(self.view, vitals=self.model.agents[0].vitals)
         
     # Create and start the thread
     def vital_threading(self):
