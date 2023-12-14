@@ -1,12 +1,12 @@
 [
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
-    ["Wall", "Air", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Sofa", "Sofa", "Air", "Wall"],
-    ["Wall", "Air", "Air", "Air", "Sofa", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Air", "Air", "Air", "Wall"],
-    ["Wall", "Air", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Table", "Table", "Air", "Wall"],
-    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
-    ["Wall", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Air", "Wall"],
-    ["Wall", "Fridge", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Air", "Air", "Air", "Wall"],
-    ["Wall", "Table", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Air", "Air", "Air", "Wall"],
-    ["Wall", "Air", "Air", "Air", "Air", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Air", "Air", "Fridge", "Air", "Wall"],
+    ["Wall", 0, 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, "Sofa", "Sofa", 0, "Wall"],
+    ["Wall", 0, 0, 0, "Sofa", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, 0, 0, 0, "Wall"],
+    ["Wall", 0, 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, "Table", "Table", 0, "Wall"],
+    ["Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall"],
+    ["Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall"],
+    ["Wall", "Fridge", 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, 0, 0, 0, "Wall"],
+    ["Wall", "Table", 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, 0, 0, 0, "Wall"],
+    ["Wall", 0, 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, 0, "Fridge", 0, "Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
 ]
