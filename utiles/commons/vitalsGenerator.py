@@ -14,28 +14,6 @@ respiratory_rate = 16  # Example initialization
 oxygen_saturation = 98  # Example initialization
 gcs_score = 15  # Example initialization
 
-def create_ecg_cycle(t, heart_rate):
-    """
-    Create a single ECG cycle based on time 't' and heart rate.
-
-    Args:
-    t (float): The time variable.
-    heart_rate (int): The heart rate in beats per minute.
-
-    Returns:
-    float: The ECG waveform value at time 't'.
-    """
-    T = 60 / heart_rate  # Total time for one heart beat in seconds
-    p_duration = 0.25 * T  # Duration of P wave
-    qrs_duration = 0.1 * T  # Duration of QRS complex
-    t_duration = 0.4 * T  # Duration of T wave
-
-    # ECG waveform components (P wave, QRS complex, T wave)
-    p_wave = 0.1 * np.sin(2 * np.pi * t / p_duration) if t % T < p_duration else 0
-    qrs_complex = 0.5 * np.sin(2 * np.pi * (t - p_duration) / qrs_duration) if p_duration <= t % T < p_duration + qrs_duration else 0
-    t_wave = 0.2 * np.sin(2 * np.pi * (t - p_duration - qrs_duration) / t_duration) if p_duration + qrs_duration <= t % T < T else 0
-
-    ecg = p_wave + qrs_complex + t_wave
 
 def generate_vital():
     """

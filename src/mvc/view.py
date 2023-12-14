@@ -23,6 +23,8 @@ class View(tk.Tk, Observer):
 
     currentVitals = []
 
+    monitor_window = None
+
     def __init__(self, name, height, width): # matrix, agent_list, 
 
         tk.Tk.__init__(self)
@@ -30,6 +32,8 @@ class View(tk.Tk, Observer):
 
     
         self.controller = None
+
+        
 
         self.ani1 = None
         self.ani2 = None
@@ -238,10 +242,20 @@ class View(tk.Tk, Observer):
 
 
 
+
     def open_monitor_window(self):
         """
         Opens a new independent window.
         """
+
+        # Check if the window already exists
+        if self.monitor_window is not None:
+            return  # Window already open, do nothing
+
+        # Create a new Toplevel window
+        self.monitor_window = tk.Toplevel(self)
+
+
         # Create a new Toplevel window
         new_window = tk.Toplevel(self)
         new_window.title("Vital Constants Monitor")
@@ -251,9 +265,9 @@ class View(tk.Tk, Observer):
         #close_button = tk.Button(new_window, text="Close", command=new_window.destroy)
         #close_button.pack(pady=10)
 
+        
+
         # Initialize the main window using Tkinter
-
-
         # Create a frame for displaying the vital signs labels
         label_frame = ttk.Frame(new_window)
         label_frame.pack(pady=10)
@@ -337,6 +351,8 @@ class View(tk.Tk, Observer):
             ax2.set_xlim(0, 2)  # Set initial x-axis limit for ECG plot
             ax2.set_ylim(-1, 1)  # Set y-axis limits for ECG plot
             return ln1, ln2
+        
+
 
         def update_vital(frame):
 
@@ -379,6 +395,32 @@ class View(tk.Tk, Observer):
                 ydata1.pop(0)
 
             return (ln1,)
+
+
+
+        def create_ecg_cycle(t, heart_rate):
+            """
+            Create a single ECG cycle based on time 't' and heart rate.
+
+            Args:
+            t (float): The time variable.
+            heart_rate (int): The heart rate in beats per minute.
+
+            Returns:
+            float: The ECG waveform value at time 't'.
+            """
+            T = 60 / heart_rate  # Total time for one heart beat in seconds
+            p_duration = 0.25 * T  # Duration of P wave
+            qrs_duration = 0.1 * T  # Duration of QRS complex
+            t_duration = 0.4 * T  # Duration of T wave
+
+            # ECG waveform components (P wave, QRS complex, T wave)
+            p_wave = 0.1 * np.sin(2 * np.pi * t / p_duration) if t % T < p_duration else 0
+            qrs_complex = 0.5 * np.sin(2 * np.pi * (t - p_duration) / qrs_duration) if p_duration <= t % T < p_duration + qrs_duration else 0
+            t_wave = 0.2 * np.sin(2 * np.pi * (t - p_duration - qrs_duration) / t_duration) if p_duration + qrs_duration <= t % T < T else 0
+
+            return p_wave + qrs_complex + t_wave
+
         
         def update_ecg(frame):
             """
@@ -396,7 +438,7 @@ class View(tk.Tk, Observer):
             t = frame / 50
 
             # Generate ECG waveform data
-            y = VG.create_ecg_cycle(t, self.currentVitals[0]) #Hearth Rate
+            y = create_ecg_cycle(t, self.currentVitals[0]) #Hearth Rate
             xdata2.append(t)
             ydata2.append(y)
 
