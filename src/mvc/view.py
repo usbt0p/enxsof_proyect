@@ -23,8 +23,6 @@ class View(tk.Tk, Observer):
 
     currentVitals = []
 
-    monitor_window = None
-
     def __init__(self, name, height, width): # matrix, agent_list, 
 
         tk.Tk.__init__(self)
@@ -32,12 +30,6 @@ class View(tk.Tk, Observer):
 
     
         self.controller = None
-
-        
-
-        self.ani1 = None
-        self.ani2 = None
-        
 
         self.height = height
         self.min_height = height 
@@ -247,14 +239,6 @@ class View(tk.Tk, Observer):
         """
         Opens a new independent window.
         """
-
-        # Check if the window already exists
-        if self.monitor_window is not None:
-            return  # Window already open, do nothing
-
-        # Create a new Toplevel window
-        self.monitor_window = tk.Toplevel(self)
-
 
         # Create a new Toplevel window
         new_window = tk.Toplevel(self)
