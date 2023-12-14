@@ -106,10 +106,14 @@ if __name__ == '__main__':
     gato = agent.Agent("Gato", 7, 7)
     room.generate_agents(gato)
 
+    for row in room.matrix:
+        for element in row:
+            if element != 0:
+                print(element._literal_name, end=" ")
     #print(room.matrix)
-    print(room.agents[0])
-
-    print(room.matrix[4][7])
-    room.move_object(7, 4, 1, 1)
-    print(room.matrix[1][1])
+    #print(room.agents[0])
+#
+    #print(room.matrix[4][7])
+    #room.move_object(7, 4, 1, 1)
+    #print(room.matrix[1][1])
     
