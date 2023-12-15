@@ -37,9 +37,6 @@ class TestModel(unittest.TestCase):
 
         room.populate_room(file_path)
 
-        gato = agent.Agent("Gato", 7, 7)
-        room.generate_agents(gato)
-
         for row in room.matrix:
             for element in row:
                 if element == 0:
