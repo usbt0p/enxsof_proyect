@@ -16,12 +16,23 @@ class TestAgentMethods(unittest.TestCase):
         self.assertEqual(agent.y, 4)
 
 class TestMixedMethods(unittest.TestCase):
+
+    def setUp(self):
+        self.mixed = Mixed(0, 0, "Mixed Container", {})
+
     def test_mixed_init(self):
         mixed = Mixed(4, 4, "Thing", {})
         self.assertEqual(mixed.x, 4)
         self.assertEqual(mixed.y, 4)
         self.assertEqual(mixed.literal_name, "Thing")
         self.assertEqual(mixed.storage, {})
+
+    def test_str(self):
+        self.assertEqual(str(self.mixed), "Mixed Container: coords=(0, 0), collision=True, open=False, storage={}")
+
+        self.mixed.add_storage(apples=5, oranges=3)
+        self.assertEqual(str(self.mixed), 
+                         "Mixed Container: coords=(0, 0), collision=True, open=False, storage={'apples': 5, 'oranges': 3}")
 
     def test_add_storage(self):
         mixed = Mixed(0, 0, "TestMixed", {})
@@ -38,6 +49,8 @@ class TestMixedMethods(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             mixed.remove_stock(thing3=1)
+
+    
 
 if __name__ == '__main__':
     unittest.main()

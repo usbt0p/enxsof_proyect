@@ -58,3 +58,4 @@ if __name__ == '__main__':
     print(obj)
     obj.close()
     print(obj)
+    print(obj.isOpen)

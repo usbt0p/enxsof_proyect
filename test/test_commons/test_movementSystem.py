@@ -1,7 +1,6 @@
 import unittest
 
-from utiles.commons import pathPlanning
-from utiles.commons.movementSystem import Movements
+from utiles.commons.movementSystem import (Movements, pathPlanning)
 
 class TestMovementsMethods(unittest.TestCase):
     def setUp(self):
@@ -12,6 +11,13 @@ class TestMovementsMethods(unittest.TestCase):
                 self.grid = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]  # Example grid
 
         self.movements_instance = MockMovements()
+
+    def test_generate_random_position(self):
+        max_x = 10
+        max_y = 10
+        position = self.path_planning.generate_random_position(max_x, max_y)
+        self.assertTrue(0 <= position[0] <= max_x)
+        self.assertTrue(0 <= position[1] <= max_y)
 
     def test_agent_move_up(self):
         self.movements_instance.agent_move_up()
@@ -57,8 +63,29 @@ class TestPathPlanningMethods(unittest.TestCase):
     def test_a_star_search(self):
         start = (0, 0)
         goal = (2, 2)
-        path = self.path_planning_instance.a_star_search(start, goal, [[0, 0, 0], [0, 1, 0], [0, 0, 0]])
+        path = self.path_planning_instance.a_star_search(start, goal, 
+                                                         [[0, 0, 0], 
+                                                          [0, 1, 0], 
+                                                          [0, 0, 0]])
         self.assertEqual(path, [(0, 0), (0, 1), (1, 1), (2, 1), (2, 2)])  # Example path
+
+    def test_a_star_search(self):
+        start = (0, 0)
+        goal = (5, 5)
+        grid = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]
+        path = self.path_planning.a_star_search(start, goal, grid)
+        self.assertEqual(path, [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5)])
 
 if __name__ == '__main__':
     unittest.main()
