@@ -18,11 +18,11 @@ file_path = 'assets/default_16x16_room.json'
 room.populate_room(file_path)
 
 # Create an agent and add it to the room
-gato1 = owner.Owner("Enfermera", 7, 7)
-gato2 = owner.Owner("Owner", 13, 13)
-gato3 = owner.Owner("Enfermera", 3, 11)
-gato4 = owner.Owner("Gato", 11, 3)
-room.generate_agents(gato1, gato2, gato3, gato4)
+propietario = owner.Owner("Owner", 7, 7)
+nurse = owner.Owner("Enfermera", 13, 13)
+nurse2 = owner.Owner("Enfermera", 3, 11)
+gato = owner.Owner("Gato", 11, 3)
+room.generate_agents(propietario, nurse, nurse2, gato)
 
 # Create a view
 view = view.View('view', height, width)

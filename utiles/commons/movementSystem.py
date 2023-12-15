@@ -5,7 +5,7 @@ from abc import ABC
 from copy import deepcopy
 import random
 import heapq
-#from src.mvc.view import View
+from icecream import ic
 
 class Movements(ABC):
     
@@ -97,8 +97,8 @@ class pathPlanning(ABC):
 
     def path_generator(self, agent_index):
         # TODO checkear si esa bien o es x - 1
-        origin_x = self.agents[agent_index].x
-        origin_y = self.agents[agent_index].y
+        origin_x = self.agents[agent_index].y # Por tema de matriz transpuesta, esto va al reves
+        origin_y = self.agents[agent_index].x # Por tema de matriz transpuesta, esto va al reves
         return self.calculate_random_path(origin_x, origin_y, self.x_size, self.y_size)
         
     # Simplified version of path finding
@@ -206,17 +206,11 @@ class pathPlanning(ABC):
                 tentative_g_score = gscore[current] + self.heuristic(current, neighbor)
 
                 # Check if the neighbor node is within the grid boundaries and not an obstacle.
-                if 0 <= neighbor[0] < len(grid) and 0 <= neighbor[1] < len(grid[0]):
-                    if grid[neighbor[0]][neighbor[1]] != 0:  # Assuming '0' represents NOT an obstacle.
-                        continue # TODO CHECK THE FUCKING OBJECT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#FALTA HACER LA FUNCION
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+                if (((0 <= neighbor[0]) and (neighbor[0] < len(grid))) and ((0 <= neighbor[1]) and (neighbor[1] < len(grid[0])))):
+                    if ((grid[neighbor[0]][neighbor[1]] != 0) and (grid[neighbor[0]][neighbor[1]]._literal_name != "Door")):  # '0' represents NOT an obstacle.
+                        print(grid[neighbor[0]][neighbor[1]])
+                        continue
 
                 # Skip the neighbor node if it has already been evaluated with a lower g-score.
                 if neighbor in close_set and tentative_g_score >= gscore.get(neighbor, 0):

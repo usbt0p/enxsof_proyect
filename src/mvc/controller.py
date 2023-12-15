@@ -45,8 +45,8 @@ class Controller(Observer):
 
     def move_randomly(self, path, agent_index):
         print(path)
-        self.model.agents[agent_index].x = path[0][0]
-        self.model.agents[agent_index].y = path[0][1]
+        self.model.agents[agent_index].y = path[0][0]
+        self.model.agents[agent_index].x = path[0][1]
 
         self.model.notify(self.view, agents=self.model.agents)
         
