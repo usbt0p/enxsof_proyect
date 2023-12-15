@@ -61,7 +61,7 @@ class Controller(Observer):
                     self.model.matrix[path[1][0]][path[1][1]].open()
                     self.model.notify(self.view, matrix=self.model.matrix)
 
-            self.view.after(1000, self.move_randomly, path[1:], agent_index, path[0])
+            self.animation_id = self.view.after(1000, self.move_randomly, path[1:], agent_index, path[0])
         # habia un return id que da fallo que no se para que servia
         
 
@@ -113,7 +113,8 @@ class Controller(Observer):
         Returns:
         None
         """
-        '''if self.animation_running:
+
+        if self.animation_running:
             print("Stopping current animation")
             try:
                 self.view.after_cancel(self.animation_id)
@@ -123,7 +124,7 @@ class Controller(Observer):
             if event == self.previous_event:
                 return
 
-        self.previous_event = event'''
+        self.previous_event = event
         
         
         if event == "movement":
@@ -133,12 +134,14 @@ class Controller(Observer):
             for index in range(0, len(self.model.agents)):
                 self.updateFromNotification(random_movement=index)
 
+'''
         elif event == "collision":
             self.animation_running = True
             self.animation_id = self.test_collision(self.model.agents[0])
         elif event == "door":
             self.animation_running = True
-            self.animation_id = self.test_door(self.model.agents[0])  
+            self.animation_id = self.test_door(self.model.agents[0])
+            '''  
 
    
 

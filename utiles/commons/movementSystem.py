@@ -5,7 +5,6 @@ from abc import ABC
 from copy import deepcopy
 import random
 import heapq
-from icecream import ic
 
 class Movements(ABC):
     
@@ -208,7 +207,6 @@ class pathPlanning(ABC):
                 
                 if (((0 <= neighbor[0]) and (neighbor[0] < len(grid))) and ((0 <= neighbor[1]) and (neighbor[1] < len(grid[0])))):
                     if ((grid[neighbor[0]][neighbor[1]] != 0) and (grid[neighbor[0]][neighbor[1]]._literal_name != "Door")):  # '0' represents NOT an obstacle.
-                        print(grid[neighbor[0]][neighbor[1]])
                         continue
 
                 # Skip the neighbor node if it has already been evaluated with a lower g-score.
