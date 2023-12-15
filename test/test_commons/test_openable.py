@@ -14,11 +14,11 @@ class TestOpenable(unittest.TestCase):
         self.assertFalse(self.openable.movable)
 
     def test_isOpen(self):
-        self.assertFalse(self.openable.isOpen())
+        self.assertFalse(self.openable.isOpen)
         self.openable.open()
-        self.assertTrue(self.openable.isOpen())
+        self.assertTrue(self.openable.isOpen)
         self.openable.close()
-        self.assertFalse(self.openable.isOpen())
+        self.assertFalse(self.openable.isOpen)
 
     def test_open(self):
         self.assertFalse(self.openable.is_open)
@@ -32,7 +32,7 @@ class TestOpenable(unittest.TestCase):
         self.assertFalse(self.openable.is_open)
 
     def test_str(self):
-        expected_str = "Openable(x=0, y=0, literal_name='Test Openable'), open=False"
+        expected_str = "Test Openable: coords=(0, 0), collision=True, open=False"
         self.assertEqual(str(self.openable), expected_str)
 
 if __name__ == '__main__':

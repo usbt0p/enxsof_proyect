@@ -61,7 +61,9 @@ class Controller(Observer):
                     self.model.matrix[path[1][0]][path[1][1]].open()
                     self.model.notify(self.view, matrix=self.model.matrix)
 
+            
             self.animation_id = self.view.after(1000, self.move_randomly, path[1:], agent_index, path[0])
+            print(self.animation_id)
         # habia un return id que da fallo que no se para que servia
         
 
@@ -121,8 +123,10 @@ class Controller(Observer):
             except ProcessLookupError:
                 print("Animation crashed or already stopped")
             self.animation_running = False
-            if event == self.previous_event:
-                return
+            event = None
+            
+        if event == self.previous_event:
+            return
 
         self.previous_event = event
         

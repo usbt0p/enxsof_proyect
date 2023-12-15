@@ -1,11 +1,7 @@
+from utiles.commons.agent import Agent
+from src.mvc.subject import Subject
 import sys
 sys.path.insert(0, '.')
-
-from src.mvc.subject import Subject
-from utiles.commons.agent import Agent
-
-
-
 
 
 class Owner(Agent, Subject):
@@ -31,8 +27,6 @@ class Owner(Agent, Subject):
             y (int): The y-coordinate of the owner's position.
         """
 
-        
-
         Agent.__init__(self, name, x, y)
         Subject.__init__(self)
         self.inventory = []  # owner's inventory, limited to one object for now
@@ -44,12 +38,10 @@ class Owner(Agent, Subject):
         self.oxygen_saturation = 98  # Example initialization
         self.gcs_score = 15  # Example initialization
 
-
-
     def vitals_setter(self, heart_rate, blood_pressure, body_temperature, respiratory_rate, oxygen_saturation, gcs_score):
         self.heart_rate = heart_rate
         self.blood_pressure = blood_pressure
-        self.body_temperature  = body_temperature
+        self.body_temperature = body_temperature
         self.respiratory_rate = respiratory_rate
         self.oxygen_saturation = oxygen_saturation
         self.gcs_score = gcs_score
@@ -67,8 +59,8 @@ class Owner(Agent, Subject):
         Returns:
         - bool: True if the agent picks up the object successfully, False otherwise.
         '''
-
-        if self.x == object.x and self.y == object.y:
+        # asumiendo que la función se ejecuta solo cuando está encuima del objeto
+        if self.x == object.x and self.y == object.y: 
             self.inventory.append(object)
             return True
         else:
@@ -83,39 +75,7 @@ class Owner(Agent, Subject):
         Returns:
         - bool: True if the agent picks up the object successfully, False otherwise.
         '''
-        
-        return self.intentory.pop(0)
 
-        
-
-
-
-
-
-
-
-'''
-class Owner(Subject):
-    """
-    Represents an agent in the environment.
-    """
-
-    def __init__(self, name, x=0, y=0):
-        """
-        Initializes an Agent object.
-        Parameters:
-        - name (str): The name of the agent.
-        - position (tuple): The initial position of the agent. Defaults to (0, 0).
-        """
-        self.name = name
-        self.inventory = []
-        self.x = x
-        self.y = y
-
-        self.heart_rate = heart_rate
-        self.blood_pressure = blood_pressure
-        self.body_temperature  = body_temperature
-        self.respiratory_rate = respiratory_rate
-        self.oxygen_saturation = oxygen_saturation
-        self.gcs_score = gcs_score
-    '''
+        return self.inventory.pop(0)
+    
+    
