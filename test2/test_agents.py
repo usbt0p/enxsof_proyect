@@ -1,7 +1,7 @@
 
 import unittest
 
-from mvc.model import Model
+from src.mvc.model import Model
 from utiles.commons import agent
 
 
