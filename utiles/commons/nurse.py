@@ -138,3 +138,5 @@ class Nurse(Agent, Observer, pathPlanning):
 
     def updateFromNotification(self, *new_state, **kwargs):
         return super().updateFromNotification(*new_state, **kwargs) # Call the parent class method
+
+
