@@ -89,14 +89,13 @@ class pathPlanning(ABC):
         """Move the agent to a valid random position."""
         new_x, new_y = self.generate_random_position(max_x, max_y)
         if self.is_valid_position(new_x, new_y, max_x, max_y):
-            return self.a_star_search((agent_x,agent_y),(new_x, new_y), self.matrix)  #### TODO !!!!!!!!!!!CONTROLADOR O PATHPALNNING?????????!!!!!!!!!!!!
+            return self.a_star_search((agent_x,agent_y),(new_x, new_y), self.matrix) 
         else:
             # Optionally, try again or handle invalid move
             print("There is no valid position to move to!")
 
 
     def path_generator(self, agent_index):
-        # TODO checkear si esa bien o es x - 1
         origin_x = self.agents[agent_index].y # Por tema de matriz transpuesta, esto va al reves
         origin_y = self.agents[agent_index].x # Por tema de matriz transpuesta, esto va al reves
         return self.calculate_random_path(origin_x, origin_y, self.x_size, self.y_size)
@@ -226,9 +225,6 @@ class pathPlanning(ABC):
         # Return False if no path is found from the start to the goal.
         return False
 
-#El error de lo del path [0][0] puede deberse al false que hay aqui justo arriba.
-#Lo que habria que hacer es que si devuelve ese false deberia volver a empezar para que no salga el error 
-#todo el rato y se ejecute de una vez por todas sin tener que estar media hora dandole al run!!!!!!!
 
 
 

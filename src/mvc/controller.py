@@ -37,7 +37,7 @@ class Controller(Observer):
                     case 'random_movement':
                     # random movement necesita el indice del agente (del que luego se saca su posicion)
                     # value es una tupla con indices de agentes
-                        while path == False or path == None:
+                        while path == False or path == None or path == []:
                             path = self.model.path_generator(value)
                             print(path)
                         self.move_randomly(path, value)
