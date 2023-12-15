@@ -37,21 +37,31 @@ class Controller(Observer):
                     case 'random_movement':
                     # random movement necesita el indice del agente (del que luego se saca su posicion)
                     # value es una tupla con indices de agentes
-                        while path == False or path == None or path == []:
+                        while path == False or path == None or path == []: #No hay camino / el destino no es valido / Origen == Destino
                             path = self.model.path_generator(value)
                             print(path)
-                        self.move_randomly(path, value)
+                        self.move_randomly(path, value, path[0])
 
 
-    def move_randomly(self, path, agent_index):
+    def move_randomly(self, path, agent_index, previous):
         print(path)
         self.model.agents[agent_index].y = path[0][0]
         self.model.agents[agent_index].x = path[0][1]
 
         self.model.notify(self.view, agents=self.model.agents)
+
+        if self.model.matrix[previous[0]][previous[1]] != 0 and self.model.matrix[previous[0]][previous[1]]._literal_name == "Door":
+            if self.model.matrix[previous[0]][previous[1]].isOpen == True:
+                self.model.matrix[previous[0]][previous[1]].close()
+                self.model.notify(self.view, matrix=self.model.matrix)
         
         if len(path) > 1:
-            self.view.after(1000, self.move_randomly, path[1:], agent_index)
+            if self.model.matrix[path[1][0]][path[1][1]] != 0 and self.model.matrix[path[1][0]][path[1][1]]._literal_name == "Door":
+                if self.model.matrix[path[1][0]][path[1][1]].isOpen == False:
+                    self.model.matrix[path[1][0]][path[1][1]].open()
+                    self.model.notify(self.view, matrix=self.model.matrix)
+
+            self.view.after(1000, self.move_randomly, path[1:], agent_index, path[0])
         # habia un return id que da fallo que no se para que servia
         
 
