@@ -7,10 +7,10 @@ class TestGenerateEmptyRoom(unittest.TestCase):
         self.test_instance = Model(16, 16)
         
     def test_generate_empty_room(self):
-        room = self.model.generate_empty_room()
+        room = self.test_instance.generate_empty_room()
         self.assertEqual(len(room), 16)
         self.assertEqual(len(room[0]), 16)
-        self.assertEqual(room[0][0], 0)
+        self.assertEqual(room[1][1], 0)
 
     def test_generate_empty_room_positive(self):
         self.test_instance.x_size = 3
