@@ -1,44 +1,41 @@
 import sys
 sys.path.insert(0, '.')
 
-from src.mvc.model import Model
-from src.mvc.view import View
-from src.mvc.controller import Controller
+from src.mvc import (model, view, controller)
+from utiles.commons import owner
 import unittest
 
-# Una única casa
-X_MATRIX = 16
-Y_MATRIX = 16
+# Define constants for matrix size and window size
+X_SIZE = 16
+Y_SIZE = 16
 
-# Constants:
-HEIGHT = 40 * Y_MATRIX
-WIDTH = 40 * X_MATRIX
+height = 40*X_SIZE
+width = 40*Y_SIZE
 
-file_path = f'assets/default_{X_MATRIX}x{Y_MATRIX}_room.json' 
-# Filepath para los tests y la ejecucion posterior
-
-
-# Creamos el Modelo, que es el sujeto del programa al que se subscribirán los obs y alamcena el environment
-room = Model(X_MATRIX, Y_MATRIX)
+# Create the model and specify the size of the room and its configuration file
+room = model.Model(X_SIZE, Y_SIZE)
+file_path = 'assets/default_16x16_room.json'
 room.populate_room(file_path)
-room.generate_agents(['Gato'])
 
-# Crea una vista de la casa, 'frontend' del proyecto:
-# Procesa todos los objetos, los añade a un modelo para la vista, 
-view_house = View('view_house', HEIGHT, WIDTH)
+# Create an agent and add it to the room
+gato1 = owner.Owner("Gato", 7, 7)
+gato2 = owner.Owner("Gato", 13, 13)
+gato3 = owner.Owner("Gato", 3, 11)
+gato4 = owner.Owner("Gato", 11, 3)
+room.generate_agents(gato1, gato2, gato3, gato4)
 
+# Create a view
+view = view.View('view', height, width)
 
-main_controller = Controller(room, view_house)
+# Initalize controller and start vital constants thread
+main_controller = controller.Controller(room, view)
+main_controller.vital_threading()
 
-# Adjuntar los observadores al sujeto
-room.attach(view_house)
+# Send initial state to the view
+room.notify(view, agents=room.agents, matrix=room.matrix)
 
-room.notify(view_house, agents=room.agents, matrix=room.matrix)
-
-#print(room.agents[0])
-#main_controller.test_movement(room.agents[0])
-
-view_house.mainloop()
+# Start the main event loop
+view.mainloop()
 
 
 

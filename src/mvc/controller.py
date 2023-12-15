@@ -35,7 +35,8 @@ class Controller(Observer):
                     case 'agent_move_right':
                         self.model.agent_move_right(value)
                     case 'random_movement':
-                        # random movement necesita el indice del agente (del que luego se saca su posicion)
+                    # random movement necesita el indice del agente (del que luego se saca su posicion)
+                    # value es una tupla con indices de agentes
                         while path == False or path == None:
                             path = self.model.path_generator(value)
                             print(path)
@@ -90,7 +91,44 @@ class Controller(Observer):
     def vital_threading(self):
         thread = threading.Thread(target=self.generate_vital)
         thread.daemon = True  # This makes the thread exit when the main program exits
-        thread.start()       
+        thread.start()     
+
+    def handle_click(self, event):
+        """
+        Handles the click event and initiates the corresponding animation based on the event type.
+
+        Parameters:
+        - event (str): The type of event triggered by the click.
+
+        Returns:
+        None
+        """
+        '''if self.animation_running:
+            print("Stopping current animation")
+            try:
+                self.view.after_cancel(self.animation_id)
+            except ProcessLookupError:
+                print("Animation crashed or already stopped")
+            self.animation_running = False
+            if event == self.previous_event:
+                return
+
+        self.previous_event = event'''
+        
+        
+        if event == "movement":
+            print("\n/////////////// TEST START ///////////////")
+            self.animation_running = True
+
+            for index in range(0, len(self.model.agents)):
+                self.updateFromNotification(random_movement=index)
+
+        elif event == "collision":
+            self.animation_running = True
+            self.animation_id = self.test_collision(self.model.agents[0])
+        elif event == "door":
+            self.animation_running = True
+            self.animation_id = self.test_door(self.model.agents[0])  
 
    
 

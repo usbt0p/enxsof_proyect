@@ -108,8 +108,10 @@ if __name__ == '__main__':
 
     for row in room.matrix:
         for element in row:
-            if element != 0:
-                print(element._literal_name, end=" ")
+            if element != 0: print(element._literal_name, end=" ")
+            else: print(element, end=" ")
+
+        print()
     #print(room.matrix)
     #print(room.agents[0])
 #

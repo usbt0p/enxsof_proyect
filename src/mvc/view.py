@@ -3,21 +3,14 @@ sys.path.insert(0, '.')
 
 import tkinter as tk
 import src.mvc.model as model
-import src.mvc.controller as controller
 from utiles.commons import *
 from src.mvc.observer import Observer
 from tkinter import ttk
-import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.animation as animation
-import random
 import numpy as np
 import itertools
-
-import utiles.commons.vitalsGenerator as VG
-
-
 
 class View(tk.Tk, Observer):
 
@@ -43,10 +36,17 @@ class View(tk.Tk, Observer):
         frame = tk.Frame(self)
         frame.pack(fill=tk.BOTH, expand=True)
 
-        """
-        button1 = tk.Button(frame, text="Movement Test (16x16)", command=self.button1_clicked)
-        button1.grid(row=0, column=0, sticky='nsew')
+        
+        button1 = tk.Button(frame, text="Click to move agents", 
+                            command=self.button1_clicked, bg='grey', font=("Cascadia Code", 12), border=2)
+        button1.grid(row=0, column=1, sticky='nsew')
 
+
+        new_window_button = tk.Button(frame, text="Health Monitor", command=self.open_monitor_window,
+                                      bg='grey', font=("Cascadia Code", 12), border=2)
+        new_window_button.grid(row=0, column=2, sticky='nsew')
+
+        """
         button2 = tk.Button(frame, text="Collision Test (16x16)", command=self.button2_clicked)
         button2.grid(row=0, column=1, sticky='nsew')
 
@@ -82,9 +82,6 @@ class View(tk.Tk, Observer):
         self.update() #Show view
         self.draw_grid(width, height) #Draw Grid
         self.attributes('-topmost', True) #Show Window on Top of other Windows
-
-        new_window_button = tk.Button(frame, text="Health Monitor", command=self.open_monitor_window)
-        new_window_button.grid(row=0, column=2, sticky='nsew')
 
         # Configure the new column
         frame.columnconfigure(3, weight=1)
@@ -186,7 +183,7 @@ class View(tk.Tk, Observer):
         if grid:
             self.draw_grid(self.width, self.height)
 
-        view.update()
+        self.update()
 
     def draw_agents(self, agents):
         
@@ -201,9 +198,9 @@ class View(tk.Tk, Observer):
                 agent.x * 40, agent.y * 40, image=img_agent, anchor='nw', tags="agent"
             )
 
-        view.update()
+        self.update()
 
-    '''
+    
     def button1_clicked(self):
         """
         Handle the click event for button1.
@@ -213,6 +210,7 @@ class View(tk.Tk, Observer):
         if self.controller:
             self.controller.handle_click("movement")
 
+    '''
     def button2_clicked(self):
         """
         Handle the click event for button2.
@@ -466,13 +464,16 @@ if __name__ == '__main__':
     file_path = 'assets/default_16x16_room.json'
     room.populate_room(file_path)
 
-    gato = owner.Owner("Gato", 7, 7)
-    room.generate_agents(gato)
+    gato1 = owner.Owner("Gato", 7, 7)
+    gato2 = owner.Owner("Gato", 13, 13)
+    gato3 = owner.Owner("Gato", 3, 11)
+    gato4 = owner.Owner("Gato", 11, 3)
+    room.generate_agents(gato1, gato2, gato3, gato4)
 
     view = View('view', height, width)
 
     main_controller = Controller(room, view)
-    Controller.vital_threading(main_controller)
+    main_controller.vital_threading()
 
     #room.attach(view)
     #print(view.controller)
@@ -503,8 +504,6 @@ if __name__ == '__main__':
     main_controller.updateFromNotification(agent_move_right=0)
     main_controller.updateFromNotification(agent_move_right=0)
     '''
-
-    main_controller.updateFromNotification(random_movement=0)
 
     # Start the main event loop
     view.mainloop()
