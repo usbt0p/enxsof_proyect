@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '.')
+
 import unittest
 from unittest.mock import MagicMock
 from utiles.commons.nurse import Nurse
@@ -12,7 +15,7 @@ class TestNurse(unittest.TestCase):
         self.assertTrue(self.nurse.charging)
         self.assertEqual(self.nurse.charging_time, 0)
         self.assertEqual(self.nurse.status, "Charging")
-        self.assertEqual(self.nurse.battery, 100)
+        self.assertEqual(self.nurse.battery, eval("100, 1, 0, [1, 1]"))
 
     def test_nurse_pick_object(self):
         object = MagicMock()

@@ -43,12 +43,12 @@ class Nurse(Agent, Observer, pathPlanning):
         """
         Agent.__init__(self, name, x, y)
         Observer.__init__(self)
-        self.inventory = []  # nurse's inventory, limited to one object for now
-        self.battery = 100
-        self.charging = False
-        self.charging_station = [charging_x,charging_y]
-        self.charging_time = 0
-        self.status = "Idle"
+        self._inventory = []  # nurse's inventory, limited to one object for now
+        self._battery = 100
+        self._charging_status = 1
+        self._charging_station = [charging_x,charging_y]
+        self._charging_time = 0
+        self._status = "Idle"
 
     @property
     def status(self):
@@ -68,7 +68,7 @@ class Nurse(Agent, Observer, pathPlanning):
         Returns:
             Tuple: A tuple containing the battery level, charging status, charging time, and charging station.
         """
-        return self._battery, self._charging, self._charging_time, self._charging_station
+        return self._battery, self._charging_status, self._charging_time, self._charging_station
     
     @property
     def status(self):
@@ -80,14 +80,6 @@ class Nurse(Agent, Observer, pathPlanning):
         """Set the status of the nurse."""
         self._status = value
 
-    @charging.setter
-    def charging(self, value):
-        """Set the charging status of the nurse.
-
-        Args:
-            value (bool): The charging status of the nurse.
-        """
-        self.charging = value
        
     @battery.setter
     def battery(self, value):
@@ -143,4 +135,6 @@ class Nurse(Agent, Observer, pathPlanning):
         """
         return pathPlanning.heuristic((self.x,self.y), (owner.x,owner.y))
 
- 
+
+    def updateFromNotification(self, *new_state, **kwargs):
+        return super().updateFromNotification(*new_state, **kwargs) # Call the parent class method
