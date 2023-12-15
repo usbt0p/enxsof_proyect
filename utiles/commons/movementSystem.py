@@ -8,34 +8,6 @@ import heapq
 
 class Movements(ABC):
     
-    def agent_move_up(self):
-        assert self.y > 0, "You can't move there!"
-        self.y -= 1
-
-
-    def agent_move_down(self):
-        assert self.y < len(self.grid) - 1, "You can't move there!"
-        self.y += 1
-
-  
-    def agent_move_left(self):
-        assert self.x_size > 0, "You can't move there!"
-        self.x -= 1
-
-    
-    def agent_move_right(self, agent_index):
-        #assert self.x_size < len(self.matrix[0]) - 1, "You can't move there!"
-        self.agents[agent_index].x += 1
-
-        '''for observer in self._observers:
-            print(observer)'''
-        for obs in self._observers:
-
-            # TODO quitar la mierda esta que he puesto para que no pete            
-            if type(obs).__name__ == 'View':
-                
-                self.notify(obs, agents=self.agents)
-
     def is_position_occupied(self, x, y) -> bool:
         """
         Checks if a position is occupied by an object.
