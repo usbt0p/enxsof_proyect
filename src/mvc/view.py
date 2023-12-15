@@ -61,19 +61,23 @@ class View(tk.Tk, Observer):
 
         #It defines the srpites for each object's representation
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
-        self.air_image = tk.PhotoImage(file="./assets/sprites/air.png")
         self.sofa_image = tk.PhotoImage(file="./assets/sprites/sofa.png")
         self.table_image = tk.PhotoImage(file="./assets/sprites/table.png")
         self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
         self.door_open_image = tk.PhotoImage(file="./assets/sprites/door_open.png")
         self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
         self.agent_image = tk.PhotoImage(file="./assets/sprites/gato.png")
+        self.owner_image = tk.PhotoImage(file="./assets/sprites/owner1.png")
+        self.enfermera_image = tk.PhotoImage(file="./assets/sprites/enfermera2.png")
+        
         
 
         #Links the skins with the object literal name
         self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
                           "Table": self.table_image, "Door_Closed": self.door_image, 
-                          "Door_Open": self.door_open_image, "Fridge": self.fridge_image}
+                          "Door_Open": self.door_open_image, "Fridge": self.fridge_image,
+                          "Owner": self.owner_image, "Enfermera": self.enfermera_image,
+                          }
 
         #Initialices the model with all the atributes
         self.canvas= tk.Canvas(self, bg='white', height=height, width=width)
