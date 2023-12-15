@@ -30,6 +30,7 @@ class Owner(Agent, Subject):
         Agent.__init__(self, name, x, y)
         Subject.__init__(self)
         self.inventory = []  # owner's inventory, limited to one object for now
+        self.status = "Idle"
 
         self.heart_rate = 60  # Initializing to prevent crash due to uninitialized variable
         self.blood_pressure = "120/80"  # Example initialization
