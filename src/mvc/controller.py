@@ -19,6 +19,7 @@ class Controller(Observer):
         
 
         self.animation_running = False
+        self.animation_ids = {}
         self.animation_id = None
         self.previous_event = None
     
@@ -44,7 +45,7 @@ class Controller(Observer):
 
 
     def move_randomly(self, path, agent_index, previous):
-        print(path)
+        print(self.model.agents[agent_index].name, path)
         self.model.agents[agent_index].y = path[0][0]
         self.model.agents[agent_index].x = path[0][1]
 
@@ -62,9 +63,12 @@ class Controller(Observer):
                     self.model.notify(self.view, matrix=self.model.matrix)
 
             
-            self.animation_id = self.view.after(1000, self.move_randomly, path[1:], agent_index, path[0])
-            print(self.animation_id)
-        # habia un return id que da fallo que no se para que servia
+            self.animation_ids[agent_index] = self.view.after(1000, self.move_randomly, path[1:], agent_index, path[0])
+        else:
+            if agent_index in self.animation_ids:
+                del self.animation_ids[agent_index]
+            if not self.animation_ids:
+                self.animation_running = False
         
 
     def add_agent(self, agent_name:str, position:tuple) -> None:
@@ -116,27 +120,36 @@ class Controller(Observer):
         None
         """
 
+        # Cancel all running animations
         if self.animation_running:
-            print("Stopping current animation")
-            try:
-                self.view.after_cancel(self.animation_id)
-            except ProcessLookupError:
-                print("Animation crashed or already stopped")
-            self.animation_running = False
-            event = None
+            print("Stopping all current animations")
+            for agent_index, anim_id in self.animation_ids.items():
+                try:
+                    self.view.after_cancel(anim_id)
+                except ValueError:
+                    print(f"Animation for agent {agent_index} was invalid or already cancelled")
             
-        if event == self.previous_event:
-            return
+            self.animation_ids.clear()  # Clear all animation identifiers
+            self.animation_running = False
+            if event == self.previous_event:
+                return
 
         self.previous_event = event
         
         
         if event == "movement":
             print("\n/////////////// TEST START ///////////////")
-            self.animation_running = True
+            for index in range(len(self.model.agents)):
+                # Check if a movement animation is already running for this agent
+                if index in self.animation_ids and event in self.animation_ids[index]:
+                    print(f"Movement animation is already running for agent {index}.")
+                else:
+                    # Start a new movement animation for this agent
+                    self.updateFromNotification(random_movement=index)
+                    # The logic in updateFromNotification should handle setting up the animation_id
+                    self.animation_running = True
 
-            for index in range(0, len(self.model.agents)):
-                self.updateFromNotification(random_movement=index)
+        
 
 '''
         elif event == "collision":

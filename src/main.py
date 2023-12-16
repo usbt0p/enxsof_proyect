@@ -20,7 +20,7 @@ room.populate_room(file_path)
 # Create an agent and add it to the room
 propietario = owner.Owner("Owner", 7, 7)
 nurse = owner.Owner("Enfermera", 13, 13)
-nurse2 = owner.Owner("Enfermera", 3, 11)
+nurse2 = owner.Owner("Enfermera 2", 3, 11)
 gato = owner.Owner("Gato", 11, 3)
 room.generate_agents(propietario, nurse, nurse2, gato)
 
