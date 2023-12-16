@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '.')
+
 import unittest
 from unittest.mock import MagicMock
 from src.mvc.view import Observer

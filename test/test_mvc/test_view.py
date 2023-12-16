@@ -1,5 +1,4 @@
 import sys
-
 from utiles.objects import thing
 sys.path.insert(0, '.')
 

@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '.')
+
 import unittest
 from utiles.agents.owner import Owner
 from utiles.objects.thing import Thing
