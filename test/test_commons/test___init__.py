@@ -1,7 +1,10 @@
 import unittest
 import subprocess
-from utiles.commons import (thing, owner, openable, movable, mixed, movementSystem, agent)
+from utiles import mixed, movable, owner
+from utiles.agents import agent
+from utiles.commons import (movementSystem)
 from src.mvc import (model, view, controller, observer, subject)
+from utiles.objects import openable, thing
 
 class TestExecute(unittest.TestCase):
 

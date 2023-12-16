@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '.')
 
 from src.mvc import (model, view, controller)
-from utiles.commons import owner
+from utiles.agents import owner
 import unittest
 
 # Define constants for matrix size and window size

@@ -1,11 +1,13 @@
 import sys
+
+from utiles.objects import thing
 sys.path.insert(0, '.')
 
 import unittest
 from unittest.mock import MagicMock
 from tkinter import Tk
 from src.mvc.view import View
-from utiles.commons import (thing, agent)
+from utiles.agents import (agent)
 
 class TestView(unittest.TestCase):
 

@@ -1,5 +1,5 @@
 import unittest
-from utiles.commons.openable import Openable
+from utiles.objects.openable import Openable
 
 class TestOpenable(unittest.TestCase):
 
