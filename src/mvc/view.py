@@ -44,15 +44,15 @@ class View(tk.Tk, Observer):
 
         button1 = tk.Button(button_frame, text="Click to move agents", 
                             command=self.button1_clicked, bg='grey', font=("Cascadia Code", 12))
-        button1.pack(fill=tk.X)
+        button1.pack(fill=tk.X, pady=2)
 
         new_window_button = tk.Button(button_frame, text="Health Monitor", command=self.open_monitor_window,
                                       bg='grey', font=("Cascadia Code", 12))
-        new_window_button.pack(fill=tk.X)
+        new_window_button.pack(fill=tk.X, pady=2)
 
-        toggle_button = tk.Button(button_frame, text="Show cmd", command=self.toggle_entry_frame,
+        self.toggle_button = tk.Button(button_frame, text="Show CMD", command=self.toggle_entry_frame,
                           bg='grey', font=("Cascadia Code", 12))
-        toggle_button.pack(fill=tk.X)
+        self.toggle_button.pack(fill=tk.X, pady=(2, 4))
         ###
 
         ###
@@ -67,18 +67,21 @@ class View(tk.Tk, Observer):
         # Create the text entry
         self.text_entry = tk.Entry(self.entry_frame, font=("Cascadia Code", 12), 
                                    highlightbackground='black', highlightcolor='black', highlightthickness=1)
-        self.text_entry.pack(fill=tk.X)
+        self.text_entry.pack(fill=tk.X, pady=(2,2))
 
         self.exec_text = tk.Button(self.entry_frame, text="Execute Command", command=self.exec_buton_clicked,
-                                      bg='grey', font=("Cascadia Code", 12))
-        self.exec_text.pack(fill=tk.NONE, expand=True)
+                                      bg='light grey', font=("Cascadia Code", 12))
+        self.exec_text.pack(fill=tk.NONE, pady=(2,2), expand=True)
 
-        command_list = tk.Text(self.entry_frame, height=4, width=37,font=("Helvetica", 10), bg='grey')
+        command_list = tk.Text(self.entry_frame, height=6, width=37,font=("Helvetica", 10), bg='light grey')
         command_list.insert(tk.END, "Available commands:\n")
         command_list.insert(tk.END, "tp <x1> <y1> <x2> <y2> - Teleport object\n")
         command_list.insert(tk.END, "speed <number> - Change animation speed\n")
+        command_list.insert(tk.END, "\n")
+        command_list.insert(tk.END, "+ Click on canvas to paste coordinates\n")
+        command_list.insert(tk.END, "   of an object to the command line.\n")
                      
-        command_list.pack(fill=tk.X)
+        command_list.pack(fill=tk.X, pady=5)
         ###
 
         self.entry_frame.pack_forget() # Hide the frame by default
@@ -87,6 +90,8 @@ class View(tk.Tk, Observer):
         # Create the canvas
         self.canvas= tk.Canvas(frame, bg='white', height=height, width=width)
         self.canvas.grid(row=0, column=0, sticky='nsew')
+        # Bind the left mouse button click event to the canvas
+        self.canvas.bind("<Button-1>", self.canvas_clicked)
         ###
 
         # Configure the columns to distribute extra space equally
@@ -127,6 +132,21 @@ class View(tk.Tk, Observer):
         height = self.winfo_reqheight()
         self.geometry(f"{width}x{height}")
         self.minsize(self.min_width, self.min_height)
+
+    def canvas_clicked(self, event):
+        # Get the mouse position
+        x = event.x
+        y = event.y
+
+        # division entera para obtener la posicion en la matriz
+        matrix_x = x//self.CELL_SIZE 
+        matrix_y = y//self.CELL_SIZE
+
+        #self.text_entry.clipboard_clear()
+        #self.text_entry.clipboard_append(f"{matrix_x} {matrix_y}")
+        self.text_entry.insert(tk.END, f"{matrix_x} {matrix_y} ")
+
+        print(f"Cell: {matrix_x}, {matrix_y}")
 
     def set_controller(self, controller):
         """
@@ -257,10 +277,13 @@ class View(tk.Tk, Observer):
         # Check if the frame is currently visible
         if self.entry_frame.winfo_viewable():
             # If it's visible, hide it
+            self.toggle_button.config(text="Show CMD")
+            
             self.entry_frame.pack_forget()
             self.resize_window()
         else:
             # If it's not visible, show it
+            self.toggle_button.config(text="Hide CMD")
             self.entry_frame.pack(fill=tk.BOTH)
             self.resize_window()
 
