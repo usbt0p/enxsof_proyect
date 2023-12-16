@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '.')
 
 from src.mvc import (model, view, controller)
-from utiles.agents import owner
+from utiles.agents import (owner, nurse, agent)
 import unittest
 
 # Define constants for matrix size and window size
@@ -19,10 +19,10 @@ room.populate_room(file_path)
 
 # Create an agent and add it to the room
 propietario = owner.Owner("Owner", 7, 7)
-nurse = owner.Owner("Enfermera", 13, 13)
-nurse2 = owner.Owner("Enfermera 2", 3, 11)
-gato = owner.Owner("Gato", 11, 3)
-room.generate_agents(propietario, nurse, nurse2, gato)
+nurse1 = nurse.Nurse("Enfermera", 13, 13, 5, 5)
+nurse2 = nurse.Nurse("Enfermera 2", 3, 11, 6, 6)
+gato = agent.Agent("Gato", 11, 3)
+room.agents_random_spawn(propietario, nurse1, nurse2, gato)
 
 # Create a view
 view = view.View('view', height, width)
@@ -36,8 +36,6 @@ room.notify(view, agents=room.agents, matrix=room.matrix)
 
 # Start the main event loop
 view.mainloop()
-
-
 
 
 if __name__ == "__main__":
