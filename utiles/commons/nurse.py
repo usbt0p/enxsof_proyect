@@ -42,7 +42,7 @@ class Nurse(Agent, Observer, pathPlanning):
             charging_y (int): The y-coordinate of the charging station's position.
         """
         Agent.__init__(self, name, x, y)
-        Observer.__init__(self)
+        Observer.__init__(self, name)
         self._inventory = []  # nurse's inventory, limited to one object for now
         self._battery = 100
         self._charging_status = 1
@@ -138,3 +138,5 @@ class Nurse(Agent, Observer, pathPlanning):
 
     def updateFromNotification(self, *new_state, **kwargs):
         return super().updateFromNotification(*new_state, **kwargs) # Call the parent class method
+
+
