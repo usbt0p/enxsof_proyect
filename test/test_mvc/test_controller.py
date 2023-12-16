@@ -24,7 +24,7 @@ class TestController(unittest.TestCase):
         self.controller.model.path_generator = MagicMock(return_value=path)
         self.controller.move_randomly = MagicMock()
         self.controller.updateFromNotification(random_movement=agent_index)
-        self.controller.move_randomly.assert_called_once_with(path, agent_index)
+        self.controller.move_randomly.assert_called_once_with(path, agent_index, path[0])
 
     def test_updateFromNotification_invalid_key(self):
         invalid_key = 'invalid_key'
@@ -37,11 +37,11 @@ class TestController(unittest.TestCase):
         self.controller.model.agents = [MagicMock()]
         self.controller.model.notify = MagicMock()
         self.controller.view.after = MagicMock()
-        self.controller.move_randomly(path, agent_index)
+        self.controller.move_randomly(path, agent_index, path[0])
         self.assertEqual(self.controller.model.agents[agent_index].x, 0)
         self.assertEqual(self.controller.model.agents[agent_index].y, 0)
         self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
-        self.controller.view.after.assert_called_once_with(1000, self.controller.move_randomly, path[1:], agent_index)
+        self.controller.view.after.assert_called_once_with(1000, self.controller.move_randomly, path[1:], agent_index, path[0])
 
     def test_add_agent(self):
         agent_name = "Agent1"
@@ -62,6 +62,24 @@ class TestController(unittest.TestCase):
         self.controller.remove_agent(agent_name)
         self.controller.model.remove_agent.assert_called_once_with(agent_name)
         self.controller.view.update_view.assert_called_once()
+
+    def test_handle_owner_event(self):
+        event = "owner_event"
+        agent_index = 0
+        self.controller.model.agents = [MagicMock()]
+        self.controller.model.notify = MagicMock()
+        self.controller.handle_click(event)
+        self.controller.model.agents[agent_index].owner_event.assert_called_once()
+        self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
+
+    def test_handle_enfermera_event(self):
+        event = "enfermera_event"
+        agent_index = 0
+        self.controller.model.agents = [MagicMock()]
+        self.controller.model.notify = MagicMock()
+        self.controller.handle_click(event)
+        self.controller.model.agents[agent_index].enfermera_event.assert_called_once()
+        self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
 
 if __name__ == '__main__':
     unittest.main()
