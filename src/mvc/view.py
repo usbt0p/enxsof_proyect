@@ -76,7 +76,7 @@ class View(tk.Tk, Observer):
         self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
                           "Table": self.table_image, "Door_Closed": self.door_image, 
                           "Door_Open": self.door_open_image, "Fridge": self.fridge_image,
-                          "Owner": self.owner_image, "Enfermera": self.enfermera_image,
+                          "Owner": self.owner_image, "Enfermera": self.enfermera_image, "Enfermera 2": self.enfermera_image,
                           }
 
         #Initialices the model with all the atributes

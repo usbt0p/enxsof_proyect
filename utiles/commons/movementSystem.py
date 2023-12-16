@@ -51,7 +51,7 @@ class pathPlanning(ABC):
         # Check boundaries
         if (x < 0 or x >= max_x) or (y < 0 or y >= max_y):
             return False
-        # Check if position is occupied (assuming is_position_occupied is defined)
+        # Check if position is occupied
         return not self.is_position_occupied(x, y)
     
     
