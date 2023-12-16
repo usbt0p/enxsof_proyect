@@ -23,18 +23,6 @@ class Movable(Thing):
 if __name__ == '__main__':
     obj = Movable(4, 4, "Thing")
     print(obj)
-    obj.move_up()
-    print(obj)
-    obj.move_down()
-    print(obj)
-    obj.move_left()
-    print(obj)
-    obj.move_right()
-    print(obj)
-    obj.move_right()
-    print(obj)
-    obj.move_right()
-    print(obj)
 
         
 

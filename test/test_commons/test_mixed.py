@@ -1,19 +1,5 @@
 import unittest
-from utiles.commons.mixed import Mixed
-from utiles.agents.agent import Agent
-class TestAgentMethods(unittest.TestCase):
-    def test_agent_init(self):
-        agent = Agent(name="test_agent", x=1, y=2)
-        self.assertEqual(agent.name, "test_agent")
-        self.assertEqual(agent.x, 1)
-        self.assertEqual(agent.y, 2)
-        self.assertEqual(agent.inventory, [])
-
-    def test_agent_position(self):
-        agent = Agent(name="test_agent")
-        agent.position(3, 4)
-        self.assertEqual(agent.x, 3)
-        self.assertEqual(agent.y, 4)
+from utiles.objects.mixed import Mixed
 
 class TestMixedMethods(unittest.TestCase):
 

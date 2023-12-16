@@ -19,22 +19,6 @@ class TestMovementsMethods(unittest.TestCase):
         self.assertTrue(0 <= position[0] <= max_x)
         self.assertTrue(0 <= position[1] <= max_y)
 
-    def test_agent_move_up(self):
-        self.movements_instance.agent_move_up()
-        self.assertEqual(self.movements_instance.y, 0)  # Can't move up, stays at y = 0
-
-    def test_agent_move_down(self):
-        self.movements_instance.agent_move_down()
-        self.assertEqual(self.movements_instance.y, 1)  # Moved down successfully
-
-    def test_agent_move_left(self):
-        self.movements_instance.agent_move_left()
-        self.assertEqual(self.movements_instance.x, -1)  # Can't move left, stays at x = 0
-
-    def test_agent_move_right(self):
-        self.movements_instance.agent_move_right(0)
-        self.assertEqual(self.movements_instance.agents[0].x, 1)  # Moved right successfully
-
     def test_is_position_occupied(self):
         self.assertFalse(self.movements_instance.is_position_occupied(1, 1))  # Position (1, 1) is not occupied
 
