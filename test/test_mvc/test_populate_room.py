@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-import utiles.commons.agent as agent
+import utiles.agents.agent as agent
 from src.mvc.model import Model
 
 

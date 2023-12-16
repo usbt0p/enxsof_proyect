@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '.')
 
-from utiles.commons.thing import Thing
+from utiles.objects.thing import Thing
 
 
 class Movable(Thing):

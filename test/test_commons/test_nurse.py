@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import MagicMock
 from utiles.commons.nurse import Nurse
 from utiles.commons.owner import Owner
-from utiles.commons.thing import Thing
+from utiles.objects.thing import Thing
 
 class TestNurse(unittest.TestCase):
 

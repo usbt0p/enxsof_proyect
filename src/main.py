@@ -2,15 +2,15 @@ import sys
 sys.path.insert(0, '.')
 
 from src.mvc import (model, view, controller)
-from utiles.commons import owner
+from utiles.agents import owner
 import unittest
 
 # Define constants for matrix size and window size
 X_SIZE = 16
 Y_SIZE = 16
 
-height = 40*X_SIZE
-width = 40*Y_SIZE
+height = 40 * X_SIZE
+width = 40 * Y_SIZE
 
 # Create the model and specify the size of the room and its configuration file
 room = model.Model(X_SIZE, Y_SIZE)

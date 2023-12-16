@@ -1,6 +1,6 @@
 import unittest
 from utiles.commons.mixed import Mixed
-from utiles.commons.agent import Agent
+from utiles.agents.agent import Agent
 class TestAgentMethods(unittest.TestCase):
     def test_agent_init(self):
         agent = Agent(name="test_agent", x=1, y=2)

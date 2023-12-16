@@ -1,4 +1,4 @@
-from utiles.commons.agent import Agent
+from utiles.agents.agent import Agent
 from src.mvc.subject import Subject
 import sys
 sys.path.insert(0, '.')

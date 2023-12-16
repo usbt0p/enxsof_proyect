@@ -3,7 +3,7 @@ sys.path.insert(0, '.')
 
 import tkinter as tk
 import src.mvc.model as model
-from utiles.commons import *
+from utiles import *
 from src.mvc.observer import Observer
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg

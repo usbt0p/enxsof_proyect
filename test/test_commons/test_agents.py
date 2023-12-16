@@ -2,7 +2,7 @@
 import unittest
 
 from src.mvc.model import Model
-from utiles.commons import agent
+from utiles.agents import agent
 
 
 class TestModel(unittest.TestCase):

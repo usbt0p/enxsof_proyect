@@ -1,11 +1,18 @@
 import unittest
 from unittest.mock import MagicMock
-from src.mvc.observer import Observer
+from src.mvc.view import Observer
+
+class ConcreteObserver(Observer):
+    def __init__(self, name):
+        super().__init__(name)
+        
+    def updateFromNotification(self, *new_state, **kwargs):
+        return new_state, kwargs
 
 class TestObserver(unittest.TestCase):
 
     def setUp(self):
-        self.observer = Observer()
+        self.observer = ConcreteObserver('observer')
 
     def test_updateFromNotification(self):
         # Define the new state
@@ -20,13 +27,13 @@ class TestObserver(unittest.TestCase):
 
     def test_object_counter(self):
         # Get the initial object counter value
-        initial_counter = Observer.object_counter
+        initial_counter = Observer._object_counter
 
         # Create a new observer
-        observer = Observer()
+        observer = ConcreteObserver('obs')
 
         # Assert that the object counter has increased by 1
-        self.assertEqual(Observer.object_counter, initial_counter + 1)
+        self.assertEqual(Observer._object_counter, initial_counter + 1)
 
     def test_subclasshook(self):
         # Create a subclass that implements the updateFromNotification method

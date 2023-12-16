@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 from src.mvc.model import Model
-from utiles.commons import agent  
+from utiles.agents import agent  
 
 class TestModel(unittest.TestCase):
     def setUp(self):

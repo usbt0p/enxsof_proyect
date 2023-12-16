@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '.')
 
 from src.mvc.observer import Observer
-from utiles.commons.agent import Agent
+from utiles.agents.agent import Agent
 from utiles.commons.movementSystem import pathPlanning
 
 

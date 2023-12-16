@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '.')
 
-from utiles.commons import *
+from utiles.objects import (thing, openable, movable, mixed)
 from src.mvc.subject import Subject
 from utiles.commons.movementSystem import Movements, pathPlanning
 import json
@@ -95,7 +95,7 @@ class Model(Subject, Movements, pathPlanning):
 
 
 if __name__ == '__main__':
-    import utiles.commons.agent as agent
+    import utiles.agents.agent as agent
     room = Model(16, 16)
     
     # Example usage:

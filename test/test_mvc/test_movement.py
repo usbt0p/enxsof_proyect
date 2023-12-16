@@ -1,6 +1,6 @@
 import unittest
 from src.mvc.model import Model
-import utiles.commons.agent as agent
+import utiles.agents.agent as agent
 
 class TestModel(unittest.TestCase):
     

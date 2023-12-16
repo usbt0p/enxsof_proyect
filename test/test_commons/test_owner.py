@@ -1,6 +1,6 @@
 import unittest
 from utiles.commons.owner import Owner
-from utiles.commons.thing import Thing
+from utiles.objects.thing import Thing
 from unittest.mock import MagicMock
 
 class TestOwner(unittest.TestCase):
