@@ -1,5 +1,8 @@
+import sys
+sys.path.insert(0, '.')
+
 import unittest
-from utiles.commons.mixed import Mixed
+from utiles.objects.mixed import Mixed
 from utiles.agents.agent import Agent
 class TestAgentMethods(unittest.TestCase):
     def test_agent_init(self):

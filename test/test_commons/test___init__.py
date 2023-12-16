@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '.')
+
 import unittest
 import subprocess
 from utiles import mixed, movable, owner

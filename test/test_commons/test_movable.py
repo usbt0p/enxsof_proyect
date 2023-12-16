@@ -1,5 +1,8 @@
+import sys
+sys.path.insert(0, '.')
+
 import unittest
-from utiles.commons.movable import Movable
+from utiles.objects.movable import Movable
 
 class TestMovableMethods(unittest.TestCase):
     def test_movable_init(self):

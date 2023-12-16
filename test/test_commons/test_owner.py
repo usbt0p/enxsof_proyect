@@ -1,5 +1,8 @@
+import sys
+sys.path.insert(0, '.')
+
 import unittest
-from utiles.commons.owner import Owner
+from utiles.agents.owner import Owner
 from utiles.objects.thing import Thing
 from unittest.mock import MagicMock
 
