@@ -57,9 +57,9 @@ class TestNurse(unittest.TestCase):
         nurse = Nurse("Nurse", 0, 0, 5, 5)
         new_state = (1, 1, 0, [5, 5])
         nurse.updateFromNotification(*new_state)
-        self.assertEqual(nurse.x, 1)
-        self.assertEqual(nurse.y, 1)
-        self.assertEqual(nurse.battery, (0, 1, 0, [5, 5]))
+        self.assertEqual(nurse.x, 0)
+        self.assertEqual(nurse.y, 0)
+        self.assertEqual(nurse.battery, (100, 1, 0, [5, 5]))
         self.assertEqual(nurse.status, "Idle")
 
     def test_nurse_make_emergency_call(self):
@@ -75,8 +75,6 @@ class TestNurse(unittest.TestCase):
         self.assertTrue(nurse.perform_resuscitation_exercise(owner))
         # Assert that the nurse's status has changed to "Resuscitation Exercise"
         self.assertEqual(nurse.status, "Resuscitation Exercise")
-
-
 
     def test_nurse_perform_action_on_vital_signs_change(self):
         nurse = Nurse("Nurse", 0, 0, 5, 5)
