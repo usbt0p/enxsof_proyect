@@ -22,7 +22,7 @@ class Controller(Observer):
         self.animation_ids = {}
         self.animation_id = None
         self.previous_event = None
-    
+        self.animation_speed = 800
     
     def updateFromNotification(self, *new_state, **kwargs):
         NOTIFY_KEYS = ('agent_move_right', 'random_movement')
@@ -70,19 +70,24 @@ class Controller(Observer):
                         self.model.matrix[adjacent_y][adjacent_x].close()
                         self.model.notify(self.view, matrix=self.model.matrix)
 
-        if self.model.matrix[previous[0]][previous[1]] != 0 and self.model.matrix[previous[0]][previous[1]]._literal_name == "Door":
+        if self.model.matrix[previous[0]][previous[1]] != 0 and\
+              self.model.matrix[previous[0]][previous[1]]._literal_name == "Door":
+            
             if self.model.matrix[previous[0]][previous[1]].isOpen == True:
                 self.model.matrix[previous[0]][previous[1]].close()
                 self.model.notify(self.view, matrix=self.model.matrix)
         
         if len(path) > 1:
-            if self.model.matrix[path[1][0]][path[1][1]] != 0 and self.model.matrix[path[1][0]][path[1][1]]._literal_name == "Door":
+            if self.model.matrix[path[1][0]][path[1][1]] != 0 and\
+                  self.model.matrix[path[1][0]][path[1][1]]._literal_name == "Door":
+                
                 if self.model.matrix[path[1][0]][path[1][1]].isOpen == False:
                     self.model.matrix[path[1][0]][path[1][1]].open()
                     self.model.notify(self.view, matrix=self.model.matrix)
 
-            
-            self.animation_ids[agent_index] = self.view.after(1000, self.move_randomly, path[1:], agent_index, path[0])
+            # Schedule the next step in the animation
+            self.animation_ids[agent_index] = self.view.after(
+                self.animation_speed, self.move_randomly, path[1:], agent_index, path[0])
         else:
             if agent_index in self.animation_ids:
                 del self.animation_ids[agent_index]
@@ -128,7 +133,7 @@ class Controller(Observer):
         thread.daemon = True  # This makes the thread exit when the main program exits
         thread.start()     
 
-    def handle_click(self, event):
+    def handle_click(self, event, *args):
         """
         Handles the click event and initiates the corresponding animation based on the event type.
 
@@ -155,29 +160,47 @@ class Controller(Observer):
 
         self.previous_event = event
         
-        
-        if event == "movement":
-            print("\n/////////////// TEST START ///////////////")
-            for index in range(len(self.model.agents)):
-                # Check if a movement animation is already running for this agent
-                if index in self.animation_ids and event in self.animation_ids[index]:
-                    print(f"Movement animation is already running for agent {index}.")
-                else:
-                    # Start a new movement animation for this agent
-                    self.updateFromNotification(random_movement=index)
-                    # The logic in updateFromNotification should handle setting up the animation_id
-                    self.animation_running = True
+        match event:
+            case "movement":
+                print("\n/////////////// TEST START ///////////////")
+                for index in range(len(self.model.agents)):
+                    # Check if a movement animation is already running for this agent
+                    if index in self.animation_ids and event in self.animation_ids[index]:
+                        print(f"Movement animation is already running for agent {index}.")
+                    else:
+                        # Start a new movement animation for this agent
+                        self.updateFromNotification(random_movement=index)
+                        # The logic in updateFromNotification should handle setting up the animation_id
+                        self.animation_running = True
 
-        
+    def parse_command(self, command:str):
+        """
+        Parses the command string and returns the corresponding command.
 
-'''
-        elif event == "collision":
-            self.animation_running = True
-            self.animation_id = self.test_collision(self.model.agents[0])
-        elif event == "door":
-            self.animation_running = True
-            self.animation_id = self.test_door(self.model.agents[0])
-            '''  
+        Parameters:
+        - command (str): The command string to be parsed.
+
+        Returns:
+        The command to be executed.
+        """
+
+        command = command.strip().lower().split(" ")
+
+        match command[0]:
+            case 'speed':
+                assert command[1].isnumeric(), "Speed must be an integer"
+                self.animation_speed = int(command[1])
+                print(f"Animation speed set to {self.animation_speed}")
+
+            case 'tp':
+                # assert no hacer tp out of bounds
+                assert len(command) == 5, "Invalid number of arguments"
+                for i in range(1, 5):
+                    assert command[i].isnumeric(), "Coordinates must be integers"
+                
+                self.model.object_teleport(int(command[1]), int(command[2]), int(command[3]), int(command[4]))
+                self.model.notify(self.view, matrix=self.model.matrix)
+        
 
    
 

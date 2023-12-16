@@ -21,43 +21,84 @@ class View(tk.Tk, Observer):
         tk.Tk.__init__(self)
         Observer.__init__(self, name)
 
-    
         self.controller = None
 
+        # f'{self.winfo_reqwidth()}x{self.winfo_reqheight()}'
         self.height = height
         self.min_height = height 
         self.width = width
         self.min_width = width 
         self.CELL_SIZE = 40 
         self.title("Entorno Domótico")
-        self.geometry(str(width) + "x" + str(height+30))
-        self.minsize(self.min_width, self.min_height)
+        self.minsize(self.width, self.height) # height + 30 ??? se puede cambiar
 
+        ###
         frame = tk.Frame(self)
         frame.pack(fill=tk.BOTH, expand=True)
+        ###
 
-        
-        button1 = tk.Button(frame, text="Click to move agents", 
-                            command=self.button1_clicked, bg='grey', font=("Cascadia Code", 12), border=2)
-        button1.grid(row=0, column=1, sticky='nsew')
+        ###
+        # Create a frame for the buttons
+        button_frame = tk.Frame(frame)
+        button_frame.grid(row=0, column=1, sticky='nsew')
 
+        button1 = tk.Button(button_frame, text="Click to move agents", 
+                            command=self.button1_clicked, bg='grey', font=("Cascadia Code", 12))
+        button1.pack(fill=tk.X)
 
-        new_window_button = tk.Button(frame, text="Health Monitor", command=self.open_monitor_window,
-                                      bg='grey', font=("Cascadia Code", 12), border=2)
-        new_window_button.grid(row=0, column=2, sticky='nsew')
+        new_window_button = tk.Button(button_frame, text="Health Monitor", command=self.open_monitor_window,
+                                      bg='grey', font=("Cascadia Code", 12))
+        new_window_button.pack(fill=tk.X)
 
-        """
-        button2 = tk.Button(frame, text="Collision Test (16x16)", command=self.button2_clicked)
-        button2.grid(row=0, column=1, sticky='nsew')
+        toggle_button = tk.Button(button_frame, text="Show cmd", command=self.toggle_entry_frame,
+                          bg='grey', font=("Cascadia Code", 12))
+        toggle_button.pack(fill=tk.X)
+        ###
 
-        button3 = tk.Button(frame, text="Door Test (16x16 Room Size ONLY)", command=self.button3_clicked)
-        button3.grid(row=0, column=2, sticky='nsew')
-        """
+        ###
+        # Create a frame for the label and entry with a grey background and a border
+        self.entry_frame = tk.Frame(button_frame, bg='grey', bd=7, 
+                               highlightbackground='black', highlightcolor='black', highlightthickness=1)
+        self.entry_frame.pack(fill=tk.BOTH)
+
+        text_label = tk.Label(self.entry_frame, text = "Command line", font=("Cascadia Code", 12), bg='grey')
+        text_label.pack(fill=tk.X)
+
+        # Create the text entry
+        self.text_entry = tk.Entry(self.entry_frame, font=("Cascadia Code", 12), 
+                                   highlightbackground='black', highlightcolor='black', highlightthickness=1)
+        self.text_entry.pack(fill=tk.X)
+
+        self.exec_text = tk.Button(self.entry_frame, text="Execute Command", command=self.exec_buton_clicked,
+                                      bg='grey', font=("Cascadia Code", 12))
+        self.exec_text.pack(fill=tk.NONE, expand=True)
+
+        command_list = tk.Text(self.entry_frame, height=4, width=37,font=("Helvetica", 10), bg='grey')
+        command_list.insert(tk.END, "Available commands:\n")
+        command_list.insert(tk.END, "tp <x1> <y1> <x2> <y2> - Teleport object\n")
+        command_list.insert(tk.END, "speed <number> - Change animation speed\n")
+                     
+        command_list.pack(fill=tk.X)
+        ###
+
+        self.entry_frame.pack_forget() # Hide the frame by default
+
+        ###
+        # Create the canvas
+        self.canvas= tk.Canvas(frame, bg='white', height=height, width=width)
+        self.canvas.grid(row=0, column=0, sticky='nsew')
+        ###
 
         # Configure the columns to distribute extra space equally
-        frame.columnconfigure(0, weight=1)
-        frame.columnconfigure(1, weight=1)
-        frame.columnconfigure(2, weight=1)
+        frame.columnconfigure(0, weight=0)
+        frame.columnconfigure(1, weight=0)
+
+        self.update() #Show view
+        self.geometry(f'{self.winfo_reqwidth()}x{self.winfo_reqheight()}')
+        #self.maxsize(self.winfo_reqwidth(), self.winfo_reqheight())
+        #self.minsize(self.winfo_reqwidth(), self.winfo_reqheight())
+        self.draw_grid(width, height) #Draw Grid
+        self.attributes('-topmost', True) #Show Window on Top of other Windows
 
         #It defines the srpites for each object's representation
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
@@ -69,8 +110,6 @@ class View(tk.Tk, Observer):
         self.agent_image = tk.PhotoImage(file="./assets/sprites/gato.png")
         self.owner_image = tk.PhotoImage(file="./assets/sprites/owner1.png")
         self.enfermera_image = tk.PhotoImage(file="./assets/sprites/enfermera2.png")
-        
-        
 
         #Links the skins with the object literal name
         self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
@@ -79,18 +118,6 @@ class View(tk.Tk, Observer):
                           "Owner": self.owner_image, "Enfermera": self.enfermera_image, "Enfermera 2": self.enfermera_image,
                           }
 
-        #Initialices the model with all the atributes
-        self.canvas= tk.Canvas(self, bg='white', height=height, width=width)
-        self.canvas.pack(expand=True, fill='both')
-
-        self.update() #Show view
-        self.draw_grid(width, height) #Draw Grid
-        self.attributes('-topmost', True) #Show Window on Top of other Windows
-
-        # Configure the new column
-        frame.columnconfigure(3, weight=1)
-
-
     def resize_window(self):
         """
         Resizes the window to fit the required width and height.
@@ -98,9 +125,8 @@ class View(tk.Tk, Observer):
         self.update_idletasks()
         width = self.winfo_reqwidth()
         height = self.winfo_reqheight()
-        self.geometry(f"{width}x{height+30}")
+        self.geometry(f"{width}x{height}")
         self.minsize(self.min_width, self.min_height)
-
 
     def set_controller(self, controller):
         """
@@ -213,6 +239,30 @@ class View(tk.Tk, Observer):
         """
         if self.controller:
             self.controller.handle_click("movement")
+
+    def retrieve_input(self, entry):
+            return entry.get()
+             
+    def exec_buton_clicked(self):
+        """
+        Handle the click event.
+
+        If a controller is available, call its handle_click method with the argument "movement".
+        """
+        
+        if self.controller:
+            self.controller.parse_command(self.retrieve_input(self.text_entry))
+
+    def toggle_entry_frame(self):
+        # Check if the frame is currently visible
+        if self.entry_frame.winfo_viewable():
+            # If it's visible, hide it
+            self.entry_frame.pack_forget()
+            self.resize_window()
+        else:
+            # If it's not visible, show it
+            self.entry_frame.pack(fill=tk.BOTH)
+            self.resize_window()
 
     '''
     def button2_clicked(self):
@@ -460,6 +510,7 @@ class View(tk.Tk, Observer):
 if __name__ == '__main__':
 
     from src.mvc.controller import Controller
+    from utiles.agents import owner
 
     height = 640
     width = 640

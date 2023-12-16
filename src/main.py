@@ -6,15 +6,15 @@ from utiles.agents import (owner, nurse, agent)
 import unittest
 
 # Define constants for matrix size and window size
-X_SIZE = 16
-Y_SIZE = 16
+X_SIZE, Y_SIZE = 16, 16
+activate_superspeed = False
 
 height = 40 * X_SIZE
 width = 40 * Y_SIZE
 
 # Create the model and specify the size of the room and its configuration file
 room = model.Model(X_SIZE, Y_SIZE)
-file_path = 'assets/default_16x16_room.json'
+file_path = 'assets/default_{}x{}_room.json'.format(X_SIZE, Y_SIZE)
 room.populate_room(file_path)
 
 # Create an agent and add it to the room
@@ -29,6 +29,8 @@ view = view.View('view', height, width)
 
 # Initalize controller and start vital constants thread
 main_controller = controller.Controller(room, view)
+if activate_superspeed:
+    main_controller.animation_speed = 50
 main_controller.vital_threading()
 
 # Send initial state to the view
