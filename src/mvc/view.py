@@ -42,17 +42,20 @@ class View(tk.Tk, Observer):
         button_frame = tk.Frame(frame)
         button_frame.grid(row=0, column=1, sticky='nsew')
 
-        button1 = tk.Button(button_frame, text="Click to move agents", 
+        self.button1 = tk.Button(button_frame, text="Move/stop agents (m)", 
                             command=self.button1_clicked, bg='grey', font=("Cascadia Code", 12))
-        button1.pack(fill=tk.X, pady=2)
+        self.button1.pack(fill=tk.X, pady=2)
+        self.button1.bind_all("<Key>", self.key_pressed)
 
-        new_window_button = tk.Button(button_frame, text="Health Monitor", command=self.open_monitor_window,
+        new_window_button = tk.Button(button_frame, text="Health Monitor (h)", command=self.open_monitor_window,
                                       bg='grey', font=("Cascadia Code", 12))
         new_window_button.pack(fill=tk.X, pady=2)
+        new_window_button.bind_all("<Key>", self.key_pressed)
 
-        self.toggle_button = tk.Button(button_frame, text="Show CMD", command=self.toggle_entry_frame,
+        self.toggle_button = tk.Button(button_frame, text="Show CMD (s)", command=self.toggle_entry_frame,
                           bg='grey', font=("Cascadia Code", 12))
         self.toggle_button.pack(fill=tk.X, pady=(2, 4))
+        self.toggle_button.bind_all("<Key>", self.key_pressed)
         ###
 
         ###
@@ -75,12 +78,13 @@ class View(tk.Tk, Observer):
         self.text_entry.bind("<Return>", self.exec_buton_clicked)
         self.exec_text.pack(fill=tk.NONE, pady=(2,2), expand=True)
 
-        command_list = tk.Text(self.entry_frame, height=18, width=37,font=("Helvetica", 10), bg='light grey')
+        command_list = tk.Text(self.entry_frame, height=24, width=37,font=("Helvetica", 10), bg='light grey')
         command_list.insert(tk.END, "Available commands:\n")
         command_list.insert(tk.END, "\n")
         command_list.insert(tk.END, "tp <x1> <y1> <x2> <y2> - Teleport object\n")
         command_list.insert(tk.END, "\n")
-        command_list.insert(tk.END, "speed <number> - Change animation speed\n")
+        command_list.insert(tk.END, "speed <miliseconds> - Animation speed\n")
+        command_list.insert(tk.END, "    Default=800, works between 100-1000\n")
         command_list.insert(tk.END, "\n")
         command_list.insert(tk.END, "spawn <literal_name> <x> <y>\n")
         command_list.insert(tk.END, "    -Supported agents: \n")
@@ -94,6 +98,11 @@ class View(tk.Tk, Observer):
         command_list.insert(tk.END, "\n")
         command_list.insert(tk.END, "+ Click on canvas to paste coordinates\n")
         command_list.insert(tk.END, "   of a square into the command line.\n")
+        command_list.insert(tk.END, "Examples:\n") 
+        command_list.insert(tk.END, "   spawn nurse 7 6\n")
+        command_list.insert(tk.END, "   tp 2 3 7 8\n")
+        command_list.insert(tk.END, "   spawn reset\n")
+        command_list.insert(tk.END, "   despawn 7 8\n")
                      
         command_list.pack(fill=tk.X, pady=5)
         ###
@@ -158,10 +167,21 @@ class View(tk.Tk, Observer):
 
         #self.text_entry.clipboard_clear()
         #self.text_entry.clipboard_append(f"{matrix_x} {matrix_y}")
-        self.text_entry.insert(tk.END, f"{matrix_x} {matrix_y} ")
+        self.text_entry.insert(tk.END, f" {matrix_x} {matrix_y}")
 
         print(f"Cell: {matrix_x}, {matrix_y}")
 
+    def key_pressed(self, event):
+        # Check if the pressed key is "m"
+        match event.char:
+            case 'm':
+                # If it is, trigger the button click event
+                self.button1_clicked()
+            case 's':
+                self.toggle_entry_frame()
+            case 'h':
+                self.open_monitor_window()
+        
     def set_controller(self, controller):
         """
         Set the controller for the view.
@@ -287,45 +307,24 @@ class View(tk.Tk, Observer):
         if self.controller:
             if enter == ():
                 self.controller.parse_command(self.retrieve_input(self.text_entry))
+                self.text_entry.delete(0, tk.END)
             else:
                 self.controller.parse_command(self.retrieve_input(enter[0].widget))
+                self.text_entry.delete(0, tk.END)
 
     def toggle_entry_frame(self):
         # Check if the frame is currently visible
         if self.entry_frame.winfo_viewable():
             # If it's visible, hide it
-            self.toggle_button.config(text="Show CMD")
+            self.toggle_button.config(text="Show CMD (s)")
             
             self.entry_frame.pack_forget()
             self.resize_window()
         else:
             # If it's not visible, show it
-            self.toggle_button.config(text="Hide CMD")
+            self.toggle_button.config(text="Hide CMD (s)")
             self.entry_frame.pack(fill=tk.BOTH)
             self.resize_window()
-
-    '''
-    def button2_clicked(self):
-        """
-        Handle the click event for button2.
-
-        If a controller is set, call its handle_click method with the argument "collision".
-        """
-        if self.controller:
-            self.controller.handle_click("collision")
-
-    def button3_clicked(self):
-        """
-        Handle the click event for button3.
-
-        If a controller is available, call its handle_click method with the argument "door".
-        """
-        if self.controller:
-            self.controller.handle_click("door")
-    '''
-
-
-
 
     def open_monitor_window(self):
         """

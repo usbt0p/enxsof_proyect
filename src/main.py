@@ -5,12 +5,30 @@ from src.mvc import (model, view, controller)
 from utiles.agents import (owner, nurse, agent)
 import unittest
 
-# Define constants for matrix size and window size
-X_SIZE, Y_SIZE = 16, 16
-activate_superspeed = False
+def create_menu():
+    print("Choose a map to load!")
+    print("1. x = 16, y = 16")
+    print("2. x = 10, y = 10")
+    print("3. x = 16, y = 10")
+    choice = input("Enter your choice (1-3): ")
 
-height = 40 * X_SIZE
-width = 40 * Y_SIZE
+    if choice == "1":
+        x, y = 16, 16
+    elif choice == "2":
+        x, y = 10, 10
+    elif choice == "3":
+        x, y = 16, 10
+    else:
+        print("Invalid choice. Using default values 16x16.")
+        x, y = 16, 16
+
+    return x, y
+
+# Create a menu that asks for the size of the room
+X_SIZE, Y_SIZE = create_menu()
+
+height = Y_SIZE * 40
+width = X_SIZE * 40
 
 # Create the model and specify the size of the room and its configuration file
 room = model.Model(X_SIZE, Y_SIZE)
@@ -29,8 +47,6 @@ view = view.View('view', height, width)
 
 # Initalize controller and start vital constants thread
 main_controller = controller.Controller(room, view)
-if activate_superspeed:
-    main_controller.animation_speed = 50
 main_controller.vital_threading()
 
 # Send initial state to the view

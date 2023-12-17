@@ -235,6 +235,7 @@ class Controller(Observer):
 
                 match command[1]:
                     case 'agent':
+                        command[1] = 'Gato' #FIXME harcodeado para qu no spawnee un agente sin sprite
                         self.spawn_agent(command, check_numeric_arguments)
                     case 'owner':
                         self.spawn_agent(command, check_numeric_arguments)
@@ -262,7 +263,7 @@ class Controller(Observer):
 
     def spawn_agent(self, command, check_numeric_arguments):
         check_numeric_arguments(4, 2)          
-        self.add_agent("Enfermera", int(command[2]), int(command[3]))
+        self.add_agent(command[1].capitalize(), int(command[2]), int(command[3]))
 
     def spawn_object(self, command, check_numeric_arguments):
         check_numeric_arguments(4, 2)
