@@ -536,11 +536,20 @@ class View(tk.Tk, Observer):
 
 
     def on_monitor_window_close(self):
-            """
-            Resets the flag when the monitor window is closed.
-            """
+        """
+        Stops the animations and resets the flag when the monitor window is closed.
+        """
+        if self.health_monitor_window:
+            # Stop the animations if they exist
+            if hasattr(self, 'ani1'):
+                self.ani1.event_source.stop()
+            if hasattr(self, 'ani2'):
+                self.ani2.event_source.stop()
+
+            # Destroy the health monitor window
             self.health_monitor_window.destroy()
             self.health_monitor_window = None
+
 
 
 
