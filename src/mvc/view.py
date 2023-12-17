@@ -325,14 +325,14 @@ class View(tk.Tk, Observer):
         if self.entry_frame.winfo_viewable():
             # If it's visible, hide it
             self.toggle_button.config(text="Show CMD (s)")
-            
             self.entry_frame.pack_forget()
+            self.focus_set()  # Set focus to the main window to remove focus from the command prompt
             self.resize_window()
         else:
             # If it's not visible, show it
             self.toggle_button.config(text="Hide CMD (s)")
-            self.text_entry.focus_set()
             self.entry_frame.pack(fill=tk.BOTH)
+            self.text_entry.focus_set() # Set focus to the text entry
             self.resize_window()
 
     def open_monitor_window(self):
