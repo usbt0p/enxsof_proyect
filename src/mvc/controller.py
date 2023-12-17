@@ -105,7 +105,9 @@ class Controller(Observer):
             position: The position to place the new agent.
         """
         ag = self.model.create_agent(agent_name, x, y)
-        self.model.generate_agents(ag)
+        self.model.generate_agents(ag) # FIXME Ojo hay un bug aqui q crea agentes invisibles!!!! 
+        # Creo que es cuando lo spawneas en una posicion que ya esta ocupada
+        
         self.model.notify(self.view, agents=self.model.agents)
     
     def add_object(self, object_instance, x, y ) -> None:
@@ -232,31 +234,22 @@ class Controller(Observer):
                             self.default_agents = len(self.model.agents)
 
                 match command[1]:
-
-                    case 'agent' | 'ag':
-                        check_numeric_arguments(4, 2)
-                    
-                        self.add_agent("Gato", int(command[2]), int(command[3]))
-
-                    case 'owner' | 'ow':
-                        check_numeric_arguments(4, 2)
-                        
-                        self.add_agent("Owner", int(command[2]), int(command[3]))
-
-                    case 'nurse' | 'nu':
-                        check_numeric_arguments(4, 2)
-                        
-                        self.add_agent("Nurse", int(command[2]), int(command[3]))
-
-                    case 'object' | 'ob':
-                        print(command)
-                        assert command[2].lower() in ('wall', 'table', 'fridge', 'door', 'sofa'), "Invalid object type"
-                        check_numeric_arguments(5, 3)
-                        
-                        ob = self.model.create_object(int(command[3]), 
-                                                      int(command[4]), command[2].capitalize())
-                        self.add_object(ob, int(command[3]), int(command[4]))
-
+                    case 'agent':
+                        self.spawn_agent(command, check_numeric_arguments)
+                    case 'owner':
+                        self.spawn_agent(command, check_numeric_arguments)
+                    case 'enfermera':
+                        self.spawn_agent(command, check_numeric_arguments)
+                    case 'fridge':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'table':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'door':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'sofa':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'wall':
+                        self.spawn_object(command, check_numeric_arguments)
                     case 'reset' | 'r':
                         assert len(command) == 2, "Invalid number of arguments"
                         
@@ -265,8 +258,16 @@ class Controller(Observer):
 
             case 'despawn' | 'des':
                 check_numeric_arguments(3, 1)
-                
                 self.despawn_object(int(command[1]), int(command[2]))
+
+    def spawn_agent(self, command, check_numeric_arguments):
+        check_numeric_arguments(4, 2)          
+        self.add_agent("Enfermera", int(command[2]), int(command[3]))
+
+    def spawn_object(self, command, check_numeric_arguments):
+        check_numeric_arguments(4, 2)
+        ob = self.model.create_object(int(command[2]), int(command[3]), command[1].capitalize())           
+        self.add_object(ob, int(command[2]), int(command[3]))
 
    
 

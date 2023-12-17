@@ -69,21 +69,24 @@ class View(tk.Tk, Observer):
                                    highlightbackground='black', highlightcolor='black', highlightthickness=1)
         self.text_entry.pack(fill=tk.X, pady=(2,2))
 
-        self.exec_text = tk.Button(self.entry_frame, text="Execute Command", command=self.exec_buton_clicked,
+        self.exec_text = tk.Button(self.entry_frame, text="Execute CMD / Press Enter", command=self.exec_buton_clicked,
                                       bg='light grey', font=("Cascadia Code", 12))
+        #Bind the enter key to the text entry
+        self.text_entry.bind("<Return>", self.exec_buton_clicked)
         self.exec_text.pack(fill=tk.NONE, pady=(2,2), expand=True)
 
-        command_list = tk.Text(self.entry_frame, height=17, width=37,font=("Helvetica", 10), bg='light grey')
+        command_list = tk.Text(self.entry_frame, height=18, width=37,font=("Helvetica", 10), bg='light grey')
         command_list.insert(tk.END, "Available commands:\n")
         command_list.insert(tk.END, "\n")
         command_list.insert(tk.END, "tp <x1> <y1> <x2> <y2> - Teleport object\n")
         command_list.insert(tk.END, "\n")
         command_list.insert(tk.END, "speed <number> - Change animation speed\n")
         command_list.insert(tk.END, "\n")
-        command_list.insert(tk.END, "spawn <supported agent> <x> <y>\n")
-        command_list.insert(tk.END, "     Supported agents: \n")
-        command_list.insert(tk.END, "     nurse | nu, agent | ag, \n")
-        command_list.insert(tk.END, "     owner | ow, object | ob\n")
+        command_list.insert(tk.END, "spawn <literal_name> <x> <y>\n")
+        command_list.insert(tk.END, "    -Supported agents: \n")
+        command_list.insert(tk.END, "     enfermera, agent, owner\n")
+        command_list.insert(tk.END, "    -Supported objects: \n")
+        command_list.insert(tk.END, "     wall, sofa, door, fridge, table\n")
         command_list.insert(tk.END, "\n")
         command_list.insert(tk.END, "spawn reset - Go back to default agents\n")
         command_list.insert(tk.END, "\n")
@@ -274,7 +277,7 @@ class View(tk.Tk, Observer):
     def retrieve_input(self, entry):
             return entry.get()
              
-    def exec_buton_clicked(self):
+    def exec_buton_clicked(self, *enter):
         """
         Handle the click event.
 
@@ -282,7 +285,10 @@ class View(tk.Tk, Observer):
         """
         
         if self.controller:
-            self.controller.parse_command(self.retrieve_input(self.text_entry))
+            if enter == ():
+                self.controller.parse_command(self.retrieve_input(self.text_entry))
+            else:
+                self.controller.parse_command(self.retrieve_input(enter[0].widget))
 
     def toggle_entry_frame(self):
         # Check if the frame is currently visible

@@ -38,7 +38,7 @@ class Model(Subject, Movements, pathPlanning):
         """
         Creates an agent in the room.
         """
-        return agent.Agent(name, x, y)
+        return agent.Agent(name, x, y) # TODO hacer el creador bien !!!!!!!
 
     def create_object(self, x, y, literal):
         """
