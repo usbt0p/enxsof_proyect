@@ -1,10 +1,10 @@
 [
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
-    ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Wall", 0, "Sofa", "Sofa", 0, "Wall"],
-    ["Wall", 0, "Sofa", 0, "Wall", 0, 0, 0, 0, 0, "Wall", 0, "Table", "Table", 0, "Wall"],
-    ["Wall", 0, "Table", 0, "Wall", 0, 0, 0, 0, 0, "Door", 0, 0, 0, 0, "Wall"],
+    ["Wall", 0, "Vater1", 0, "Wall", "Planta2", 0, 0, 0, 0, "Wall", 0, "Sofa", "Sofa", 0, "Wall"],
+    ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Wall", 0, "Table", "Table", 0, "Wall"],
+    ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Door", 0, 0, 0, 0, "Wall"],
     ["Wall", 0, 0, 0, "Wall", 0, 0, "Table", 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
-    ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
+    ["Wall", 0, 0, "Planta1", "Wall", 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
     ["Wall", "Wall", "Door", "Wall", "Wall", 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
     ["Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
     ["Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
@@ -12,7 +12,7 @@
     ["Wall", 0, 0, 0, 0, 0, "Fridge", "Fridge", "Wall", 0, "Wall", 0, "Table", "Table", 0, "Wall"],
     ["Wall", 0, 0, 0, 0, 0, 0, 0, "Wall", 0, "Wall", 0, "Sofa", "Sofa", 0, "Wall"],
     ["Wall", 0, 0, 0, 0, 0, 0, 0, "Door", 0, "Door", 0, 0, 0, 0, "Wall"],
-    ["Wall", "Fridge", 0, 0, 0, 0, 0, 0, "Wall", 0, "Wall", 0, 0, 0, 0, "Wall"],
+    ["Wall", 0, 0, 0, 0, 0, 0, 0, "Wall", 0, "Wall", 0, 0, 0, 0, "Wall"],
     ["Wall", "Fridge", 0, "Table", "Table", 0, 0, 0, "Wall", 0, "Wall", 0, 0, 0, 0, "Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
 ]

@@ -129,7 +129,24 @@ class View(tk.Tk, Observer):
         self.draw_grid(width, height) #Draw Grid
         self.attributes('-topmost', True) #Show Window on Top of other Windows
 
-        #It defines the srpites for each object's representation
+        # New sprites
+        self.juego = tk.PhotoImage(file="./assets/sprites/juego.png")
+        self.juego_g = tk.PhotoImage(file="./assets/sprites/juego_g.png")
+        self.cama = tk.PhotoImage(file="./assets/sprites/cama.png")
+        self.cama_g = tk.PhotoImage(file="./assets/sprites/cama_g.png")
+        self.planta1 = tk.PhotoImage(file="./assets/sprites/planta1.png")
+        self.planta2 = tk.PhotoImage(file="./assets/sprites/planta2.png")
+        self.planta3 = tk.PhotoImage(file="./assets/sprites/planta3.png")
+        self.silla_oficina_g = tk.PhotoImage(file="./assets/sprites/silla_oficina_g.png")
+        self.silla_oficina = tk.PhotoImage(file="./assets/sprites/silla_oficina.png")
+        self.silla1 = tk.PhotoImage(file="./assets/sprites/silla1.png")
+        self.silla1_g = tk.PhotoImage(file="./assets/sprites/silla1_g.png")
+        self.silla2_g = tk.PhotoImage(file="./assets/sprites/silla2_g.png")
+        self.silla2 = tk.PhotoImage(file="./assets/sprites/silla2.png")
+        self.vater1 = tk.PhotoImage(file="./assets/sprites/vater1.png")
+        self.armario = tk.PhotoImage(file="./assets/sprites/armario.png")
+
+        # Old sprites
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
         self.sofa_image = tk.PhotoImage(file="./assets/sprites/sofa.png")
         self.table_image = tk.PhotoImage(file="./assets/sprites/table.png")
@@ -139,12 +156,18 @@ class View(tk.Tk, Observer):
         self.agent_image = tk.PhotoImage(file="./assets/sprites/gato.png")
         self.owner_image = tk.PhotoImage(file="./assets/sprites/owner1.png")
         self.enfermera_image = tk.PhotoImage(file="./assets/sprites/enfermera2.png")
+        
 
         #Links the skins with the object literal name
         self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
                           "Table": self.table_image, "Door_Closed": self.door_image, 
                           "Door_Open": self.door_open_image, "Fridge": self.fridge_image,
-                          "Owner": self.owner_image, "Enfermera": self.enfermera_image, "Enfermera 2": self.enfermera_image,
+                          "Owner": self.owner_image, "Enfermera": self.enfermera_image, 
+                          "Enfermera 2": self.enfermera_image, "Juego": self.juego, "Juego_g": self.juego_g,
+                          "Cama": self.cama, "Cama_g": self.cama_g, "Planta1": self.planta1, "Planta2": self.planta2,
+                          "Planta3": self.planta3, "Silla_Oficina": self.silla_oficina, "Silla_Oficina_g": self.silla_oficina_g,
+                          "Silla1": self.silla1, "Silla1_g": self.silla1_g, "Silla2": self.silla2, "Silla2_g": self.silla2_g,
+                          "Vater1": self.vater1, "Armario": self.armario
                           }
 
     def resize_window(self):

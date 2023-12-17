@@ -46,13 +46,15 @@ class Model(Subject, Movements, pathPlanning):
         """
         obj = 0
         match literal:
-            case "Wall":
+            case "Wall" | "Juego" | "Juego_g":
                 obj = thing.Thing(x, y, literal)
-            case "Sofa" | "Table":
+            case "Sofa" | "Table" | "Cama" | "Cama_g" | "Planta1" | "Planta2" | "Planta3" | \
+                "Silla_Oficina" | "Silla_Oficina_g" | "Silla1_g" | "Silla1" | "Silla2_g" | "Silla2" | \
+                "Vater1":
                 obj = movable.Movable(x, y, literal)
             case "Door":
                 obj = openable.Openable(x, y, literal)
-            case "Fridge":
+            case "Fridge" | "Armario":
                 obj = mixed.Mixed(x, y, literal)
         
         return obj

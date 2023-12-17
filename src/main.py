@@ -26,7 +26,7 @@ def create_menu():
     return x, y
 
 # Create a menu that asks for the size of the room
-X_SIZE, Y_SIZE = create_menu()
+X_SIZE, Y_SIZE = 16, 16# = create_menu()
 
 # Define constants
 height = Y_SIZE * 40
