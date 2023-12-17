@@ -11,7 +11,8 @@ def create_menu():
     print("1. x = 16, y = 16")
     print("2. x = 10, y = 10")
     print("3. x = 16, y = 10")
-    choice = input("Enter your choice (1-3): ")
+    print("4. x = 24, y = 18")
+    choice = input("Enter your choice (1-4): ")
 
     if choice == "1":
         x, y = 16, 16
@@ -19,6 +20,8 @@ def create_menu():
         x, y = 10, 10
     elif choice == "3":
         x, y = 16, 10
+    elif choice == "4":
+        x, y = 24, 18
     else:
         print("Invalid choice. Using default values 16x16.")
         x, y = 16, 16
@@ -26,7 +29,7 @@ def create_menu():
     return x, y
 
 # Create a menu that asks for the size of the room
-X_SIZE, Y_SIZE = 16, 16# = create_menu()
+X_SIZE, Y_SIZE = create_menu()
 
 # Define constants
 height = Y_SIZE * 40

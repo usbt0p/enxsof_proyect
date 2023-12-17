@@ -91,7 +91,8 @@ class View(tk.Tk, Observer):
         command_list.insert(tk.END, "    -Supported agents: \n")
         command_list.insert(tk.END, "     enfermera, agent, owner\n")
         command_list.insert(tk.END, "    -Supported objects: \n")
-        command_list.insert(tk.END, "     wall, sofa, door, fridge, table\n")
+        command_list.insert(tk.END, "     wall, sofa, door, fridge, table,\n")
+        command_list.insert(tk.END, "     planta1, silla1, armario, vater,...\n")
         command_list.insert(tk.END, "\n")
         command_list.insert(tk.END, "spawn reset - Go back to default agents\n")
         command_list.insert(tk.END, "\n")
@@ -192,7 +193,8 @@ class View(tk.Tk, Observer):
         #self.text_entry.clipboard_clear()
         #self.text_entry.clipboard_append(f"{matrix_x} {matrix_y}")
         self.text_entry.insert(tk.END, f" {matrix_x} {matrix_y}")
-
+        #TODO
+        #self.model.controller.objectAt(matrix_x, matrix_y)
         print(f"Cell: {matrix_x}, {matrix_y}")
 
     def key_pressed(self, event):

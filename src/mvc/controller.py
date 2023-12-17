@@ -249,6 +249,36 @@ class Controller(Observer):
                         self.spawn_object(command, check_numeric_arguments)
                     case 'wall':
                         self.spawn_object(command, check_numeric_arguments)
+                    case 'cama':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'cama_g':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'aramario':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'juego_g':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'juego':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'silla1_g':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'silla1':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'silla2_g':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'silla2':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'silla_oficina':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'silla_oficina_g':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'planta1':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'planta2':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'planta3':
+                        self.spawn_object(command, check_numeric_arguments)
+                    case 'vater':
+                        self.spawn_object(command, check_numeric_arguments)
                     case 'reset' | 'r':
                         assert len(command) == 2, "Invalid number of arguments"
                         
