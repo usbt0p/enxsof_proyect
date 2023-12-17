@@ -3,9 +3,9 @@ sys.path.insert(0, '.')
 
 import unittest
 import subprocess
-from utiles import mixed, movable, owner
-from utiles.agents import agent
-from utiles.commons import (movementSystem)
+from utiles.objects import (mixed, movable, openable,thing)
+from utiles.agents import (owner, agent, nurse)
+from utiles.commons import (movementSystem, vitalsGenerator)
 from src.mvc import (model, view, controller, observer, subject)
 from utiles.objects import openable, thing
 
