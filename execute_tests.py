@@ -8,8 +8,9 @@ if __name__ == "__main__":
     # Establish PYTHONPATH on the script location
     os.environ['PYTHONPATH'] = '.'
 
-    # Execute main
-    subprocess.run(["python", "src/main_tests.py"], shell=True)
+    #Check for Windows or Linux and Execute Main
+    python_command = "python3" if sys.platform != "win32" else "python"
+    subprocess.run([python_command, "src/main_tests.py"], shell=False)
 
 
     
