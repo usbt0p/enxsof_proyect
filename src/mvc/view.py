@@ -22,6 +22,7 @@ class View(tk.Tk, Observer):
         Observer.__init__(self, name)
 
         self.controller = None
+        self.health_monitor_window = None
 
         # f'{self.winfo_reqwidth()}x{self.winfo_reqheight()}'
         self.height = height
@@ -315,11 +316,20 @@ class View(tk.Tk, Observer):
         Opens a new independent window.
         """
 
+        # Check if the window is already open
+        if self.health_monitor_window is not None and self.health_monitor_window.winfo_exists():
+            # Optional: bring the existing window to the front
+            self.health_monitor_window.lift()
+            return  # Do not open a new window if it already exists
+
         # Create a new Toplevel window
-        new_window = tk.Toplevel(self)
-        new_window.title("Vital Constants Monitor")
-        new_window.geometry("800x600")
-        new_window.attributes('-topmost', True)
+        self.health_monitor_window = tk.Toplevel(self)
+        self.health_monitor_window.title("Vital Constants Monitor")
+        self.health_monitor_window.geometry("800x600")
+        self.health_monitor_window.attributes('-topmost', True)
+
+        # When the window is closed, reset the flag
+        self.health_monitor_window.protocol("WM_DELETE_WINDOW", self.on_monitor_window_close)
 
         #close_button = tk.Button(new_window, text="Close", command=new_window.destroy)
         #close_button.pack(pady=10)
@@ -328,7 +338,7 @@ class View(tk.Tk, Observer):
 
         # Initialize the main window using Tkinter
         # Create a frame for displaying the vital signs labels
-        label_frame = ttk.Frame(new_window)
+        label_frame = ttk.Frame(self.health_monitor_window)
         label_frame.pack(pady=10)
 
         # Labels for displaying various vital signs
@@ -456,7 +466,6 @@ class View(tk.Tk, Observer):
             return (ln1,)
 
 
-
         def create_ecg_cycle(t, heart_rate):
             """
             Create a single ECG cycle based on time 't' and heart rate.
@@ -517,7 +526,7 @@ class View(tk.Tk, Observer):
             return (ln2,)
 
         # Embedding the matplotlib figure in the Tkinter window
-        canvas = FigureCanvasTkAgg(fig, master=new_window)
+        canvas = FigureCanvasTkAgg(fig, master=self.health_monitor_window)
         canvas_widget = canvas.get_tk_widget()
         canvas_widget.pack(fill=tk.BOTH, expand=True)
 
@@ -526,6 +535,12 @@ class View(tk.Tk, Observer):
         self.ani2 = animation.FuncAnimation(fig, update_ecg, interval=20, frames=itertools.count(), init_func=init, blit=True, cache_frame_data=False)
 
 
+    def on_monitor_window_close(self):
+            """
+            Resets the flag when the monitor window is closed.
+            """
+            self.health_monitor_window.destroy()
+            self.health_monitor_window = None
 
 
 
@@ -559,29 +574,7 @@ if __name__ == '__main__':
 
     #room.attach(view)
     room.notify(view, agents=room.agents, matrix=room.matrix)
-  
 
-
-    """
-    def runtasks(i):
-        #room.notify(view, agents=room.agents, matrix=room.matrix)
-        #view.after(1000, room.notify(view, vitals=room.agents[0].vitals))
-        view.after(1, room.notify(view, vitals=room.agents[0].vitals))
-        id = view.after(1000, runtasks, i) 
-        return id
-    
-    task_id = runtasks(0)
-    #view.after_cancel(task_id)
-    """
-
-    '''
-    main_controller.updateFromNotification(agent_move_right=0)
-    main_controller.updateFromNotification(agent_move_right=0)
-    main_controller.updateFromNotification(agent_move_right=0)
-    main_controller.updateFromNotification(agent_move_right=0)
-    main_controller.updateFromNotification(agent_move_right=0)
-    main_controller.updateFromNotification(agent_move_right=0)
-    '''
 
     # Start the main event loop
     view.mainloop()
