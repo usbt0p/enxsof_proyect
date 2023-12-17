@@ -174,6 +174,11 @@ class View(tk.Tk, Observer):
 
     def key_pressed(self, event):
         # Check if the pressed key is "m"
+
+        if self.text_entry == self.text_entry.focus_get():
+            # If it is, skip the event
+            return
+        
         match event.char:
             case 'm':
                 # If it is, trigger the button click event
@@ -313,6 +318,8 @@ class View(tk.Tk, Observer):
                 self.controller.parse_command(self.retrieve_input(enter[0].widget))
                 self.text_entry.delete(0, tk.END)
 
+        self.focus()
+
     def toggle_entry_frame(self):
         # Check if the frame is currently visible
         if self.entry_frame.winfo_viewable():
@@ -324,6 +331,7 @@ class View(tk.Tk, Observer):
         else:
             # If it's not visible, show it
             self.toggle_button.config(text="Hide CMD (s)")
+            self.text_entry.focus_set()
             self.entry_frame.pack(fill=tk.BOTH)
             self.resize_window()
 

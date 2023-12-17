@@ -213,7 +213,7 @@ class Controller(Observer):
             for i in range(start_index_for_non_matching_args, num_args):
                 assert command[i].isnumeric(), "Coordinates must be integers"
 
-        command = command.strip().lower().split(" ")
+        command = command.strip().lower().replace("  ", " ").split(" ")
 
         match command[0]:
             
