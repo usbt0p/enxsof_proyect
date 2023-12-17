@@ -34,7 +34,6 @@ Para la ejecución correcta del programa, se precisa de la instalación de las s
     cycler == 0.12.1
     executing == 2.0.1
     fonttools == 4.46.0
-    icecream == 2.1.3
     kiwisolver == 1.4.5
     matplotlib == 3.8.2
     numpy == 1.26.2
