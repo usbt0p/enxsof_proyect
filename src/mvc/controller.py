@@ -3,7 +3,6 @@ sys.path.insert(0, '.')
 
 from src.mvc.observer import Observer
 import time
-import random
 import utiles.commons.vitalsGenerator as VG
 import threading
 
@@ -41,7 +40,7 @@ class Controller(Observer):
                     # value es una tupla con indices de agentes
                         while path == False or path == None or path == []: #No hay camino / el destino no es valido / Origen == Destino
                             path = self.model.path_generator(value)
-                            print(path)
+                            #print(path)
                         self.move_randomly(path, value, path[0])
 
 
@@ -105,8 +104,7 @@ class Controller(Observer):
             position: The position to place the new agent.
         """
         ag = self.model.create_agent(agent_name, x, y)
-        self.model.generate_agents(ag) # FIXME Ojo hay un bug aqui q crea agentes invisibles!!!! 
-        # Creo que es cuando lo spawneas en una posicion que ya esta ocupada
+        self.model.generate_agents(ag)
         
         self.model.notify(self.view, agents=self.model.agents)
     
@@ -262,13 +260,33 @@ class Controller(Observer):
                 self.despawn_object(int(command[1]), int(command[2]))
 
     def spawn_agent(self, command, check_numeric_arguments):
+        """
+        Spawns a new agent with the given parameters.
+
+        Args:
+            command (list): The command containing the agent details.
+            check_numeric_arguments (function): A function to check if the arguments are numeric.
+
+        Returns:
+            None
+        """
         check_numeric_arguments(4, 2)          
         self.add_agent(command[1].capitalize(), int(command[2]), int(command[3]))
 
     def spawn_object(self, command, check_numeric_arguments):
-        check_numeric_arguments(4, 2)
-        ob = self.model.create_object(int(command[2]), int(command[3]), command[1].capitalize())           
-        self.add_object(ob, int(command[2]), int(command[3]))
+            """
+            Spawns a new object in the model based on the given command.
+
+            Args:
+                command (list): A list containing the command parameters.
+                check_numeric_arguments (function): A function to check the numeric arguments.
+
+            Returns:
+                None
+            """
+            check_numeric_arguments(4, 2)
+            ob = self.model.create_object(int(command[2]), int(command[3]), command[1].capitalize())           
+            self.add_object(ob, int(command[2]), int(command[3]))
 
    
 

@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '.')
 
-from src.mvc import observer as ob
+from src.mvc import observer
 from abc import ABC
 
 class Subject(ABC):
@@ -38,11 +38,12 @@ class Subject(ABC):
             TypeError: If an observer is not an instance of the Observer class.
         """
         for obs in observers:
-            if not isinstance(obs, ob.Observer):
+            if not isinstance(obs, observer.Observer):
                 raise TypeError('El observer debe ser una instancia de la clase Observer')
-            self._observers.add(obs)
+            else:
+                self._observers.add(obs)
 
-    def detach(self, observer:ob.Observer) -> None:
+    def detach(self, observer:observer.Observer) -> None:
             """
             Detaches an observer from the subject.
 
@@ -91,8 +92,8 @@ if "__main__" == __name__:
     subject = Subject()
 
     # Crear observadores
-    view = ob.Observer('view')
-    controller = ob.Observer('controller')
+    view = observer.Observer('view')
+    controller = observer.Observer('controller')
 
     # Adjuntar los observadores al sujeto
     subject.attach(view, controller)

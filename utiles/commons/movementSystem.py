@@ -43,7 +43,8 @@ class pathPlanning(ABC):
         new_x = random.randint(
             0, max_x - 1)  # excluding this endpoint so we don't get out of bounds
         new_y = random.randint(0, max_y - 1)
-        print("random position: ", new_x, new_y)
+
+        #print("random position: ", new_x, new_y)
         return new_x, new_y
 
     def get_random_position(self):
@@ -65,9 +66,9 @@ class pathPlanning(ABC):
         new_x, new_y = self.generate_random_position(max_x, max_y)
         if not self.is_position_occupied(new_x, new_y):
             return self.a_star_search((agent_x, agent_y), (new_x, new_y), self.matrix)
-        else:
+        #else:
             # Optionally, try again or handle invalid move
-            print("There is no valid position to move to!")
+            #print("There is no valid position to move to!")
 
     def path_generator(self, agent_index):
         # Por tema de matriz transpuesta, esto va al reves

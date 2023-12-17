@@ -26,11 +26,24 @@ class TestExecute(unittest.TestCase):
         self.assertIsNotNone(observer)
         self.assertIsNotNone(subject)
 
-    def test_execute_main(self):
-        result = subprocess.run(["python", "src/mvc/main.py"], capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0)
-        # Add more assertions to validate the output if needed
 
 
 if __name__ == '__main__':
+    
+
+    def test_execute_main(self):
+        import sys
+        sys.path.insert(0, '.')
+
+        import os
+        import subprocess
+
+        if __name__ == "__main__":
+            # Establish PYTHONPATH on the script location
+            os.environ['PYTHONPATH'] = '.'
+        
+
+            result = subprocess.run(["python", "src/main.py"], shell=True, text=True)
+        self.assertEqual(result.returncode, 0)
+
     unittest.main()

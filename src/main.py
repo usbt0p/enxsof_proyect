@@ -3,9 +3,10 @@ sys.path.insert(0, '.')
 
 from src.mvc import (model, view, controller)
 from utiles.agents import (owner, nurse, agent)
-import unittest
 
 def create_menu():
+    """Creates a menu that asks for the size of the room."""
+
     print("Choose a map to load!")
     print("1. x = 16, y = 16")
     print("2. x = 10, y = 10")
@@ -27,6 +28,7 @@ def create_menu():
 # Create a menu that asks for the size of the room
 X_SIZE, Y_SIZE = create_menu()
 
+# Define constants
 height = Y_SIZE * 40
 width = X_SIZE * 40
 
@@ -55,11 +57,5 @@ room.notify(view, agents=room.agents, matrix=room.matrix)
 # Start the main event loop
 view.mainloop()
 
-
-if __name__ == "__main__":
-
-    print('HAY QUE HACER LOS PUTOS TESTS AQUI!!!!!!!!!!!\n\
-          HAY QUE HACER LOS PUTOS TESTS AQUI!!!!!!!!!!!\n\
-          HAY QUE HACER LOS PUTOS TESTS AQUI!!!!!!!!!!!\n\
-          HAY QUE HACER LOS PUTOS TESTS AQUI!!!!!!!!!!!\n')
+    
     

@@ -7,7 +7,7 @@ from utiles.agents.nurse import Nurse
 from utiles.agents.owner import Owner
 from utiles.objects.thing import Thing
 
-class TestNurse(unittest.TestCase):
+class TestNurse(unittest.TestCase, Nurse):
 
     def setUp(self):
         self.nurse = Nurse("Nurse", 0, 0, 5, 5)

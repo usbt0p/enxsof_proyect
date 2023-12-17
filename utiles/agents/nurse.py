@@ -133,7 +133,7 @@ class Nurse(Agent, Observer, pathPlanning):
         Returns:
         - int: The Manhattan distance between the nurse and the owner.
         """
-        return pathPlanning.heuristic((self.x,self.y), (owner.x,owner.y))
+        return self.heuristic((self.x,self.y), (owner.x,owner.y))
 
 
     def updateFromNotification(self, *new_state, **kwargs):

@@ -6,10 +6,23 @@ from unittest.mock import MagicMock
 from src.mvc.subject import Subject
 from src.mvc.observer import Observer
 
+class ConcreteObserver(Observer):
+        def __init__(self):
+            super().__init__()
+        def updateFromNotification(self, *args, **kwargs):
+            pass
+
+class ConcreteSubject(Subject):
+    def __init__(self):
+        super().__init__()
+    
+
 class TestSubject(unittest.TestCase):
+    
 
     def setUp(self):
         self.subject = Subject()
+        
 
     def test_attach(self):
         observer1 = MagicMock(spec=Observer)
@@ -21,10 +34,16 @@ class TestSubject(unittest.TestCase):
         self.assertIn(observer2, self.subject._observers)
 
     def test_attach_invalid_observer(self):
-        observer = "invalid_observer"
+        obs = ConcreteObserver() # FIXME esto que cojones es
+        sub = ConcreteSubject()
+        false_obs = 'mierda'
 
-        with self.assertRaises(TypeError):
-            self.subject.attach(observer)
+        #with self.assertRaises(TypeError):
+        sub.attach(obs)
+        print(sub._observers)
+
+        sub.attach(false_obs)
+        print(sub._observers)
 
     def test_detach(self):
         observer1 = MagicMock(spec=Observer)

@@ -13,7 +13,7 @@ class Model(Subject, Movements, pathPlanning):
     This class represents a room in the pyhton project.
     """
 
-    def __init__(self, x_size, y_size) -> None:
+    def __init__(self, x_size:int, y_size:int) -> None:
         """
         Initialize the Model object.
 

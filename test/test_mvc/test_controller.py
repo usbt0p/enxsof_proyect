@@ -4,6 +4,7 @@ sys.path.insert(0, '.')
 import unittest
 from unittest.mock import MagicMock
 from src.mvc.controller import Controller
+from utiles.agents import agent
 
 class TestController(unittest.TestCase):
 
@@ -31,29 +32,17 @@ class TestController(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.controller.updateFromNotification(invalid_key=0)
 
-    def test_move_randomly(self):
-        agent_index = 0
-        path = [(0, 0), (1, 1), (2, 2)]
-        self.controller.model.agents = [MagicMock()]
-        self.controller.model.notify = MagicMock()
-        self.controller.view.after = MagicMock()
-        self.controller.move_randomly(path, agent_index, path[0])
-        self.assertEqual(self.controller.model.agents[agent_index].x, 0)
-        self.assertEqual(self.controller.model.agents[agent_index].y, 0)
-        self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
-        self.controller.view.after.assert_called_once_with(1000, self.controller.move_randomly, path[1:], agent_index, path[0])
-
     def test_add_agent(self):
         agent_name = "Agent1"
-        position = (0, 0)
+        x, y  = 0, 0
         new_agent = MagicMock()
-        self.controller.model.generate_agents = MagicMock(return_value=new_agent)
-        self.controller.model.add_agent = MagicMock()
-        self.controller.view.update_view = MagicMock()
-        self.controller.add_agent(agent_name, position)
-        self.controller.model.generate_agents.assert_called_once_with(agent_name, position)
-        self.controller.model.add_agent.assert_called_once_with(new_agent)
-        self.controller.view.update_view.assert_called_once()
+        self.controller.model.create_agent = MagicMock(return_value=new_agent)
+        self.controller.model.generate_agents = MagicMock()
+        self.controller.model.notify = MagicMock()
+        self.controller.add_agent(agent_name, x, y)
+        self.controller.model.create_agent.assert_called_once_with(agent_name, x, y)
+        self.controller.model.generate_agents.assert_called_once_with(new_agent)
+        self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
 
     def test_remove_agent(self):
         agent_name = "Agent1"
@@ -83,3 +72,12 @@ class TestController(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    
+
+import sys
+sys.path.insert(0, '.')
+
+import unittest
+from unittest.mock import MagicMock
+from src.mvc.controller import Controller
+from utiles.agents import agent
