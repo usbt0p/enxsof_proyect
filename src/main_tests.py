@@ -9,8 +9,25 @@ if __name__ == '__main__':
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
 
-    suite.addTests(loader.loadTestsFromModule(test_module1))
-    suite.addTests(loader.loadTestsFromModule(test_module2))
+    suite.addTests(loader.loadTestsFromModule(test_controller))
+    suite.addTests(loader.loadTestsFromModule(test_model))
+    suite.addTests(loader.loadTestsFromModule(test_observer))
+    suite.addTests(loader.loadTestsFromModule(test_subject))
+    suite.addTests(loader.loadTestsFromModule(test_view))
+
+
+    suite.addTests(loader.loadTestsFromModule(test__init__))
+    suite.addTests(loader.loadTestsFromModule(test_agents))
+    suite.addTests(loader.loadTestsFromModule(test_mixed))
+    suite.addTests(loader.loadTestsFromModule(test_movable))
+    suite.addTests(loader.loadTestsFromModule(test_movementSystem))
+    suite.addTests(loader.loadTestsFromModule(test_nurse))
+    suite.addTests(loader.loadTestsFromModule(test_openable))
+    suite.addTests(loader.loadTestsFromModule(test_owner))
+    suite.addTests(loader.loadTestsFromModule(test_thing))
+    suite.addTests(loader.loadTestsFromModule(test_vitalsGenerator))
+
+
 
     runner = unittest.TextTestRunner()
     runner.run(suite)
