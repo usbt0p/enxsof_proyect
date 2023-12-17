@@ -2,6 +2,7 @@ import json
 from utiles.commons.movementSystem import Movements, pathPlanning
 from src.mvc.subject import Subject
 from utiles.objects import (thing, openable, movable, mixed)
+from utiles.agents import (agent, nurse, owner)
 import sys
 sys.path.insert(0, '.')
 
@@ -32,6 +33,29 @@ class Model(Subject, Movements, pathPlanning):
         Returns: a bidimensional list with the size of the room
         """
         return [[0] * self.x_size for _ in range(self.y_size)]
+    
+    def create_agent(self, name, x, y):
+        """
+        Creates an agent in the room.
+        """
+        return agent.Agent(name, x, y)
+
+    def create_object(self, x, y, literal):
+        """
+        Creates an object in the room.
+        """
+        obj = 0
+        match literal:
+            case "Wall":
+                obj = thing.Thing(x, y, literal)
+            case "Sofa" | "Table":
+                obj = movable.Movable(x, y, literal)
+            case "Door":
+                obj = openable.Openable(x, y, literal)
+            case "Fridge":
+                obj = mixed.Mixed(x, y, literal)
+        
+        return obj
 
     def generate_agents(self, *agents) -> None:
         """
@@ -57,15 +81,7 @@ class Model(Subject, Movements, pathPlanning):
 
         for y, row in enumerate(config):
             for x, literal in enumerate(row):
-                match literal:
-                    case "Wall":
-                        self.matrix[y][x] = thing.Thing(x, y, literal)
-                    case "Sofa" | "Table":
-                        self.matrix[y][x] = movable.Movable(x, y, literal)
-                    case "Door":
-                        self.matrix[y][x] = openable.Openable(x, y, literal)
-                    case "Fridge":
-                        self.matrix[y][x] = mixed.Mixed(x, y, literal)
+                self.matrix[y][x] = self.create_object(x, y, literal)
 
     def read_grid_config_file(self, file_path: str) -> dict | None:
         """

@@ -23,6 +23,7 @@ class Controller(Observer):
         self.animation_id = None
         self.previous_event = None
         self.animation_speed = 800
+        self.default_agents = None
     
     def updateFromNotification(self, *new_state, **kwargs):
         NOTIFY_KEYS = ('agent_move_right', 'random_movement')
@@ -95,7 +96,7 @@ class Controller(Observer):
                 self.animation_running = False
         
 
-    def add_agent(self, agent_name:str, position:tuple) -> None:
+    def add_agent(self, agent_name:str, x, y ) -> None:
         """
         Adds a new agent to the model and updates the view.
 
@@ -103,9 +104,30 @@ class Controller(Observer):
             agent_name: The name of the agent to be added.
             position: The position to place the new agent.
         """
-        new_agent = self.model.generate_agents(agent_name, position)
-        self.model.add_agent(new_agent)
-        self.view.update_view()
+        ag = self.model.create_agent(agent_name, x, y)
+        self.model.generate_agents(ag)
+        self.model.notify(self.view, agents=self.model.agents)
+    
+    def add_object(self, object_instance, x, y ) -> None:
+        """
+        Adds a new object to the model and updates the view.
+
+        Args:
+            object_instance: The object to be added.
+            position: The position to place the new object.
+        """
+        self.model.matrix[y][x] = object_instance
+        self.model.notify(self.view, matrix=self.model.matrix)
+
+    def despawn_object(self, x, y) -> None:
+        """
+        Removes an object from the model and updates the view.
+
+        Args:
+            position: The position of the object to be removed.
+        """
+        self.model.matrix[y][x] = 0
+        self.model.notify(self.view, matrix=self.model.matrix)
 
 
     def remove_agent(self, agent_name:str) -> None:
@@ -183,10 +205,16 @@ class Controller(Observer):
         Returns:
         The command to be executed.
         """
+        def check_numeric_arguments(num_args, start_index_for_non_matching_args):
+            
+            assert len(command) == num_args, "Invalid number of arguments"
+            for i in range(start_index_for_non_matching_args, num_args):
+                assert command[i].isnumeric(), "Coordinates must be integers"
 
         command = command.strip().lower().split(" ")
 
         match command[0]:
+            
             case 'speed':
                 assert command[1].isnumeric(), "Speed must be an integer"
                 self.animation_speed = int(command[1])
@@ -194,13 +222,51 @@ class Controller(Observer):
 
             case 'tp':
                 # assert no hacer tp out of bounds
-                assert len(command) == 5, "Invalid number of arguments"
-                for i in range(1, 5):
-                    assert command[i].isnumeric(), "Coordinates must be integers"
+                check_numeric_arguments(5, 1)
                 
                 self.model.object_teleport(int(command[1]), int(command[2]), int(command[3]), int(command[4]))
                 self.model.notify(self.view, matrix=self.model.matrix)
-        
+
+            case 'spawn':
+                if self.default_agents == None:
+                            self.default_agents = len(self.model.agents)
+
+                match command[1]:
+
+                    case 'agent' | 'ag':
+                        check_numeric_arguments(4, 2)
+                    
+                        self.add_agent("Gato", int(command[2]), int(command[3]))
+
+                    case 'owner' | 'ow':
+                        check_numeric_arguments(4, 2)
+                        
+                        self.add_agent("Owner", int(command[2]), int(command[3]))
+
+                    case 'nurse' | 'nu':
+                        check_numeric_arguments(4, 2)
+                        
+                        self.add_agent("Nurse", int(command[2]), int(command[3]))
+
+                    case 'object' | 'ob':
+                        print(command)
+                        assert command[2].lower() in ('wall', 'table', 'fridge', 'door', 'sofa'), "Invalid object type"
+                        check_numeric_arguments(5, 3)
+                        
+                        ob = self.model.create_object(int(command[3]), 
+                                                      int(command[4]), command[2].capitalize())
+                        self.add_object(ob, int(command[3]), int(command[4]))
+
+                    case 'reset' | 'r':
+                        assert len(command) == 2, "Invalid number of arguments"
+                        
+                        self.model.agents = self.model.agents[0:self.default_agents]
+                        self.model.notify(self.view, agents=self.model.agents)
+
+            case 'despawn' | 'des':
+                check_numeric_arguments(3, 1)
+                
+                self.despawn_object(int(command[1]), int(command[2]))
 
    
 

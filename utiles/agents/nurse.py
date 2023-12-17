@@ -30,7 +30,7 @@ class Nurse(Agent, Observer, pathPlanning):
     - manhattan_distance_to_owner(owner): Calculates the Manhattan distance between the nurse and an owner.
     """
 
-    def __init__(self, name, x, y, charging_x, charging_y):
+    def __init__(self, name, x, y, charging_x=0, charging_y=0):
         """
         Initializes a Nurse object.
 
