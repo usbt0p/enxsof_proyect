@@ -70,10 +70,7 @@ class Nurse(Agent, Observer, pathPlanning):
         """
         return self._battery, self._charging_status, self._charging_time, self._charging_station
     
-    @property
-    def status(self):
-        """Get the status of the nurse."""
-        return self._status
+    
 
     @status.setter
     def status(self, value):
