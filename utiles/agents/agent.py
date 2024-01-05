@@ -51,12 +51,6 @@ class Agent():
             """
             return f"Agent: {self.name} at position {self.print_position()}"
         
-    def animate_movement(self, movements, index=0):
-        if index < len(movements):
-            pos = movements[index]
-            self.move_agent('robot', pos)
-            self.update_view()
-            # Programa el siguiente movimiento después de un segundo
-            self.after(1000, lambda: self.animate_movement(movements, index + 1))
+    
  
 
