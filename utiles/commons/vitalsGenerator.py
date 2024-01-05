@@ -30,7 +30,7 @@ def generate_vital():
     # Randomly generate new vital signs values
     heart_rate = random.randint(60, 140)
     blood_pressure = f"{random.randint(100, 140)}/{random.randint(60, 90)}"
-    body_temperature = round(random.uniform(36.5, 37.5), 1)
+    body_temperature = round(random.uniform(36.5, 40.5), 1)
     respiratory_rate = random.randint(12, 20)
     oxygen_saturation = random.randint(95, 99)
     gcs_score = random.randint(3, 15)
