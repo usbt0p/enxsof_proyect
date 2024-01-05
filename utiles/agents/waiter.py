@@ -6,16 +6,16 @@ from utiles.agents.agent import Agent
 from utiles.commons.movementSystem import pathPlanning
 
 
-class Delivery(Agent, Observer, pathPlanning):
+class Waiter(Agent, Observer, pathPlanning):
 
     def __init__(self, name, x, y):
         """
-        Initializes a Delivery object.
+        Initializes a Waiter object.
 
         Args:
-            name (str): The name of the delivery.
-            x (int): The x-coordinate of the delivery's position.
-            y (int): The y-coordinate of the delivery's position.
+            name (str): The name of the waiter.
+            x (int): The x-coordinate of the waiter's position.
+            y (int): The y-coordinate of the waiter's position.
         """
         Agent.__init__(self, name, x, y)
         Observer.__init__(self, name)
@@ -26,16 +26,16 @@ class Delivery(Agent, Observer, pathPlanning):
     @property
     def status(self):
         """
-        Get the status of the delivery.
+        Get the status of the waiter.
 
         Returns:
-            str: The status of the delivery.
+            str: The status of the waiter.
         """
         return self._status
     
     @status.setter
     def status(self, value):
-        """Set the status of the delivery."""
+        """Set the status of the waiter."""
         self._status = value
 
 
