@@ -165,16 +165,13 @@ class pathPlanning(ABC):
 
                 if (0 <= neighbor[0] < len(grid)) and (0 <= neighbor[1] < len(grid[0])):
                     cell = grid[neighbor[0]][neighbor[1]]
-                    print("cell: ", cell)
-                    print(type(cell).__name__)
-                    print(isinstance(cell, Openable))
 
                     # Determine if the cell is an obstacle.
                     is_obstacle = True
                     if cell == 0:
-                        is_obstacle = False  # '0' and '2' are not obstacles.
-                    #elif isinstance(cell, Openable) and getattr(cell, '_literal_name', None) == "Door":
-                     #   is_obstacle = False  # An object named "Door" is not an obstacle.
+                        is_obstacle = False  # '0' is not obstacle.
+                    elif isinstance(cell, Openable) and getattr(cell, '_literal_name', None) == "Door":
+                        is_obstacle = False  # An object named "Door" is not an obstacle.
 
                     if is_obstacle:
                         continue  # Skip the neighbor if it's an obstacle.
