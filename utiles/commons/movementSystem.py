@@ -8,6 +8,8 @@ from utiles.objects.openable import Openable
 import sys
 sys.path.insert(0, '.')
 
+import time
+
 
 class Movements(ABC):
 
@@ -45,7 +47,7 @@ class pathPlanning(ABC):
         """Generate a random position within the given boundaries."""
         new_x = random.randint(0, max_x - 1)  # excluding this endpoint so we don't get out of bounds
         new_y = random.randint(0, max_y - 1)
-
+        
         #print("random position: ", new_x, new_y)
         return new_x, new_y
 
@@ -120,6 +122,7 @@ class pathPlanning(ABC):
         # Initialize the neighbors for 4-directional movement on the grid.
         # Each tuple represents a relative movement direction (up, right, down, left).
         neighbors = [(0, -1), (1, 0), (0, 1), (-1, 0)]
+        print(f"Grid dimensions: {len(grid)}x{len(grid[0])}")  # height x width
 
         # Initialize sets and dictionaries for managing nodes during search.
         # Set to keep track of nodes that have already been evaluated.
@@ -156,16 +159,24 @@ class pathPlanning(ABC):
             for i, j in neighbors:
                 # Calculate the position of the neighbor node.
                 neighbor = current[0] + i, current[1] + j
-
+                print(f"Current: {current}, Neighbor: {neighbor}")
+                print(f"Close set: {close_set}")
+                print(f"Open heap: {open_heap}")
+                print(f"Came from: {came_from}")
+                print(f"G score: {gscore}")
+                print(f"F score: {fscore}")
+                print(f"Goal: {goal}")
+                #time.sleep(0.1)
+                
                 # Calculate the tentative g-score of the neighbor node.
                 tentative_g_score = gscore[current] + \
                     self.heuristic(current, neighbor)
 
                 # Check if the neighbor node is within the grid boundaries and not an obstacle.
 
-                if (0 <= neighbor[0] < len(grid)) and (0 <= neighbor[1] < len(grid[0])):
-                    cell = grid[neighbor[0]][neighbor[1]]
-
+                if (0 <= neighbor[1] < len(grid)) and (0 <= neighbor[0] < len(grid[0])):
+                    cell = grid[neighbor[1]][neighbor[0]]
+                    #print(f"Cell: {cell}")
                     # Determine if the cell is an obstacle.
                     is_obstacle = True
                     if cell == 0:

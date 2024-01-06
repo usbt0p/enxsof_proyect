@@ -1,5 +1,5 @@
 [
-    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
+    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 2, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
     ["Wall", "Armario", "Vater1", 0, "Wall", "Planta2", 0, 0, 0, "Silla_Oficina", "Wall", 0, "Sofa", "Sofa", "Armario", "Wall"],
     ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Wall", 0, "Table", "Table", 0, "Wall"],
     ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Door", 0, 0, 0, 0, "Wall"],
