@@ -41,8 +41,7 @@ class Nurse(Agent, Observer, pathPlanning):
             charging_x (int): The x-coordinate of the charging station's position.
             charging_y (int): The y-coordinate of the charging station's position.
         """
-        Agent.__init__(self, name, x, y)
-        Observer.__init__(self, name)
+        super().__init__(name, x, y)
         self._inventory = []  # nurse's inventory, limited to one object for now
         self._battery = 100
         self._charging_status = 1

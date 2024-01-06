@@ -2,6 +2,9 @@ import heapq
 import random
 from copy import deepcopy
 from abc import ABC
+
+from utiles.objects.openable import Openable
+
 import sys
 sys.path.insert(0, '.')
 
@@ -16,7 +19,7 @@ class Movements(ABC):
         Returns:
         - bool: True if the position is occupied, False otherwise.
         """
-        return self.matrix[y][x] != 0
+        return self.matrix[y][x] != 0 and self.matrix[y][x] != 2
 
     def object_teleport(self, origin_x, origin_y, new_position_x, new_position_y) -> None:
         """
@@ -40,8 +43,7 @@ class pathPlanning(ABC):
 
     def generate_random_position(self, max_x, max_y):
         """Generate a random position within the given boundaries."""
-        new_x = random.randint(
-            0, max_x - 1)  # excluding this endpoint so we don't get out of bounds
+        new_x = random.randint(0, max_x - 1)  # excluding this endpoint so we don't get out of bounds
         new_y = random.randint(0, max_y - 1)
 
         #print("random position: ", new_x, new_y)
@@ -161,10 +163,23 @@ class pathPlanning(ABC):
 
                 # Check if the neighbor node is within the grid boundaries and not an obstacle.
 
-                if (((0 <= neighbor[0]) and (neighbor[0] < len(grid))) and ((0 <= neighbor[1]) and (neighbor[1] < len(grid[0])))):
-                    # '0' represents NOT an obstacle.
-                    if ((grid[neighbor[0]][neighbor[1]] != 0) and (grid[neighbor[0]][neighbor[1]]._literal_name != "Door")):
-                        continue
+                if (0 <= neighbor[0] < len(grid)) and (0 <= neighbor[1] < len(grid[0])):
+                    cell = grid[neighbor[0]][neighbor[1]]
+                    print("cell: ", cell)
+                    print(type(cell).__name__)
+                    print(isinstance(cell, Openable))
+
+                    # Determine if the cell is an obstacle.
+                    is_obstacle = True
+                    if cell == 0:
+                        is_obstacle = False  # '0' and '2' are not obstacles.
+                    #elif isinstance(cell, Openable) and getattr(cell, '_literal_name', None) == "Door":
+                     #   is_obstacle = False  # An object named "Door" is not an obstacle.
+
+                    if is_obstacle:
+                        continue  # Skip the neighbor if it's an obstacle.
+
+
 
                 # Skip the neighbor node if it has already been evaluated with a lower g-score.
                 if neighbor in close_set and tentative_g_score >= gscore.get(neighbor, 0):

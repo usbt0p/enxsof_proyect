@@ -16,7 +16,7 @@ class Movable(Thing):
     """
 
     def __init__(self, x:int, y:int, literal_name):
-        Thing.__init__(self, x, y, literal_name)
+        super().__init__(x, y, literal_name)
         self.openable = False
     
     

@@ -28,7 +28,7 @@ class Mixed(Openable):
             literal_name (str): The literal name of the container.
             storage (Storage): The storage object associated with the container.
         """
-        Openable.__init__(self, x, y, literal_name)
+        super().__init__(x, y, literal_name)
 
         self._storage = storage  # Use a different name for the attribute
 

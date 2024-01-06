@@ -14,7 +14,7 @@ class Openable(Thing):
         - y (int): The y-coordinate of the Openable object.
         - literal_name: The literal name of the Openable object.
         """
-        Thing.__init__(self, x, y, literal_name)
+        super().__init__(x, y, literal_name)
         self.is_open = False
         self.movable = False
 

@@ -24,7 +24,7 @@ class Subject(ABC):
         notify(observer, *args: list, **kwargs: dict) -> None:
             Notifies the observer by calling its update_observer method with the provided arguments.
     """
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         self._observers = set()
 
     def attach(self, *observers:list) -> None:

@@ -27,8 +27,7 @@ class Owner(Agent, Subject):
             y (int): The y-coordinate of the owner's position.
         """
 
-        Agent.__init__(self, name, x, y)
-        Subject.__init__(self)
+        super().__init__(name, x, y)
         self.inventory = []  # owner's inventory, limited to one object for now
         self.status = "Idle"
 

@@ -17,8 +17,7 @@ class Delivery(Agent, Observer, pathPlanning):
             x (int): The x-coordinate of the delivery's position.
             y (int): The y-coordinate of the delivery's position.
         """
-        Agent.__init__(self, name, x, y)
-        Observer.__init__(self, name)
+        super().__init__(name, x, y)
         self._inventory = {}
         self._status = "Idle"
 

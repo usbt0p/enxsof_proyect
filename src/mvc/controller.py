@@ -40,6 +40,7 @@ class Controller(Observer):
                     # value es una tupla con indices de agentes
                         while path == False or path == None or path == []: #No hay camino / el destino no es valido / Origen == Destino
                             path = self.model.path_generator(value)
+                            print("path: ", path)
                             #print(path)
                         self.move_randomly(path, value, path[0])
 
