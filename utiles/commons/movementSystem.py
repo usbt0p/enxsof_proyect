@@ -168,15 +168,16 @@ class pathPlanning(ABC):
                 print(f"Goal: {goal}")
                 #time.sleep(0.1)
                 
-                # Calculate the tentative g-score of the neighbor node.
-                tentative_g_score = gscore[current] + \
-                    self.heuristic(current, neighbor)
+                
 
                 # Check if the neighbor node is within the grid boundaries and not an obstacle.
 
                 if (0 <= neighbor[1] < len(grid)) and (0 <= neighbor[0] < len(grid[0])):
                     cell = grid[neighbor[1]][neighbor[0]]
-                    #print(f"Cell: {cell}")
+
+                    # Calculate the tentative g-score of the neighbor node.
+                    tentative_g_score = gscore[current] + self.heuristic(current, neighbor)
+
                     # Determine if the cell is an obstacle.
                     is_obstacle = True
                     if cell == 0:
@@ -186,6 +187,10 @@ class pathPlanning(ABC):
 
                     if is_obstacle:
                         continue  # Skip the neighbor if it's an obstacle.
+
+                else:
+                    # Skip the neighbor if it's not within the grid boundaries.
+                    continue
 
 
 
