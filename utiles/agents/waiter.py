@@ -40,3 +40,15 @@ class Waiter(Agent, Observer, pathPlanning):
 
     def updateFromNotification(self, *new_state, **kwargs):
         return super().updateFromNotification(*new_state, **kwargs) # Call the parent class method
+    
+
+    def handle_event(self, event):
+        """
+        Handle an event.
+
+        Args:
+            event (Event): The event to handle.
+        """
+        if event.event_type == 'some_event_type':
+            # Add logic for handling 'some_event_type'
+            pass
