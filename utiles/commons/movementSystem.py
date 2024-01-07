@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '.')
+
 import heapq
 import random
 from copy import deepcopy
@@ -5,10 +8,6 @@ from abc import ABC
 
 from utiles.objects.openable import Openable
 
-import sys
-sys.path.insert(0, '.')
-
-import time
 
 
 class Movements(ABC):
@@ -21,7 +20,7 @@ class Movements(ABC):
         Returns:
         - bool: True if the position is occupied, False otherwise.
         """
-        return self.matrix[y][x] != 0 and self.matrix[y][x] != 2
+        return self.matrix[y][x] != 0
 
     def object_teleport(self, origin_x, origin_y, new_position_x, new_position_y) -> None:
         """
@@ -50,6 +49,7 @@ class pathPlanning(ABC):
         
         #print("random position: ", new_x, new_y)
         return new_x, new_y
+    
 
     def get_random_position(self):
         """
@@ -60,7 +60,8 @@ class pathPlanning(ABC):
         """
         # this will be called from the model class, so we can use self.x_size and self.y_size
         x, y = self.generate_random_position(self.x_size, self.y_size)
-        if not self.is_position_occupied(x, y):
+        
+        if not Movements.is_position_occupied(self, x, y):
             return x, y
         else:
             return self.get_random_position()
@@ -68,7 +69,7 @@ class pathPlanning(ABC):
     def calculate_random_path(self, agent_x, agent_y, max_x, max_y):
         """Move the agent to a valid random position."""
         new_x, new_y = self.generate_random_position(max_x, max_y)
-        if not self.is_position_occupied(new_x, new_y):
+        if not Movements.is_position_occupied(self, new_x, new_y):
             return self.a_star_search((agent_x, agent_y), (new_x, new_y), self.matrix)
         #else:
             # Optionally, try again or handle invalid move
@@ -76,9 +77,9 @@ class pathPlanning(ABC):
 
     def path_generator(self, agent_index):
         # Por tema de matriz transpuesta, esto va al reves
-        origin_x = self.agents[agent_index].y
+        origin_x = self.agents[agent_index].x
         # Por tema de matriz transpuesta, esto va al reves
-        origin_y = self.agents[agent_index].x
+        origin_y = self.agents[agent_index].y
         return self.calculate_random_path(origin_x, origin_y, self.x_size, self.y_size)
 
     def heuristic(self, a, b):
@@ -122,7 +123,7 @@ class pathPlanning(ABC):
         # Initialize the neighbors for 4-directional movement on the grid.
         # Each tuple represents a relative movement direction (up, right, down, left).
         neighbors = [(0, -1), (1, 0), (0, 1), (-1, 0)]
-        print(f"Grid dimensions: {len(grid)}x{len(grid[0])}")  # height x width
+        #print(f"Grid dimensions: {len(grid)}x{len(grid[0])}")  # height x width
 
         # Initialize sets and dictionaries for managing nodes during search.
         # Set to keep track of nodes that have already been evaluated.
@@ -159,16 +160,6 @@ class pathPlanning(ABC):
             for i, j in neighbors:
                 # Calculate the position of the neighbor node.
                 neighbor = current[0] + i, current[1] + j
-                print(f"Current: {current}, Neighbor: {neighbor}")
-                print(f"Close set: {close_set}")
-                print(f"Open heap: {open_heap}")
-                print(f"Came from: {came_from}")
-                print(f"G score: {gscore}")
-                print(f"F score: {fscore}")
-                print(f"Goal: {goal}")
-                #time.sleep(0.1)
-                
-                
 
                 # Check if the neighbor node is within the grid boundaries and not an obstacle.
 

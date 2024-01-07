@@ -56,6 +56,8 @@ class Model(Subject, Movements, pathPlanning):
                 obj = openable.Openable(x, y, literal)
             case "Fridge" | "Armario":
                 obj = mixed.Mixed(x, y, literal)
+            case 2:
+                obj = 2
         
         return obj
 
@@ -121,6 +123,7 @@ class Model(Subject, Movements, pathPlanning):
             agent.x = x
             agent.y = y
             self.agents.append(agent)
+            
 
 
 if __name__ == '__main__':

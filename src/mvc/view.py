@@ -280,7 +280,7 @@ class View(tk.Tk, Observer):
         # Draw the objects
         for row in map:
             for object in row:
-                if object == 0:
+                if object == 0 or object == 2:
                     continue
                 elif object.literal_name != "Door":
                     img = self.img_dict.get(object.literal_name)
