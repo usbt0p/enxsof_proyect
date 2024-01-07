@@ -55,7 +55,7 @@ event_manager = EventManager()
 
 
 # Create a view
-view = view.View('view', height, width, event_manager)
+view = view.View('view', height, width)
 
 # Initalize controller and start vital constants thread
 main_controller = controller.Controller(room, view, event_manager)
