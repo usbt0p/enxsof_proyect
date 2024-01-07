@@ -1,10 +1,10 @@
 import sys
 sys.path.insert(0, '.')
 
-from abc import ABC, abstractmethod
+
 from utiles.commons.event import Event
 
-class Agent(ABC):
+class Agent():
     """
     Represents an agent in the environment.
     """
@@ -55,15 +55,16 @@ class Agent(ABC):
         
 
 
-    @abstractmethod
     def handle_event(self, event):
         """
-        Abstract method to handle events.
-
-        Args:
-            event: The event to be handled.
+        Default event handling. Can be overridden by subclasses.
         """
-        pass
+        if event.event_type == 'default_behavior':
+            # Default behavior implementation
+            pass
+        else:
+            print(f"Unhandled event type: {event.event_type}")
+            
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     """EJEMPLO DE COMO USAR EL EVENTO.
     ESTE DEBE SER IMPLEMENTADO POR LAS SUBCLASES DE AGENT.

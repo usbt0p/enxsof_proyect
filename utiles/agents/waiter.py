@@ -44,11 +44,12 @@ class Waiter(Agent, Observer, pathPlanning):
 
     def handle_event(self, event):
         """
-        Handle an event.
-
-        Args:
-            event (Event): The event to handle.
+        Specific event handling for Waiter.
+        Overrides the default implementation.
         """
-        if event.event_type == 'some_event_type':
-            # Add logic for handling 'some_event_type'
+        if event.event_type == 'specific_behavior_for_waiter':
+            # Specific behavior for Waiter
             pass
+        else:
+            # Call the default implementation for unhandled cases
+            super().handle_event(event)
