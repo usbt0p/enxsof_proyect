@@ -4,6 +4,8 @@ sys.path.insert(0, '.')
 from src.mvc import (model, view, controller)
 from utiles.agents import (owner, nurse, agent)
 
+from utiles.commons.eventManager import EventManager
+
 def create_menu():
     """Creates a menu that asks for the size of the room."""
 
@@ -47,11 +49,16 @@ nurse2 = nurse.Nurse("Enfermera 2", 3, 11, 6, 6)
 gato = agent.Agent("Gato", 11, 3)
 room.agents_random_spawn(propietario, nurse1, nurse2, gato)
 
+
+
+event_manager = EventManager()
+
+
 # Create a view
-view = view.View('view', height, width)
+view = view.View('view', height, width, event_manager)
 
 # Initalize controller and start vital constants thread
-main_controller = controller.Controller(room, view)
+main_controller = controller.Controller(room, view, event_manager)
 main_controller.vital_threading()
 
 # Send initial state to the view

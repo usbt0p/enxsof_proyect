@@ -5,10 +5,12 @@ from src.mvc.observer import Observer
 import time
 import utiles.commons.vitalsGenerator as VG
 import threading
+from utiles.commons.eventManager import EventManager
+from utiles.commons.event import Event
 
 
 class Controller(Observer):
-    def __init__(self, model, view):
+    def __init__(self, model, view, event_manager):
         self.model = model
         self.view = view
         
@@ -23,6 +25,12 @@ class Controller(Observer):
         self.previous_event = None
         self.animation_speed = 800
         self.default_agents = None
+
+        self.event_manager = event_manager
+        # Register agents with the event manager
+        self.register_agents_with_event_manager()
+        self.view.after(1000, self.update_events)  # Schedule event updates every 1000 milliseconds
+
     
     def updateFromNotification(self, *new_state, **kwargs):
         NOTIFY_KEYS = ('agent_move_right', 'random_movement')
@@ -70,8 +78,8 @@ class Controller(Observer):
                     if self.model.matrix[adjacent_y][adjacent_x].isOpen == True:
                         self.model.matrix[adjacent_y][adjacent_x].close()
                         self.model.notify(self.view, matrix=self.model.matrix)
-'''
-
+        '''
+        #NO BORRAR AUN HASTA QUE SE COMPRUEBE QUE NO HAY BUGS EN LA VERSION NUEVA (ABAJO)
 
 
         # Check each adjacent and diagonal position for a door
@@ -337,7 +345,33 @@ class Controller(Observer):
 
    
 
+    def register_agents_with_event_manager(self):
+        """
+        Register all agents with the event manager.
+        """
+        for agent in self.model.agents:
+            self.event_manager.register_agent(agent)
 
 
+    def update_events(self):
+        """
+        Update method to dispatch events and schedule the next update.
+        """
+        self.event_manager.dispatch_events()
+        self.view.after(1000, self.update_events)  # Schedule the next update
 
+
+    """EJEMPLO DE COMO USAR EL EVENTO.
+    def trigger_movement(self):
+        # Determine the new position (this could come from various sources)
+        new_position = (x, y)  # Replace with actual logic to determine the new position
+
+        # Create a move event
+        move_event = Event('move', new_position)
+
+        # Add the event to the event manager's queue
+        self.event_manager.add_event(move_event)
+
+        # The event will be processed in due course by the event manager
+    """
 

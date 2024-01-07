@@ -20,6 +20,7 @@ class View(tk.Tk, Observer):
 
         tk.Tk.__init__(self)
         Observer.__init__(self, name)
+        
 
         self.controller = None
         self.health_monitor_window = None
