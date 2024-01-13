@@ -14,8 +14,12 @@ class TestVitalsGenerator(unittest.TestCase):
         mock_randint.side_effect = [70, 120, 80, 18, 98, 10]
         mock_uniform.return_value = 37.2
 
+        abnormal_chance = 0
+        abnormal_shift = 0
+
+
         # Call the generate_vital function
-        heart_rate, blood_pressure, body_temperature, respiratory_rate, oxygen_saturation, gcs_score = generate_vital()
+        heart_rate, blood_pressure, body_temperature, respiratory_rate, oxygen_saturation, gcs_score = generate_vital(abnormal_chance, abnormal_shift)
 
         # Assert that the generated values are correct
         self.assertEqual(heart_rate, 70)
