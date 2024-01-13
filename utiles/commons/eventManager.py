@@ -17,7 +17,7 @@ class EventManager:
     def add_event(self, event):
         self.event_queue.append(event)
 
-    def dispatch_events(self, model):
+    def dispatch_events(self, controller):
         while self.event_queue:
             event = self.event_queue.pop(0)
             for agent in self.agents:
@@ -25,4 +25,4 @@ class EventManager:
                 if agent.name == event.destination_agent:
                     print(agent)
                     print('hey')
-                    agent.handle_event(event, model)
+                    agent.handle_event(event, controller)

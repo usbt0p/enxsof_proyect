@@ -371,7 +371,7 @@ class Controller(Observer):
         """
         Update method to dispatch events and schedule the next update.
         """
-        self.event_manager.dispatch_events(self.model)
+        self.event_manager.dispatch_events(self)
         self.view.after(1000, self.update_events)  # Schedule the next update
 
 
