@@ -36,7 +36,7 @@ class TestSubject(unittest.TestCase):
     def test_attach_invalid_observer(self):
         obs = ConcreteObserver() # FIXME esto que cojones es
         sub = ConcreteSubject()
-        false_obs = 'mierda'
+        false_obs = 'mock'
 
         #with self.assertRaises(TypeError):
         sub.attach(obs)
