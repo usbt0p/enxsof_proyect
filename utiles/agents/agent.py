@@ -59,7 +59,10 @@ class Agent():
         """
         Default event handling. Can be overridden by subclasses.
         """
-        if event.event_type == 'default_behavior':
+
+        valid_events = ['default_behavior','move']
+
+        if event.event_type in valid_events:
             # Default behavior implementation
             pass
         else:

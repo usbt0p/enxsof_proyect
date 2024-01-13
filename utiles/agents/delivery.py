@@ -4,6 +4,8 @@ sys.path.insert(0, '.')
 from src.mvc.observer import Observer
 from utiles.agents.agent import Agent
 from utiles.commons.movementSystem import pathPlanning
+import src.mvc.controller as Controller
+import src.mvc.model as Model
 
 
 class Delivery(Agent, Observer, pathPlanning):
@@ -47,9 +49,10 @@ class Delivery(Agent, Observer, pathPlanning):
         Specific event handling for Delivery.
         Overrides the default implementation.
         """
-        if event.event_type == 'specific_behavior_for_Delivery':
-            # Specific behavior for Delivery
-            pass
+        if event.event_type == 'move':
+            path = self.pathPlanning(event.data)
+            index = Model.agents.index(self)
+            Controller.move_randomly(path, index, path[0])
         else:
             # Call the default implementation for unhandled cases
             super().handle_event(event)

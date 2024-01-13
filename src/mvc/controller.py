@@ -10,6 +10,10 @@ from utiles.commons.event import Event
 
 
 class Controller(Observer):
+
+    abnormal_chance = 0.99 
+    abnormal_shift = -90
+
     def __init__(self, model, view, event_manager):
         self.model = model
         self.view = view
@@ -118,6 +122,10 @@ class Controller(Observer):
                 del self.animation_ids[agent_index]
             if not self.animation_ids:
                 self.animation_running = False
+
+
+    def concrete_move():
+        pass
         
 
     def add_agent(self, agent_name:str, x, y ) -> None:
@@ -377,5 +385,17 @@ class Controller(Observer):
         # The event will be processed in due course by the event manager
     """
 
-    abnormal_chance = 0.99 
-    abnormal_shift = -90
+
+
+
+    def trigger_movement(self):
+        # Determine the new position (this could come from various sources)
+        new_position = (8, 2)  # Replace with actual logic to determine the new position
+
+        # Create a move event
+        move_event = Event('delivery', 'move', new_position)
+
+        # Add the event to the event manager's queue
+        self.event_manager.add_event(move_event)
+
+        # The event will be processed in due course by the event manager
