@@ -90,24 +90,22 @@ class TestModel(unittest.TestCase):
         ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
         ]
 
-
         aux = []
-        
         room = Model(16, 16)
-    
         file_path = 'assets/default_16x16_room.json'
-
         room.populate_room(file_path)
 
         for row in room.matrix:
-            for element in row:
+            row_list = []
+            for x, element in enumerate(row):
                 if element == 0:
-                    aux.append(0)
+                    row_list.append(0)
                 elif element == 2:
-                    aux.append(2)
+                    row_list.append(2)
                 else:
-                    aux.append(element._literal_name)
-                    
+                    row_list.append(element._literal_name)
+            aux.append(row_list)
+
         self.assertEqual(aux, room_layout)
 
     def test_move_object(self):
