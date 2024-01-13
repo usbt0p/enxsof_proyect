@@ -72,23 +72,24 @@ class TestModel(unittest.TestCase):
     def test_populate_room(self):
         
         room_layout = [
-            "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall",
-            "Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Wall", 0, "Sofa", "Sofa", 0, "Wall",
-            "Wall", 0, "Sofa", 0, "Wall", 0, 0, 0, 0, 0, "Wall", 0, "Table", "Table", 0, "Wall",
-            "Wall", 0, "Table", 0, "Wall", 0, 0, 0, 0, 0, "Door", 0, 0, 0, 0, "Wall",
-            "Wall", 0, 0, 0, "Wall", 0, 0, "Table", 0, 0, "Wall", 0, 0, 0, 0, "Wall",
-            "Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall",
-            "Wall", "Wall", "Door", "Wall", "Wall", 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall",
-            "Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall",
-            "Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall",
-            "Wall", "Wall", "Wall", "Door", "Wall", "Wall", "Wall", "Wall", "Wall", 0, "Wall", 0, "Sofa", "Sofa", 0, "Wall",
-            "Wall", 0, 0, 0, 0, 0, "Fridge", "Fridge", "Wall", 0, "Wall", 0, "Table", "Table", 0, "Wall",
-            "Wall", 0, 0, 0, 0, 0, 0, 0, "Wall", 0, "Wall", 0, "Sofa", "Sofa", 0, "Wall",
-            "Wall", 0, 0, 0, 0, 0, 0, 0, "Door", 0, "Door", 0, 0, 0, 0, "Wall",
-            "Wall", "Fridge", 0, 0, 0, 0, 0, 0, "Wall", 0, "Wall", 0, 0, 0, 0, "Wall",
-            "Wall", "Fridge", 0, "Table", "Table", 0, 0, 0, "Wall", 0, "Wall", 0, 0, 0, 0, "Wall",
-            "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall",
+        ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 2, 2, 2, 2, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
+        ["Wall", "Armario", "Vater1", 0, "Wall", "Planta2", 0, 0, 0, "Silla_Oficina", "Wall", 0, "Sofa", "Sofa", "Armario", "Wall"],
+        ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Wall", 0, "Table", "Table", 0, "Wall"],
+        ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, 0, "Door", 0, 0, 0, 0, "Wall"],
+        ["Wall", 0, 0, 0, "Wall", 0, 0, "Table", "Silla1_g", 0, "Wall", 0, 0, 0, 0, "Wall"],
+        ["Wall", 0, 0, "Planta1", "Wall", 0, 0, 0, 0, 0, "Wall", 0, 0, 0, "Cama_g", "Wall"],
+        ["Wall", "Wall", "Door", "Wall", "Wall", 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
+        ["Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
+        ["Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
+        ["Wall", "Wall", "Wall", "Door", "Wall", "Wall", "Wall", "Wall", "Wall", 0, "Wall", 0, "Sofa", "Sofa", 0, "Wall"],
+        ["Wall", 0, 0, 0, 0, 0, "Fridge", "Fridge", "Wall", 0, "Wall", 0, "Table", "Table", 0, "Wall"],
+        ["Wall", 0, "Cama", 0, 0, 0, 0, 0, "Wall", 0, "Wall", 0, "Sofa", "Sofa", 0, "Wall"],
+        ["Wall", 0, 0, 0, 0, 0, 0, 0, "Door", 0, "Door", 0, 0, 0, 0, "Wall"],
+        ["Wall", 0, 0, 0, 0, 0, "Planta3", 0, "Wall", 0, "Wall", 0, 0, 0, 0, "Wall"],
+        ["Wall", "Fridge", 0, "Table", "Table", 0, 0, 0, "Wall", 0, "Wall", 0, "Silla2", 0, "Juego", "Wall"],
+        ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
         ]
+
 
         aux = []
         
@@ -102,6 +103,8 @@ class TestModel(unittest.TestCase):
             for element in row:
                 if element == 0:
                     aux.append(0)
+                elif element == 2:
+                    aux.append(2)
                 else:
                     aux.append(element._literal_name)
                     
