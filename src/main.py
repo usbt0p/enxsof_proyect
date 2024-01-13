@@ -59,7 +59,6 @@ view = view.View('view', height, width)
 
 # Initalize controller and start vital constants thread
 main_controller = controller.Controller(room, view, event_manager)
-
 main_controller.vital_threading()
 
 
