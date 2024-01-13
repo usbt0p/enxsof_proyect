@@ -92,7 +92,7 @@ class Controller(Observer):
             # Ensure the position is within the bounds of the matrix if necessary
             if (0 <= adjacent_y < len(self.model.matrix) and
                 0 <= adjacent_x < len(self.model.matrix[0])):
-                if (self.model.matrix[adjacent_y][adjacent_x] != 0 and 
+                if ((self.model.matrix[adjacent_y][adjacent_x] != 0 and self.model.matrix[adjacent_y][adjacent_x] != 2) and 
                     self.model.matrix[adjacent_y][adjacent_x]._literal_name == "Door"):
                     if self.model.matrix[adjacent_y][adjacent_x].isOpen == True:
                         self.model.matrix[adjacent_y][adjacent_x].close()
