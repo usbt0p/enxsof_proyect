@@ -21,5 +21,6 @@ class EventManager:
         while self.event_queue:
             event = self.event_queue.pop(0)
             for agent in self.agents:
-                if agent._literal_name == event.destination_agent:
+                if agent.name == event.destination_agent:
+                    print('hey')
                     agent.handle_event(event)

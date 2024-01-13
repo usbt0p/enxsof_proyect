@@ -11,8 +11,8 @@ from utiles.commons.event import Event
 
 class Controller(Observer):
 
-    abnormal_chance = 0.99 
-    abnormal_shift = -90
+    abnormal_chance = 0
+    abnormal_shift = 0
 
     def __init__(self, model, view, event_manager):
         self.model = model
@@ -324,6 +324,10 @@ class Controller(Observer):
                 check_numeric_arguments(3, 1)
                 self.despawn_object(int(command[1]), int(command[2]))
 
+            case 'move':
+                check_numeric_arguments(3, 1)
+                self.trigger_movement(int(command[1]), int(command[2]))
+
     def spawn_agent(self, command, check_numeric_arguments):
         """
         Spawns a new agent with the given parameters.
@@ -388,12 +392,12 @@ class Controller(Observer):
 
 
 
-    def trigger_movement(self):
+    def trigger_movement(self, x, y):
         # Determine the new position (this could come from various sources)
-        new_position = (8, 2)  # Replace with actual logic to determine the new position
+        new_position = (x, y)  # Replace with actual logic to determine the new position
 
         # Create a move event
-        move_event = Event('delivery', 'move', new_position)
+        move_event = Event('Repartidor', 'move', new_position)
 
         # Add the event to the event manager's queue
         self.event_manager.add_event(move_event)
