@@ -171,7 +171,7 @@ class Controller(Observer):
         while True:
             time.sleep(1)
             global abnormal_chance, abnormal_shift
-            vital_constants = VG.generate_vital(abnormal_chance, abnormal_shift)
+            vital_constants = VG.generate_vital(self.abnormal_chance, self.abnormal_shift)
             self.model.agents[0].vitals_setter(vital_constants[0], vital_constants[1], vital_constants[2], vital_constants[3], vital_constants[4], vital_constants[5])
             
             self.model.notify(self.view, vitals=self.model.agents[0].vitals)
@@ -377,3 +377,5 @@ class Controller(Observer):
         # The event will be processed in due course by the event manager
     """
 
+    abnormal_chance = 0.99 
+    abnormal_shift = -90
