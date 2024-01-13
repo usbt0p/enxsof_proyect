@@ -52,7 +52,7 @@ class Delivery(Agent, Observer, pathPlanning):
         print('asdfasdffsw')
         if event.event_type == 'move':
             print('Delivery: Handling move event.')
-            path = self.pathPlanning(event.data)
+            path = self.a_star_search((self.x, self.y), event.data, Model.matrix) # (self, start, goal, grid)
             index = Model.agents.index(self)
             Controller.move_randomly(path, index, path[0])
         else:

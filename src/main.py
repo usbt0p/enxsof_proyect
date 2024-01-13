@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '.')
 
 from src.mvc import (model, view, controller)
-from utiles.agents import (owner, nurse, agent)
+from utiles.agents import (owner, nurse, agent, waiter, delivery)
 
 from utiles.commons.eventManager import EventManager
 
@@ -47,8 +47,8 @@ propietario = owner.Owner("Owner", 7, 7)
 nurse1 = nurse.Nurse("Enfermera", 13, 13, 5, 5)
 nurse2 = nurse.Nurse("Enfermera 2", 3, 11, 6, 6)
 gato = agent.Agent("Gato", 11, 3)
-auxiliar = agent.Agent("Auxiliar", 11, 7)
-repartidor = agent.Agent("Repartidor", 11, 11)
+auxiliar = waiter.Waiter("Auxiliar", 11, 7)
+repartidor = delivery.Delivery("Repartidor", 11, 11)
 room.agents_random_spawn(propietario, nurse1, nurse2, gato, auxiliar, repartidor)
 
 
