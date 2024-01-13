@@ -44,7 +44,7 @@ class Delivery(Agent, Observer, pathPlanning):
         return super().updateFromNotification(*new_state, **kwargs) # Call the parent class method
     
 
-    def handle_event(self, event):
+    def handle_event(self, event, model):
         """
         Specific event handling for Delivery.
         Overrides the default implementation.
@@ -52,8 +52,8 @@ class Delivery(Agent, Observer, pathPlanning):
         print('asdfasdffsw')
         if event.event_type == 'move':
             print('Delivery: Handling move event.')
-            path = self.a_star_search((self.x, self.y), event.data, Model.matrix) # (self, start, goal, grid)
-            index = Model.agents.index(self)
+            path = self.a_star_search((self.x, self.y), event.data, model.matrix) # (self, start, goal, grid)
+            index = model.agents.index(self)
             Controller.move_randomly(path, index, path[0])
         else:
             # Call the default implementation for unhandled cases

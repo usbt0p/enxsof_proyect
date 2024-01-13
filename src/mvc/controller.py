@@ -33,7 +33,7 @@ class Controller(Observer):
         self.event_manager = event_manager
         # Register agents with the event manager
         self.register_agents_with_event_manager()
-        self.view.after(1000, self.update_events)  # Schedule event updates every 1000 milliseconds
+        self.view.after(1000, self.update_events())  # Schedule event updates every 1000 milliseconds
 
     
     def updateFromNotification(self, *new_state, **kwargs):
@@ -371,7 +371,7 @@ class Controller(Observer):
         """
         Update method to dispatch events and schedule the next update.
         """
-        self.event_manager.dispatch_events()
+        self.event_manager.dispatch_events(self.model)
         self.view.after(1000, self.update_events)  # Schedule the next update
 
 
