@@ -120,7 +120,7 @@ def gaussian_update(current_value, average, std_dev, min_val, max_val, abnormal_
     # Ensure the value stays within defined limits
     return round(max(min(new_value, max_val), min_val),1)
 
-def generate_vital():
+def generate_vital(abnormal_chance, abnormal_shift):
     """
     Updates all vital signs.
 
@@ -128,14 +128,15 @@ def generate_vital():
     - A tuple containing the updated values of all vital signs.
     """
     global heart_rate, systolic_bp, diastolic_bp, body_temperature, respiratory_rate, oxygen_saturation, gcs_score
+    
 
     # Update each vital sign using realistic parameters
-    heart_rate = gaussian_update(heart_rate, average=80, std_dev=5, min_val=40, max_val=180)
-    systolic_bp = gaussian_update(systolic_bp, average=120, std_dev=8, min_val=70, max_val=200)
-    diastolic_bp = gaussian_update(diastolic_bp, average=80, std_dev=5, min_val=40, max_val=120)
-    body_temperature = gaussian_update(body_temperature, average=37.0, std_dev=0.2, min_val=34.0, max_val=42.0)
-    respiratory_rate = gaussian_update(respiratory_rate, average=16, std_dev=2, min_val=8, max_val=30)
-    oxygen_saturation = gaussian_update(oxygen_saturation, average=98, std_dev=1, min_val=70, max_val=100)
-    gcs_score = gaussian_update(gcs_score, average=15, std_dev=0.5, min_val=3, max_val=15)
+    heart_rate = gaussian_update(heart_rate, 80, 5, 40, 180, abnormal_chance, abnormal_shift)
+    systolic_bp = gaussian_update(systolic_bp, 120, 8, 70, 200, abnormal_chance, abnormal_shift)
+    diastolic_bp = gaussian_update(diastolic_bp, 80, 5, 40, 120, abnormal_chance, abnormal_shift)
+    body_temperature = gaussian_update(body_temperature, 37.0, 0.2, 34.0, 42.0, abnormal_chance, abnormal_shift)
+    respiratory_rate = gaussian_update(respiratory_rate, 16, 2, 8, 30, abnormal_chance, abnormal_shift)
+    oxygen_saturation = gaussian_update(oxygen_saturation, 98, 1, 70, 100, abnormal_chance, abnormal_shift)
+    gcs_score = gaussian_update(gcs_score, 15, 0.5, 3, 15, abnormal_chance, abnormal_shift)
 
     return (heart_rate, f"{round(systolic_bp, 1)}/{round(diastolic_bp, 1)}", round(body_temperature, 1), round(respiratory_rate, 1), round(oxygen_saturation, 1), round(gcs_score, 1))

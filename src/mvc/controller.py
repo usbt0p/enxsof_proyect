@@ -167,16 +167,18 @@ class Controller(Observer):
 
 
     
-    def generate_vital(self):
+    def controller_generate_vital(self):
         while True:
             time.sleep(1)
-            vital_constants = VG.generate_vital()
+            global abnormal_chance, abnormal_shift
+            vital_constants = VG.generate_vital(abnormal_chance, abnormal_shift)
             self.model.agents[0].vitals_setter(vital_constants[0], vital_constants[1], vital_constants[2], vital_constants[3], vital_constants[4], vital_constants[5])
+            
             self.model.notify(self.view, vitals=self.model.agents[0].vitals)
         
     # Create and start the thread
     def vital_threading(self):
-        thread = threading.Thread(target=self.generate_vital)
+        thread = threading.Thread(target=self.controller_generate_vital)
         thread.daemon = True  # This makes the thread exit when the main program exits
         thread.start()     
 
