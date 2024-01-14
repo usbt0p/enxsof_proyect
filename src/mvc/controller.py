@@ -153,19 +153,17 @@ class Controller(Observer):
         self.model.notify(self.view, matrix=self.model.matrix)
 
 
-    def remove_agent(self, agent_name:str) -> None:
+    def remove_agent(self, agent_name: str) -> None:
         """
         Removes an agent from the model and updates the view.
 
         Args:
             agent_name: The name of the agent to be removed.
         """
-        
-        for index, agent in enumerate(self.model.agents):
-            if agent.name == agent_name:
-                self.model.agents.pop(index)
-
+        self.model.agents = [agent for agent in self.model.agents if agent.name != agent_name]
         self.model.notify(self.view, agents=self.model.agents)
+
+
     
     def controller_generate_vital(self):
         while True:
