@@ -20,6 +20,7 @@ class EventManager:
     def dispatch_events(self, controller):
         while self.event_queue:
             event = self.event_queue.pop(0)
-            for agent in self.agents:
+            for agent in controller.model.agents:
                 if agent.name == event.destination_agent:
+                    print("EventManager: Sending event {} to agent {}".format(event.event_type, agent.name))
                     agent.handle_event(event, controller)

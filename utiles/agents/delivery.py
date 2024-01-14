@@ -50,7 +50,9 @@ class Delivery(Agent, Observer, pathPlanning):
 
         if event.event_type == 'delivery':
             origin = (self.x, self.y)
+            print(origin)
             path = self.a_star_search((self.x, self.y), event.data, controller.model.matrix, True) # (self, start, goal, grid, stop_before_target)
+            print(path)
             if path:
                 self.status = "Delivering"
                 index = controller.model.agents.index(self)

@@ -151,6 +151,7 @@ class View(tk.Tk, Observer):
         self.repartidor = tk.PhotoImage(file="./assets/sprites/repartidor.png")
         self.hierba = tk.PhotoImage(file="./assets/sprites/hierba1.png")
         self.caja = tk.PhotoImage(file="./assets/sprites/box.png")
+        self.base = tk.PhotoImage(file="./assets/sprites/base.png")
 
         # Old sprites
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
@@ -177,7 +178,7 @@ class View(tk.Tk, Observer):
                           "Planta3": self.planta3, "Silla_Oficina": self.silla_oficina, "Silla_Oficina_g": self.silla_oficina_g,
                           "Silla1": self.silla1, "Silla1_g": self.silla1_g, "Silla2": self.silla2, "Silla2_g": self.silla2_g,
                           "Vater1": self.vater1, "Armario": self.armario, "Auxiliar": self.auxiliar_image, "Repartidor": self.repartidor,
-                          "Box":self.caja}
+                          "Box":self.caja, "Base": self.base}
 
     def resize_window(self):
         """

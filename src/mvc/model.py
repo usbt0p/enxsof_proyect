@@ -2,7 +2,7 @@ import json
 from utiles.commons.movementSystem import Movements, pathPlanning
 from src.mvc.subject import Subject
 from utiles.objects import (thing, openable, movable, mixed)
-from utiles.agents import (agent, nurse, owner)
+from utiles.agents import (agent, nurse, owner, delivery, waiter)
 import sys
 sys.path.insert(0, '.')
 
@@ -38,7 +38,13 @@ class Model(Subject, Movements, pathPlanning):
         """
         Creates an agent in the room.
         """
-        return agent.Agent(name, x, y) # TODO hacer el creador bien !!!!!!!
+        toret = None # FIXME
+        # TODO acabar esto bien
+        if name == 'Delivery':
+            toret = delivery.Delivery("Repartidor", x, y)
+        else:
+            toret = agent.Agent("Gato", x, y)
+        return toret# TODO hacer el creador bien !!!!!!!
 
     def create_object(self, x, y, literal):
         """
@@ -46,7 +52,7 @@ class Model(Subject, Movements, pathPlanning):
         """
         obj = 0
         match literal:
-            case "Wall" | "Juego" | "Juego_g":
+            case "Wall" | "Juego" | "Juego_g" | "Base":
                 obj = thing.Thing(x, y, literal)
             case "Sofa" | "Table" | "Cama" | "Cama_g" | "Planta1" | "Planta2" | "Planta3" | \
                 "Silla_Oficina" | "Silla_Oficina_g" | "Silla1_g" | "Silla1" | "Silla2_g" | "Silla2" | \

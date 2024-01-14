@@ -7,6 +7,7 @@ import utiles.commons.vitalsGenerator as VG
 import threading
 from utiles.commons.eventManager import EventManager
 from utiles.commons.event import Event
+import random
 
 
 class Controller(Observer):
@@ -170,10 +171,12 @@ class Controller(Observer):
         Args:
             agent_name: The name of the agent to be removed.
         """
-        self.model.remove_agent(agent_name)
-        self.view.update_view()
+        
+        for index, agent in enumerate(self.model.agents):
+            if agent.name == agent_name:
+                self.model.agents.pop(index)
 
-
+        self.model.notify(self.view, agents=self.model.agents)
     
     def controller_generate_vital(self):
         while True:
@@ -325,8 +328,7 @@ class Controller(Observer):
                 self.despawn_object(int(command[1]), int(command[2]))
 
             case 'delivery':
-                check_numeric_arguments(3, 1)
-                self.trigger_delivery(int(command[1]), int(command[2]))
+                self.trigger_delivery()
 
     def spawn_agent(self, command, check_numeric_arguments):
         """
@@ -405,21 +407,49 @@ class Controller(Observer):
         # The event will be processed in due course by the event manager
 
     def trigger_delivery(self):
+        main_door_position = (0,0)
         # Determine the main door position (this could come from various sources)
         found = False
         # Iterate through each row and column in the matrix
-        for i, row in enumerate(self.model.matrix):
-            for j, element in enumerate(row):
+        for j, row in enumerate(self.model.matrix):
+            for i, element in enumerate(row):
                 # Check if the element has the 'name' attribute
                 if hasattr(element, 'name'):
                 # Check if the 'name' attribute matches the target name
-                    if element.name == "Main_Door":
+                    if element.literal_name == "Door_main":
                         # Return the position of the element
                         main_door_position = (i, j)
                         found = True
+                        print(found, main_door_position)
                         break
             if found:
                 break
 
+
+        #Found Valid Spawn for Delivery
+            
+        border_positions = []
+        rows, cols = len(self.model.matrix), len(self.model.matrix[0])
+
+        # Check first and last row
+        for j in range(cols):
+            if self.model.matrix[0][j] == 2:
+                border_positions.append((0, j))
+            if self.model.matrix[rows - 1][j] == 2:
+                border_positions.append((rows - 1, j))
+
+        # Check first and last column
+        for i in range(1, rows - 1):
+            if self.model.matrix[i][0] == 2:
+                border_positions.append((i, 0))
+            if self.model.matrix[i][cols - 1] == 2:
+                border_positions.append((i, cols - 1))
+
+        # Select a random position from the list of border positions
+        if border_positions:
+            spawn = random.choice(border_positions)
+            print(spawn)
+     
+        self.add_agent('Delivery', spawn[1], spawn[0])
         delivery_event = Event('Repartidor', 'delivery', main_door_position)
         self.event_manager.add_event(delivery_event)
