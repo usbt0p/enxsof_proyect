@@ -7,7 +7,7 @@ from utiles.objects import (mixed, movable, openable,thing)
 from utiles.agents import (owner, agent, nurse)
 from utiles.commons import (movementSystem, vitalsGenerator)
 from src.mvc import (model, view, controller, observer, subject)
-from utiles.objects import openable, thing
+
 
 class TestExecute(unittest.TestCase):
 
