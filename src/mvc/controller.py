@@ -319,7 +319,7 @@ class Controller(Observer):
             case 'delivery':
                 self.trigger_delivery()
 
-    def spawn_agent(self, command:list, check_numeric_arguments:function) -> None:
+    def spawn_agent(self, command:list, check_numeric_arguments) -> None:
         """
         Spawns a new agent with the given parameters.
 
@@ -333,7 +333,7 @@ class Controller(Observer):
         check_numeric_arguments(4, 2)          
         self.add_agent(command[1].capitalize(), int(command[2]), int(command[3]))
 
-    def spawn_object(self, command:list, check_numeric_arguments:function) -> None:
+    def spawn_object(self, command:list, check_numeric_arguments) -> None:
             """
             Spawns a new object in the model based on the given command.
 
