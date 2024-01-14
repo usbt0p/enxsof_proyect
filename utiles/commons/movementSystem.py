@@ -81,6 +81,25 @@ class pathPlanning(ABC):
         # Por tema de matriz transpuesta, esto va al reves
         origin_y = self.agents[agent_index].y
         return self.calculate_random_path(origin_x, origin_y, self.x_size, self.y_size)
+    
+    def is_adjacent(self, current, goal):
+        """
+        Check if the current node is adjacent to the goal node.
+
+        Args:
+            current (tuple): The current node position as a tuple (x, y).
+            goal (tuple): The goal node position as a tuple (x, y).
+
+        Returns:
+            bool: True if the current node is adjacent to the goal node, False otherwise.
+        """
+        # Calculate the difference in x and y coordinates between the current node and the goal node
+        dx = abs(current[0] - goal[0])
+        dy = abs(current[1] - goal[1])
+
+        # The node is adjacent if the total difference in x and y coordinates is 1 (directly left/right or above/below)
+        return (dx + dy) == 1
+
 
     def heuristic(self, a, b):
         """
