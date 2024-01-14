@@ -407,7 +407,7 @@ class Controller(Observer):
         # The event will be processed in due course by the event manager
 
     def trigger_delivery(self):
-        main_door_position = (0,0)
+        main_door_position = (7,4)
         # Determine the main door position (this could come from various sources)
         found = False
         # Iterate through each row and column in the matrix
@@ -450,6 +450,6 @@ class Controller(Observer):
             spawn = random.choice(border_positions)
             print(spawn)
      
-        self.add_agent('Delivery', spawn[1], spawn[0])
+        self.add_agent('Delivery', 6, 0)
         delivery_event = Event('Repartidor', 'delivery', main_door_position)
         self.event_manager.add_event(delivery_event)

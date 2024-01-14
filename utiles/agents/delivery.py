@@ -51,6 +51,7 @@ class Delivery(Agent, Observer, pathPlanning):
         if event.event_type == 'delivery':
             origin = (self.x, self.y)
             print(origin)
+            print(event.data)
             path = self.a_star_search((self.x, self.y), event.data, controller.model.matrix, True) # (self, start, goal, grid, stop_before_target)
             print(path)
             if path:
@@ -58,7 +59,7 @@ class Delivery(Agent, Observer, pathPlanning):
                 index = controller.model.agents.index(self)
                 controller.concrete_move(path, index, path[0])
                 box = mixed.Mixed(self.x, self.y, 'Box', {'medicinas': 3, 'cervezas': 17})
-                controller.add_object(controller, box, self.x, self.y)
+                controller.add_object(box, self.x, self.y)
                 
             if origin != (self.x, self.y):   
                 path = self.a_star_search((self.x, self.y), origin, controller.model.matrix, False) # (self, start, goal, grid, stop_before_target)
