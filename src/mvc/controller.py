@@ -176,7 +176,7 @@ class Controller(Observer):
             if agent.name == agent_name:
                 self.model.agents.pop(index)
 
-        self.view.update_view()
+        self.model.notify(self.view, agents=self.model.agents)
     
     def controller_generate_vital(self):
         while True:
