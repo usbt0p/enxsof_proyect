@@ -49,12 +49,13 @@ class Delivery(Agent, Observer, pathPlanning):
         Specific event handling for Delivery.
         Overrides the default implementation.
         """
-        print('asdfasdffsw')
-        if event.event_type == 'move':
+
+        if event.event_type == 'delivery':
             print('Delivery: Handling move event.')
-            path = self.a_star_search((self.x, self.y), event.data, controller.model.matrix) # (self, start, goal, grid)
-            index = controller.model.agents.index(self)
-            controller.move_randomly(path, index, path[0])
+            path = self.a_star_search((self.x, self.y), event.data, controller.model.matrix, True) # (self, start, goal, grid, stop_before_target)
+            if path:
+                index = controller.model.agents.index(self)
+                controller.concrete_move(path, index, path[0])
         else:
             # Call the default implementation for unhandled cases
             super().handle_event(event)
