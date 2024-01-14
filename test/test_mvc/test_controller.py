@@ -45,13 +45,17 @@ class TestController(unittest.TestCase):
         self.controller.model.generate_agents.assert_called_once_with(new_agent)
         self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
 
-    def test_remove_agent(self) -> None:
-        agent_name = "Agent1"
-        self.controller.model.remove_agent = MagicMock()
-        self.controller.view.update_view = MagicMock()
-        self.controller.remove_agent(agent_name)
-        self.controller.model.remove_agent.assert_called_once_with(agent_name)
-        self.controller.view.update_view.assert_called_once()
+    def test_remove_agent(self):
+        agent1 = MagicMock()
+        agent1.name = "Agent1"
+        agent2 = MagicMock()
+        agent2.name = "Agent2"
+        self.controller.model.agents = [agent1, agent2]
+        self.controller.model.notify = MagicMock()
+        self.controller.remove_agent("Agent1")
+        self.assertEqual(len(self.controller.model.agents), 1)
+        self.assertEqual(self.controller.model.agents[0].name, "Agent2")
+        self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
 
     def test_handle_owner_event(self) -> None:
         event = "owner_event"
