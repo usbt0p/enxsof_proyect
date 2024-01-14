@@ -148,7 +148,7 @@ class View(tk.Tk, Observer):
         self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
         self.door_open_image = tk.PhotoImage(file="./assets/sprites/door_open.png")
         self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
-        self.agent_image = tk.PhotoImage(file="./assets/sprites/gato.png")
+        self.agent_image = tk.PhotoImage(file="./assets/sprites/laura.png")
         self.owner_image = tk.PhotoImage(file="./assets/sprites/owner1.png")
         self.enfermera_image = tk.PhotoImage(file="./assets/sprites/enfermera2.png")
         
