@@ -413,10 +413,6 @@ class Controller(Observer):
         # Iterate through each row and column in the matrix
         for j, row in enumerate(self.model.matrix):
             for i, element in enumerate(row):
-                if element != 0 and element!=2:
-                    print(element.literal_name)
-        for j, row in enumerate(self.model.matrix):
-            for i, element in enumerate(row):
                 # Check if the element has the 'name' attribute
                 if hasattr(element, 'name'):
                 # Check if the 'name' attribute matches the target name
@@ -452,7 +448,8 @@ class Controller(Observer):
         # Select a random position from the list of border positions
         if border_positions:
             spawn = random.choice(border_positions)
+            print(spawn)
      
-        self.add_agent('Delivery', spawn[0], spawn[1])
+        self.add_agent('Delivery', spawn[1], spawn[0])
         delivery_event = Event('Repartidor', 'delivery', main_door_position)
         self.event_manager.add_event(delivery_event)
