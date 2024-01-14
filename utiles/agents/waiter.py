@@ -62,6 +62,8 @@ class Waiter(Agent, Observer, pathPlanning):
         # Check for 'check_stock' event
         elif event.event_type == 'check_stock':
 
+            enough_stock = True
+
             # Initialize a set to store objects with their positions
             stock_to_check = set()
 
@@ -93,11 +95,17 @@ class Waiter(Agent, Observer, pathPlanning):
                         index = controller.model.agents.index(self)
                         # Move the agent along the calculated path
                         controller.concrete_move(path, index, path[0])
-                #Order a delivery
-                if not selected_object.storage:
-                    controller.trigger_delivery(controller)
+                        if selected_object.storage['stock'] < 5:
+                            enough_stock = False
+                        #TODO ADD STOCK
 
+            #Order a delivery
+            if not enough_stock:
+                controller.trigger_delivery(controller)
 
+        elif event.event_type == 'low_battery':
+
+            pass
 
 
         else:
