@@ -113,9 +113,8 @@ class Waiter(Agent, Observer, pathPlanning):
                     # Check if the 'name' attribute matches the target name
                         if element.name == target_name: #TODO: Change target_name
                             # Return the position of the element
-                            return (i, j)
-            # Return None if no matching element is found
-            return None
+                            position = (i, j)
+            
         
 
 
