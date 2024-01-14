@@ -11,7 +11,7 @@ class TestVitalSigns(unittest.TestCase):
     in the vitalsGenerator module.
     """
 
-    def test_gaussian_update_normal(self):
+    def test_gaussian_update_normal(self) -> None:
         """
         Test the gaussian_update function under normal conditions without any
         abnormal shifts.
@@ -28,7 +28,7 @@ class TestVitalSigns(unittest.TestCase):
             # Assert that the result falls within a reasonable range, considering the function logic.
             self.assertTrue(74 <= result <= 76)
 
-    def test_gaussian_update_abnormal(self):
+    def test_gaussian_update_abnormal(self) -> None:
         """
         Test the gaussian_update function when an abnormal shift is applied.
         """
@@ -58,7 +58,7 @@ class TestVitalSigns(unittest.TestCase):
             # Check if the result is within a small range of the expected value.
             self.assertTrue(expected_result - 1 <= result <= expected_result + 1)
 
-    def test_generate_vital(self):
+    def test_generate_vital(self) -> None:
         """
         Test the generate_vital function to ensure it correctly updates all vital signs.
         """

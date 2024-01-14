@@ -16,7 +16,7 @@ class View(tk.Tk, Observer):
 
     currentVitals = []
 
-    def __init__(self, name, height, width): # matrix, agent_list, 
+    def __init__(self, name:str, height:int, width:int): 
 
         tk.Tk.__init__(self)
         Observer.__init__(self, name)
@@ -25,22 +25,17 @@ class View(tk.Tk, Observer):
         self.controller = None
         self.health_monitor_window = None
 
-        # f'{self.winfo_reqwidth()}x{self.winfo_reqheight()}'
         self.height = height
         self.min_height = height 
         self.width = width
         self.min_width = width 
         self.CELL_SIZE = 40 
         self.title("Entorno Domótico")
-        self.minsize(self.width, self.height) # height + 30 ??? se puede cambiar
+        self.minsize(self.width, self.height)
 
-        ###
         frame = tk.Frame(self)
         frame.pack(fill=tk.BOTH, expand=True)
-        ###
 
-        ###
-        # Create a frame for the buttons
         button_frame = tk.Frame(frame)
         button_frame.grid(row=0, column=1, sticky='nsew')
 
@@ -58,9 +53,7 @@ class View(tk.Tk, Observer):
                           bg='grey', font=("Cascadia Code", 12))
         self.toggle_button.pack(fill=tk.X, pady=(2, 4))
         self.toggle_button.bind_all("<Key>", self.key_pressed)
-        ###
 
-        ###
         # Create a frame for the label and entry with a grey background and a border
         self.entry_frame = tk.Frame(button_frame, bg='grey', bd=7, 
                                highlightbackground='black', highlightcolor='black', highlightthickness=1)
@@ -108,28 +101,21 @@ class View(tk.Tk, Observer):
         command_list.insert(tk.END, "   despawn 7 8\n")
                      
         command_list.pack(fill=tk.X, pady=5)
-        ###
+        
+        self.entry_frame.pack_forget()
 
-        self.entry_frame.pack_forget() # Hide the frame by default
-
-        ###
-        # Create the canvas
         self.canvas= tk.Canvas(frame, bg='white', height=height, width=width)
         self.canvas.grid(row=0, column=0, sticky='nsew')
-        # Bind the left mouse button click event to the canvas
-        self.canvas.bind("<Button-1>", self.canvas_clicked)
-        ###
 
-        # Configure the columns to distribute extra space equally
+        self.canvas.bind("<Button-1>", self.canvas_clicked)
+
         frame.columnconfigure(0, weight=0)
         frame.columnconfigure(1, weight=0)
 
-        self.update() #Show view
+        self.update()
         self.geometry(f'{self.winfo_reqwidth()}x{self.winfo_reqheight()}')
-        #self.maxsize(self.winfo_reqwidth(), self.winfo_reqheight())
-        #self.minsize(self.winfo_reqwidth(), self.winfo_reqheight())
-        self.draw_grid(width, height) #Draw Grid
-        self.attributes('-topmost', True) #Show Window on Top of other Windows
+        self.draw_grid(width, height)
+        self.attributes('-topmost', True)
 
         # New sprites
         self.juego = tk.PhotoImage(file="./assets/sprites/juego.png")
@@ -166,7 +152,6 @@ class View(tk.Tk, Observer):
         self.owner_image = tk.PhotoImage(file="./assets/sprites/owner1.png")
         self.enfermera_image = tk.PhotoImage(file="./assets/sprites/enfermera2.png")
         
-
         #Links the skins with the object literal name
         self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
                           "Table": self.table_image, "Door_Closed": self.door_image,
@@ -190,39 +175,30 @@ class View(tk.Tk, Observer):
         self.geometry(f"{width}x{height}")
         self.minsize(self.min_width, self.min_height)
 
-    def canvas_clicked(self, event):
-        # Get the mouse position
+    def canvas_clicked(self, event:tk.Event) -> None:
         x = event.x
         y = event.y
 
-        # division entera para obtener la posicion en la matriz
         matrix_x = x//self.CELL_SIZE 
         matrix_y = y//self.CELL_SIZE
 
-        #self.text_entry.clipboard_clear()
-        #self.text_entry.clipboard_append(f"{matrix_x} {matrix_y}")
         self.text_entry.insert(tk.END, f" {matrix_x} {matrix_y}")
-        #TODO
-        #self.model.controller.objectAt(matrix_x, matrix_y)
         print(f"Cell: {matrix_x}, {matrix_y}")
 
-    def key_pressed(self, event):
-        # Check if the pressed key is "m"
+    def key_pressed(self, event:tk.Event) -> None:
 
         if self.text_entry == self.text_entry.focus_get():
-            # If it is, skip the event
             return
         
         match event.char:
             case 'm':
-                # If it is, trigger the button click event
                 self.button1_clicked()
             case 's':
                 self.toggle_entry_frame()
             case 'h':
                 self.open_monitor_window()
         
-    def set_controller(self, controller):
+    def set_controller(self, controller) -> None:
         """
         Set the controller for the view.
 
@@ -234,7 +210,7 @@ class View(tk.Tk, Observer):
         """
         self.controller = controller
 
-    def draw_grid(self, width:int, height:int):
+    def draw_grid(self, width:int, height:int) -> None:
         """
         Draws grid lines on the canvas.
         """
@@ -246,7 +222,7 @@ class View(tk.Tk, Observer):
             self.canvas.create_line([(0, i), (width, i)], tag='grid_line', fill='grey')
 
     
-    def updateFromNotification(self, *args, **kwargs):
+    def updateFromNotification(self, *args:tuple, **kwargs:dict) -> None:
         """
         Update the view based on the notification.
 
@@ -314,7 +290,7 @@ class View(tk.Tk, Observer):
 
         self.update()
 
-    def draw_agents(self, agents):
+    def draw_agents(self, agents:list) -> None:
         
         # Draw the agents
         self.canvas.delete("agent")
@@ -330,7 +306,7 @@ class View(tk.Tk, Observer):
         self.update()
 
     
-    def button1_clicked(self):
+    def button1_clicked(self) -> None:
         """
         Handle the click event for button1.
 
@@ -339,10 +315,10 @@ class View(tk.Tk, Observer):
         if self.controller:
             self.controller.handle_click("movement")
 
-    def retrieve_input(self, entry):
+    def retrieve_input(self, entry) -> str:
             return entry.get()
              
-    def exec_buton_clicked(self, *enter):
+    def exec_buton_clicked(self, *enter:tuple) -> None:
         """
         Handle the click event.
 
@@ -359,7 +335,7 @@ class View(tk.Tk, Observer):
 
         self.focus()
 
-    def toggle_entry_frame(self):
+    def toggle_entry_frame(self) -> None:
         # Check if the frame is currently visible
         if self.entry_frame.winfo_viewable():
             # If it's visible, hide it
@@ -374,7 +350,7 @@ class View(tk.Tk, Observer):
             self.text_entry.focus_set() # Set focus to the text entry
             self.resize_window()
 
-    def open_monitor_window(self):
+    def open_monitor_window(self) -> None:
         """
         Opens a new independent window.
         """
@@ -471,7 +447,7 @@ class View(tk.Tk, Observer):
         # Ensuring proper layout of the plots within the figure
         fig.tight_layout()
 
-        def init():
+        def init() -> tuple:
             """
             Initialize the plot limits and return the line objects for animation.
             
@@ -486,7 +462,7 @@ class View(tk.Tk, Observer):
         
 
 
-        def update_vital(frame):
+        def update_vital(frame:int) -> tuple:
 
             """
             Update function for vital signs animation. Generates random data for vitals and updates the graph.
@@ -529,7 +505,7 @@ class View(tk.Tk, Observer):
             return (ln1,)
 
 
-        def create_ecg_cycle(t, heart_rate):
+        def create_ecg_cycle(t:float, heart_rate:int) -> float:
             """
             Create a single ECG cycle based on time 't' and heart rate.
 
@@ -553,7 +529,7 @@ class View(tk.Tk, Observer):
             return p_wave + qrs_complex + t_wave
 
         
-        def update_ecg(frame):
+        def update_ecg(frame:int) -> tuple:
             """
             Update function for the ECG waveform animation. Generates ECG waveform based on heart rate.
 
@@ -598,7 +574,7 @@ class View(tk.Tk, Observer):
         self.ani2 = animation.FuncAnimation(fig, update_ecg, interval=20, frames=itertools.count(), init_func=init, blit=True, cache_frame_data=False)
 
 
-    def on_monitor_window_close(self):
+    def on_monitor_window_close(self) -> None:
         """
         Stops the animations and resets the flag when the monitor window is closed.
         """

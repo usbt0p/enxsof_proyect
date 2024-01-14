@@ -6,18 +6,18 @@ from unittest.mock import MagicMock
 from src.mvc.view import Observer
 
 class ConcreteObserver(Observer):
-    def __init__(self, name):
+    def __init__(self, name:str) -> None:
         super().__init__(name)
         
-    def updateFromNotification(self, *new_state, **kwargs):
+    def updateFromNotification(self, *new_state:tuple, **kwargs:dict):
         return new_state, kwargs
 
 class TestObserver(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.observer = ConcreteObserver('observer')
 
-    def test_updateFromNotification(self):
+    def test_updateFromNotification(self) -> None:
         # Define the new state
         new_state = (1, 2, 3)
 
@@ -28,7 +28,7 @@ class TestObserver(unittest.TestCase):
         # (in this case, we are just checking that the method was called without raising any exceptions)
         self.assertTrue(True)
 
-    def test_object_counter(self):
+    def test_object_counter(self) -> None:
         # Get the initial object counter value
         initial_counter = Observer._object_counter
 
@@ -38,16 +38,16 @@ class TestObserver(unittest.TestCase):
         # Assert that the object counter has increased by 1
         self.assertEqual(Observer._object_counter, initial_counter + 1)
 
-    def test_subclasshook(self):
+    def test_subclasshook(self) -> None:
         # Create a subclass that implements the updateFromNotification method
         class SubObserver(Observer):
-            def updateFromNotification(self, *new_state, **kwargs):
+            def updateFromNotification(self, *new_state:list, **kwargs:dict):
                 pass
 
         # Check if the subclass implements the required update method
         self.assertTrue(Observer.__subclasshook__(SubObserver))
 
-    def test_str(self):
+    def test_str(self) -> None:
         # Set a custom name for the observer
         self.observer.name = "CustomObserver"
 

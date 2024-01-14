@@ -9,19 +9,16 @@ class Agent():
     Represents an agent in the environment.
     """
 
-    def __init__(self, name, x=0, y=0):
+    def __init__(self, name:str, x=0, y=0) -> None:
         """
         Initializes an Agent object.
-        Parameters:
-        - name (str): The name of the agent.
-        - position (tuple): The initial position of the agent. Defaults to (0, 0).
         """
         self.name = name
         self.inventory = []
         self.x = x
         self.y = y
 
-    def print_position(self):
+    def print_position(self) -> str:
         """
         Returns the current position of the agent.
 
@@ -30,7 +27,7 @@ class Agent():
         """
         return f"({self.x}, {self.y})"
 
-    def position(self, x, y):
+    def position(self, x:int, y:int) -> None:
         """
         Set the position of the agent.
 
@@ -55,7 +52,7 @@ class Agent():
         
 
 
-    def handle_event(self, event):
+    def handle_event(self, event:Event) -> None:
         """
         Default event handling. Can be overridden by subclasses.
         """
@@ -63,24 +60,7 @@ class Agent():
         valid_events = ['default_behavior','move']
 
         if event.event_type in valid_events:
-            # Default behavior implementation
             pass
         else:
             print(f"Unhandled event type: {event.event_type}")
             
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    """EJEMPLO DE COMO USAR EL EVENTO.
-    ESTE DEBE SER IMPLEMENTADO POR LAS SUBCLASES DE AGENT.
-    
-        def handle_event(self, event):
-            if event.event_type == 'move':
-                self.move(event.data)
-
-        def move(self, new_position):
-            # Update the agent's position based on new_position
-            self.x, self.y = new_position
-    """
-
-
- 
-

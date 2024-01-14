@@ -8,7 +8,7 @@ from utiles.objects.mixed import Mixed
 
 class Waiter(Agent, Observer, pathPlanning):
 
-    def __init__(self, name, x, y):
+    def __init__(self, name:str, x:int, y:int) -> None:
         """
         Initializes a Waiter object.
 
@@ -23,7 +23,7 @@ class Waiter(Agent, Observer, pathPlanning):
 
 
     @property
-    def status(self):
+    def status(self) -> str:
         """
         Get the status of the waiter.
 
@@ -33,16 +33,16 @@ class Waiter(Agent, Observer, pathPlanning):
         return self._status
     
     @status.setter
-    def status(self, value):
+    def status(self, value) -> None:
         """Set the status of the waiter."""
         self._status = value
 
 
-    def updateFromNotification(self, *new_state, **kwargs):
+    def updateFromNotification(self, *new_state:tuple, **kwargs:dict) -> None:
         return super().updateFromNotification(*new_state, **kwargs) # Call the parent class method
     
 
-    def handle_event(self, event, controller):
+    def handle_event(self, event, controller) -> None:
         """
         Specific event handling for Waiter.
         Overrides the default implementation.

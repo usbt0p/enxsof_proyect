@@ -37,7 +37,7 @@ class Controller(Observer):
         self.view.after(1000, self.update_events())  # Schedule event updates every 1000 milliseconds
 
     
-    def updateFromNotification(self, *new_state, **kwargs):
+    def updateFromNotification(self, *new_state:tuple, **kwargs:dict) -> None:
         NOTIFY_KEYS = ('agent_move_right', 'random_movement')
         path=False
         print(kwargs)
@@ -58,7 +58,7 @@ class Controller(Observer):
                         self.move_randomly(path, value, path[0])
 
 
-    def move_randomly(self, path, agent_index, previous, callback=None):
+    def move_randomly(self, path:str, agent_index:int, previous:list, callback=None) -> None:
         print(self.model.agents[agent_index].name, path)
         self.model.agents[agent_index].x = path[0][0]
         self.model.agents[agent_index].y = path[0][1]
@@ -114,11 +114,11 @@ class Controller(Observer):
                 callback()
 
         
-    def concrete_move(self, path, agent_index, previous, callback=None):
+    def concrete_move(self, path:str, agent_index:int, previous:list, callback=None):
         self.move_randomly(path, agent_index, previous)
         
 
-    def add_agent(self, agent_name:str, x, y ) -> None:
+    def add_agent(self, agent_name:str, x:int, y:int) -> None:
         """
         Adds a new agent to the model and updates the view.
 
@@ -131,7 +131,7 @@ class Controller(Observer):
         
         self.model.notify(self.view, agents=self.model.agents)
     
-    def add_object(self, object_instance, x, y ) -> None:
+    def add_object(self, object_instance:str, x:int, y:int) -> None:
         """
         Adds a new object to the model and updates the view.
 
@@ -142,7 +142,7 @@ class Controller(Observer):
         self.model.matrix[y][x] = object_instance
         self.model.notify(self.view, matrix=self.model.matrix)
 
-    def despawn_object(self, x, y) -> None:
+    def despawn_object(self, x:int, y:int) -> None:
         """
         Removes an object from the model and updates the view.
 
@@ -167,7 +167,7 @@ class Controller(Observer):
 
         self.model.notify(self.view, agents=self.model.agents)
     
-    def controller_generate_vital(self):
+    def controller_generate_vital(self) -> None:
         while True:
             time.sleep(1)
             global abnormal_chance, abnormal_shift
@@ -177,12 +177,12 @@ class Controller(Observer):
             self.model.notify(self.view, vitals=self.model.agents[0].vitals)
         
     # Create and start the thread
-    def vital_threading(self):
+    def vital_threading(self) -> None:
         thread = threading.Thread(target=self.controller_generate_vital)
         thread.daemon = True  # This makes the thread exit when the main program exits
         thread.start()     
 
-    def handle_click(self, event, *args):
+    def handle_click(self, event:str, *args:tuple) -> None:
         """
         Handles the click event and initiates the corresponding animation based on the event type.
 
@@ -232,7 +232,7 @@ class Controller(Observer):
         Returns:
         The command to be executed.
         """
-        def check_numeric_arguments(num_args, start_index_for_non_matching_args):
+        def check_numeric_arguments(num_args:int, start_index_for_non_matching_args:int) -> None:
             
             assert len(command) == num_args, "Invalid number of arguments"
             for i in range(start_index_for_non_matching_args, num_args):
@@ -319,7 +319,7 @@ class Controller(Observer):
             case 'delivery':
                 self.trigger_delivery()
 
-    def spawn_agent(self, command, check_numeric_arguments):
+    def spawn_agent(self, command:list, check_numeric_arguments:function) -> None:
         """
         Spawns a new agent with the given parameters.
 
@@ -333,7 +333,7 @@ class Controller(Observer):
         check_numeric_arguments(4, 2)          
         self.add_agent(command[1].capitalize(), int(command[2]), int(command[3]))
 
-    def spawn_object(self, command, check_numeric_arguments):
+    def spawn_object(self, command:list, check_numeric_arguments:function) -> None:
             """
             Spawns a new object in the model based on the given command.
 
@@ -350,7 +350,7 @@ class Controller(Observer):
 
    
 
-    def register_agents_with_event_manager(self):
+    def register_agents_with_event_manager(self) -> None:
         """
         Register all agents with the event manager.
         """
@@ -358,7 +358,7 @@ class Controller(Observer):
             self.event_manager.register_agent(agent)
 
 
-    def update_events(self):
+    def update_events(self) -> None:
         """
         Update method to dispatch events and schedule the next update.
         """
@@ -383,7 +383,7 @@ class Controller(Observer):
 
 
 
-    def trigger_movement(self, x, y):
+    def trigger_movement(self, x:int, y:int) -> None:
         # Determine the new position (this could come from various sources)
         new_position = (x, y)  # Replace with actual logic to determine the new position
 
@@ -395,7 +395,7 @@ class Controller(Observer):
 
         # The event will be processed in due course by the event manager
 
-    def trigger_delivery(self):
+    def trigger_delivery(self) -> None:
         main_door_position = (7,4)
         # Determine the main door position (this could come from various sources)
         found = False

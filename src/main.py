@@ -6,7 +6,7 @@ from utiles.agents import (owner, nurse, agent, waiter, delivery)
 
 from utiles.commons.eventManager import EventManager
 
-def create_menu():
+def create_menu() -> tuple(int,int):
     """Creates a menu that asks for the size of the room."""
 
     print("Choose a map to load!")

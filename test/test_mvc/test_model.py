@@ -7,37 +7,37 @@ import utiles.agents.agent as agent
 
 class TestModel(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.test_instance = Model(16, 16)
         
-    def test_generate_empty_room(self):
+    def test_generate_empty_room(self) -> None:
         room = self.test_instance.generate_empty_room()
         self.assertEqual(len(room), 16)
         self.assertEqual(len(room[0]), 16)
         self.assertEqual(room[1][1], 0)
 
-    def test_generate_empty_room_positive(self):
+    def test_generate_empty_room_positive(self) -> None:
         self.test_instance.x_size = 3
         self.test_instance.y_size = 4
         result = self.test_instance.generate_empty_room()
         expected_result = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
         self.assertEqual(result, expected_result)
 
-    def test_generate_empty_room_with_zero_size(self):
+    def test_generate_empty_room_with_zero_size(self) -> None:
         self.test_instance.x_size = 0
         self.test_instance.y_size = 0
         result = self.test_instance.generate_empty_room()
         expected_result = []
         self.assertEqual(result, expected_result)
 
-    def test_generate_empty_room_with_negative_size(self):
+    def test_generate_empty_room_with_negative_size(self) -> None:
         self.test_instance.x_size = -2
         self.test_instance.y_size = 3
         with self.assertRaises(ValueError):
             self.test_instance.generate_empty_room()
             raise ValueError("Size of the room must be positive")
         
-    def test_read_grid_config_file(self):
+    def test_read_grid_config_file(self) -> None:
         # Crea un archivo JSON temporal para las pruebas
         with open('test_config.json', 'w') as f:
             f.write('{"key": "value"}')
@@ -46,12 +46,12 @@ class TestModel(unittest.TestCase):
 
         self.assertEqual(data, {"key": "value"})
 
-    def test_read_grid_config_file_file_not_found(self):
+    def test_read_grid_config_file_file_not_found(self) -> None:
         data = self.test_instance.read_grid_config_file('nonexistent_file.json')
 
         self.assertIsNone(data)
 
-    def test_read_grid_config_file_invalid_json(self):
+    def test_read_grid_config_file_invalid_json(self) -> None:
         # Crea un archivo JSON temporal con sintaxis JSON no válida
         with open('invalid_config.json', 'w') as f:
             f.write('{"key": "value",}')
@@ -60,7 +60,7 @@ class TestModel(unittest.TestCase):
 
         self.assertIsNone(data)
 
-    def test_read_invalid_config_file(self):
+    def test_read_invalid_config_file(self) -> None:
         # Verifica que se maneje adecuadamente un archivo de configuración inválido
         with open('invalid_config.json', 'w') as f:
             f.write('{"key": "value",')
@@ -69,7 +69,7 @@ class TestModel(unittest.TestCase):
 
         self.assertIsNone(data)
 
-    def test_populate_room(self):
+    def test_populate_room(self) -> None:
         
         room_layout = [
         ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 2, 2, 2, 2, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
@@ -108,7 +108,7 @@ class TestModel(unittest.TestCase):
 
         self.assertEqual(aux, room_layout)
 
-    def test_move_object(self):
+    def test_move_object(self) -> None:
         
         initial_value = self.test_instance.matrix[4][7]
         

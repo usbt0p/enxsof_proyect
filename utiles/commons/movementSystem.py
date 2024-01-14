@@ -12,22 +12,17 @@ from utiles.objects.openable import Openable
 
 class Movements(ABC):
 
-    def is_position_occupied(self, x, y) -> bool:
+    def is_position_occupied(self, x:int, y:int) -> bool:
         """
         Checks if a position is occupied by an object.
-        Parameters:
-        - position (tuple): The position to check.
         Returns:
         - bool: True if the position is occupied, False otherwise.
         """
         return self.matrix[y][x] != 0
 
-    def object_teleport(self, origin_x, origin_y, new_position_x, new_position_y) -> None:
+    def object_teleport(self, origin_x:int, origin_y:int, new_position_x:int, new_position_y:int) -> None:
         """
-        Moves an object to a new position.
-        Parameters:
-        - origin (tuple): The position of the object to move.
-        - new_position (tuple): The new position of the object.        
+        Moves an object to a new position.      
         Returns:
         None
         """
@@ -42,7 +37,7 @@ class Movements(ABC):
 
 class pathPlanning(ABC):
 
-    def generate_random_position(self, max_x, max_y):
+    def generate_random_position(self, max_x, max_y) -> tuple:
         """Generate a random position within the given boundaries."""
         new_x = random.randint(0, max_x - 1)  # excluding this endpoint so we don't get out of bounds
         new_y = random.randint(0, max_y - 1)
@@ -51,7 +46,7 @@ class pathPlanning(ABC):
         return new_x, new_y
     
 
-    def get_random_position(self):
+    def get_random_position(self) -> tuple:
         """
         Returns a random position in the room.
 
@@ -66,7 +61,7 @@ class pathPlanning(ABC):
         else:
             return self.get_random_position()
 
-    def calculate_random_path(self, agent_x, agent_y, max_x, max_y):
+    def calculate_random_path(self, agent_x, agent_y, max_x, max_y) -> list:
         """Move the agent to a valid random position."""
         new_x, new_y = self.generate_random_position(max_x, max_y)
         if not Movements.is_position_occupied(self, new_x, new_y):
@@ -75,14 +70,14 @@ class pathPlanning(ABC):
             # Optionally, try again or handle invalid move
             #print("There is no valid position to move to!")
 
-    def path_generator(self, agent_index):
+    def path_generator(self, agent_index) -> list:
         # Por tema de matriz transpuesta, esto va al reves
         origin_x = self.agents[agent_index].x
         # Por tema de matriz transpuesta, esto va al reves
         origin_y = self.agents[agent_index].y
         return self.calculate_random_path(origin_x, origin_y, self.x_size, self.y_size)
     
-    def is_adjacent(self, current, goal):
+    def is_adjacent(self, current:tuple, goal:tuple) -> bool:
         """
         Check if the current node is adjacent to the goal node.
 
@@ -101,7 +96,7 @@ class pathPlanning(ABC):
         return (dx + dy) == 1
 
 
-    def heuristic(self, a, b):
+    def heuristic(self, a:tuple, b:tuple) -> int:
         """
         Calculate the heuristic value for A* pathfinding.
 
@@ -126,7 +121,7 @@ class pathPlanning(ABC):
 
         return manhattan
 
-    def a_star_search(self, start, goal, grid, stop_before_target=False):
+    def a_star_search(self, start:tuple, goal:tuple, grid:list, stop_before_target=False) -> list|bool:
         """
         Perform A* search algorithm to find the shortest path from the start node to the goal node on a grid.
 

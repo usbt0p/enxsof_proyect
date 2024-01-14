@@ -12,7 +12,7 @@ from src.mvc import (model, view, controller, observer, subject)
 class TestExecute(unittest.TestCase):
 
     # check if if all imports are correct
-    def test_import_commons(self):
+    def test_import_commons(self) -> None:
         self.assertIsNotNone(thing)
         self.assertIsNotNone(owner)
         self.assertIsNotNone(openable)
@@ -31,7 +31,7 @@ class TestExecute(unittest.TestCase):
 if __name__ == '__main__':
     
 
-    def test_execute_main(self):
+    def test_execute_main(self) -> None:
         import sys
         sys.path.insert(0, '.')
 
