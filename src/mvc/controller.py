@@ -71,21 +71,6 @@ class Controller(Observer):
         # Define offsets for adjacent and diagonal positions
         # (up, down, left, right, upper-left, upper-right, lower-left, lower-right)
         offsets = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
-        '''
-        # Check each adjacent and diagonal position for a door
-        for dx, dy in offsets:
-            adjacent_y, adjacent_x = current_agent.x + dx, current_agent.y + dy
-            # Ensure the position is within the bounds of the matrix if necessary
-            if (0 <= adjacent_y < len(self.model.matrix) and
-                0 <= adjacent_x < len(self.model.matrix[0])):
-                if (self.model.matrix[adjacent_y][adjacent_x] != 0 and 
-                    self.model.matrix[adjacent_y][adjacent_x]._literal_name == "Door"):
-                    if self.model.matrix[adjacent_y][adjacent_x].isOpen == True:
-                        self.model.matrix[adjacent_y][adjacent_x].close()
-                        self.model.notify(self.view, matrix=self.model.matrix)
-        '''
-        #NO BORRAR AUN HASTA QUE SE COMPRUEBE QUE NO HAY BUGS EN LA VERSION NUEVA (ABAJO)
-
 
         # Check each adjacent and diagonal position for a door
         for dx, dy in offsets:
