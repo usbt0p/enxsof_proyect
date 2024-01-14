@@ -172,7 +172,32 @@ class Nurse(Agent, Observer, pathPlanning):
                 # Optional: Conditions to break the loop, like a stop command or target reached
 
         elif event.event_type == 'low_battery':
-            pass
+            # Find charger
+            found = False
+            # Iterate through each row and column in the matrix
+            for i, row in enumerate(controller.model.matrix):
+                for j, element in enumerate(row):
+                    # Check if the element has the 'name' attribute
+                    if hasattr(element, 'name'):
+                    # Check if the 'name' attribute matches the target name
+                        if element.name == target_name: #TODO: Change target_name
+                            # Return the position of the element
+                            position = (i, j)
+                            found = True
+                            break
+                if found:
+                    break
+                            
+            # Check if a valid position was found
+                if position:
+                    # Calculate the path to the object's position, stopping one cell before
+                    path = self.a_star_search((self.x, self.y), position, controller.model.matrix, True)
+                    # Check if a valid path was found
+                    if path:
+                        # Find the index of the current agent in the list of agents
+                        index = controller.model.agents.index(self)
+                        # Move the agent along the calculated path
+                        controller.concrete_move(path, index, path[0])
 
         else:
             # Call the default implementation for unhandled cases

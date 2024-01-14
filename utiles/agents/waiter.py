@@ -114,6 +114,18 @@ class Waiter(Agent, Observer, pathPlanning):
                         if element.name == target_name: #TODO: Change target_name
                             # Return the position of the element
                             position = (i, j)
+                            
+            # Check if a valid position was found
+                if position:
+                    # Calculate the path to the object's position, stopping one cell before
+                    path = self.a_star_search((self.x, self.y), position, controller.model.matrix, True)
+                    # Check if a valid path was found
+                    if path:
+                        # Find the index of the current agent in the list of agents
+                        index = controller.model.agents.index(self)
+                        # Move the agent along the calculated path
+                        controller.concrete_move(path, index, path[0])
+            
             
         
 

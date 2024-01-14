@@ -4,9 +4,7 @@ sys.path.insert(0, '.')
 from src.mvc.observer import Observer
 from utiles.agents.agent import Agent
 from utiles.commons.movementSystem import pathPlanning
-import src.mvc.controller as Controller
-import src.mvc.model as Model
-
+from utiles.objects import mixed
 
 class Delivery(Agent, Observer, pathPlanning):
 
@@ -51,11 +49,27 @@ class Delivery(Agent, Observer, pathPlanning):
         """
 
         if event.event_type == 'delivery':
-            print('Delivery: Handling move event.')
+            origin = (self.x, self.y)
             path = self.a_star_search((self.x, self.y), event.data, controller.model.matrix, True) # (self, start, goal, grid, stop_before_target)
             if path:
+                self.status = "Delivering"
                 index = controller.model.agents.index(self)
                 controller.concrete_move(path, index, path[0])
+                box = mixed.Mixed(self.x, self.y, 'Box', {'medicinas': 3, 'cervezas': 17})
+                controller.add_object(controller, box, self.x, self.y)
+                
+            if origin != (self.x, self.y):   
+                path = self.a_star_search((self.x, self.y), origin, controller.model.matrix, False) # (self, start, goal, grid, stop_before_target)
+                if path:
+                    self.status = "Moving"
+                    index = controller.model.agents.index(self)
+                    controller.concrete_move(path, index, path[0])
+                    self.status = "Idle"
+                    controller.remove_agent(self.name)
+            else:
+                self.status = "Idle"
+                controller.remove_agent(self.name) 
+
         else:
             # Call the default implementation for unhandled cases
             super().handle_event(event)

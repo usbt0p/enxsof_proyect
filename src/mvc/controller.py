@@ -324,9 +324,9 @@ class Controller(Observer):
                 check_numeric_arguments(3, 1)
                 self.despawn_object(int(command[1]), int(command[2]))
 
-            case 'move':
+            case 'delivery':
                 check_numeric_arguments(3, 1)
-                self.trigger_movement(int(command[1]), int(command[2]))
+                self.trigger_delivery(int(command[1]), int(command[2]))
 
     def spawn_agent(self, command, check_numeric_arguments):
         """
@@ -405,6 +405,21 @@ class Controller(Observer):
         # The event will be processed in due course by the event manager
 
     def trigger_delivery(self):
-        # Determine the new position (this could come from various sources)
-        delivery_event = Event('Repartidor', 'delivery')
+        # Determine the main door position (this could come from various sources)
+        found = False
+        # Iterate through each row and column in the matrix
+        for i, row in enumerate(self.model.matrix):
+            for j, element in enumerate(row):
+                # Check if the element has the 'name' attribute
+                if hasattr(element, 'name'):
+                # Check if the 'name' attribute matches the target name
+                    if element.name == "Main_Door":
+                        # Return the position of the element
+                        main_door_position = (i, j)
+                        found = True
+                        break
+            if found:
+                break
+
+        delivery_event = Event('Repartidor', 'delivery', main_door_position)
         self.event_manager.add_event(delivery_event)
