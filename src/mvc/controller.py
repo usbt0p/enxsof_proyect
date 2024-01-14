@@ -324,9 +324,9 @@ class Controller(Observer):
                 check_numeric_arguments(3, 1)
                 self.despawn_object(int(command[1]), int(command[2]))
 
-            case 'move':
+            case 'delivery':
                 check_numeric_arguments(3, 1)
-                self.trigger_movement(int(command[1]), int(command[2]))
+                self.trigger_delivery(int(command[1]), int(command[2]))
 
     def spawn_agent(self, command, check_numeric_arguments):
         """
@@ -406,5 +406,6 @@ class Controller(Observer):
 
     def trigger_delivery(self):
         # Determine the new position (this could come from various sources)
-        delivery_event = Event('Repartidor', 'delivery')
+        main_door_position = 
+        delivery_event = Event('Repartidor', 'delivery', main_door_position)
         self.event_manager.add_event(delivery_event)
