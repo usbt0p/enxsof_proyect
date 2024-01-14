@@ -34,7 +34,7 @@ class Model(Subject, Movements, pathPlanning):
         """
         return [[0] * self.x_size for _ in range(self.y_size)]
     
-    def create_agent(self, name, x, y):
+    def create_agent(self, name:str, x:int, y:int) -> agent.Agent:
         """
         Creates an agent in the room.
         """
@@ -46,7 +46,7 @@ class Model(Subject, Movements, pathPlanning):
             toret = agent.Agent("Gato", x, y)
         return toret# TODO hacer el creador bien !!!!!!!
 
-    def create_object(self, x, y, literal):
+    def create_object(self, x:int, y:int, literal:str) -> thing.Thing | movable.Movable | openable.Openable | mixed.Mixed | int:
         """
         Creates an object in the room.
         """
@@ -67,7 +67,7 @@ class Model(Subject, Movements, pathPlanning):
         
         return obj
 
-    def generate_agents(self, *agents) -> None:
+    def generate_agents(self, *agents:tuple) -> None:
         """
         Adds an agent to the room.
         """
@@ -114,7 +114,7 @@ class Model(Subject, Movements, pathPlanning):
             print(f"Error decoding JSON in file {file_path}: {e}")
             return None
 
-    def agents_random_spawn(self, *agents) -> None:
+    def agents_random_spawn(self, *agents:tuple) -> None:
         """
         Spawns the agents in a random position in the room.
 

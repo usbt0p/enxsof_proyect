@@ -10,7 +10,7 @@ import functools
 
 class Delivery(Agent, Observer, pathPlanning):
 
-    def __init__(self, name, x, y, animation_speed=1000):
+    def __init__(self, name:str, x:int, y:int, animation_speed=1000) -> None:
         """
         Initializes a Delivery object.
 
@@ -26,7 +26,7 @@ class Delivery(Agent, Observer, pathPlanning):
 
 
     @property
-    def status(self):
+    def status(self) -> str:
         """
         Get the status of the delivery.
 
@@ -36,27 +36,27 @@ class Delivery(Agent, Observer, pathPlanning):
         return self._status
     
     @status.setter
-    def status(self, value):
+    def status(self, value:str) -> None:
         """Set the status of the delivery."""
         self._status = value
 
 
-    def updateFromNotification(self, *new_state, **kwargs):
+    def updateFromNotification(self, *new_state:tuple, **kwargs:dict) -> None:
         return super().updateFromNotification(*new_state, **kwargs) # Call the parent class method
     
 
-    def on_movement_complete(self, controller):
+    def on_movement_complete(self, controller) -> None:
             box = mixed.Mixed(self.x, self.y, 'Box', {'medicinas': 3, 'cervezas': 17})
             controller.add_object(box, self.x, self.y)
 
-    def on_delivery_complete(self, controller):
+    def on_delivery_complete(self, controller) -> None:
             self.status = "Idle"
             # Schedule the removal of the agent to allow the animation to complete
             controller.view.after(self.animation_speed, lambda: controller.remove_agent(self.name))
             #controller.remove_agent(self.name)
     
 
-    def handle_event(self, event, controller):
+    def handle_event(self, event, controller) -> None:
         """
         Specific event handling for Delivery.
         Overrides the default implementation.

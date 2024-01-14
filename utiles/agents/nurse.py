@@ -30,7 +30,7 @@ class Nurse(Agent, Observer, pathPlanning):
     - manhattan_distance_to_owner(owner): Calculates the Manhattan distance between the nurse and an owner.
     """
 
-    def __init__(self, name, x, y, charging_x=0, charging_y=0):
+    def __init__(self, name:str, x:int, y:int, charging_x=0, charging_y=0) -> None:
         """
         Initializes a Nurse object.
 
@@ -50,7 +50,7 @@ class Nurse(Agent, Observer, pathPlanning):
         self._status = "Idle"
 
     @property
-    def status(self):
+    def status(self) -> str:
         """
         Get the status of the nurse.
 
@@ -60,7 +60,7 @@ class Nurse(Agent, Observer, pathPlanning):
         return self._status
     
     @property
-    def battery(self):
+    def battery(self) -> int:
         """
         Get the current battery status of the nurse.
 
@@ -72,17 +72,17 @@ class Nurse(Agent, Observer, pathPlanning):
     
 
     @status.setter
-    def status(self, value):
+    def status(self, value) -> None:
         """Set the status of the nurse."""
         self._status = value
 
        
     @battery.setter
-    def battery(self, value):
+    def battery(self, value) -> None:
         """Set the battery level of the nurse."""
         self._battery = value
 
-    def nurse_charge_battery(self):
+    def nurse_charge_battery(self) -> None:
         """
         Charges the nurse's battery to 100%.
         """
@@ -91,7 +91,7 @@ class Nurse(Agent, Observer, pathPlanning):
         self.status = "Charging"
         self.battery = 100
 
-    def nurse_pick_object(self, object):
+    def nurse_pick_object(self, object) -> bool:
         """
         Allows the nurse to pick up an object.
 
@@ -107,7 +107,7 @@ class Nurse(Agent, Observer, pathPlanning):
         else:
             return False
 
-    def nurse_drop_object(self, object):
+    def nurse_drop_object(self, object:object) -> bool:
         """
         Allows the nurse to drop an object.
 
@@ -119,7 +119,7 @@ class Nurse(Agent, Observer, pathPlanning):
         """
         return self.inventory.pop(0)
 
-    def manhattan_distance_to_owner(self, owner):
+    def manhattan_distance_to_owner(self, owner) -> int:
         """
         Calculates the Manhattan distance between the nurse and an owner.
 
@@ -132,11 +132,11 @@ class Nurse(Agent, Observer, pathPlanning):
         return self.heuristic((self.x,self.y), (owner.x,owner.y))
 
 
-    def updateFromNotification(self, *new_state, **kwargs):
+    def updateFromNotification(self, *new_state:tuple, **kwargs:dict) -> None:
         return super().updateFromNotification(*new_state, **kwargs) # Call the parent class method
     
 
-    def handle_event(self, event, controller):
+    def handle_event(self, event, controller) -> None:
         """
         Specific event handling for Nurse.
         Overrides the default implementation.

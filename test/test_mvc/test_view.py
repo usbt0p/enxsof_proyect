@@ -11,43 +11,39 @@ from utiles.agents import (agent)
 
 class TestView(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.view = View("Test View", 400, 400)
         self.view.update = MagicMock()
 
-    def test_resize_window(self):
-        # tkinter window has a default width and height of 4px and 41px respectively
-        # we must take this into account to test the resize_window method
+    def test_resize_window(self) -> None:
         default_width_px = 198
         default_height_px = 4
         self.view.resize_window()
         self.assertEqual(self.view.winfo_reqwidth(), 400 + default_width_px)
         self.assertEqual(self.view.winfo_reqheight(), 400 + default_height_px)
         
-    def test_set_controller(self):
+    def test_set_controller(self) -> None:
         controller = MagicMock()
         self.view.set_controller(controller)
         self.assertEqual(self.view.controller, controller)
 
-    def test_draw_grid(self):
+    def test_draw_grid(self) -> None:
         self.view.draw_grid(400, 400)
-        # se crean 40 linesa, 20 horizontales y 20 verticales
         self.assertEqual(len(self.view.canvas.find_withtag("grid_line")), 40)
 
-    def test_updateFromNotification_agents(self):
+    def test_updateFromNotification_agents(self) -> None:
         agents = ["Agent1", "Agent2", "Agent3"]
         self.view.draw_agents = MagicMock()
         self.view.updateFromNotification(agents=agents)
         self.view.draw_agents.assert_called_once_with(agents)
 
-    def test_updateFromNotification_matrix(self):
+    def test_updateFromNotification_matrix(self) -> None:
         matrix = [[1, 0, 1], [0, 1, 0], [1, 0, 1]]
         self.view.draw_map = MagicMock()
         self.view.updateFromNotification(matrix=matrix)
         self.view.draw_map.assert_called_once_with(matrix)
 
-    def test_draw_map(self):
-            # although the method works in practice, its hard to test because of the canvas
+    def test_draw_map(self) -> None:
 
             mockthing = thing.Thing(0, 0, "Test Thing")
             mockthing2 = thing.Thing(2, 0, "Test Thing")
@@ -68,7 +64,7 @@ class TestView(unittest.TestCase):
 
             self.view.update.assert_called_once()
 
-    def test_draw_agents(self):
+    def test_draw_agents(self) -> None:
         agent1, agent2 = agent.Agent("Agent1", 0, 0), agent.Agent("Agent2", 0, 0)
 
         agents = [agent1, agent2]
@@ -84,7 +80,7 @@ class TestView(unittest.TestCase):
         self.view.canvas.create_image.assert_any_call(0, 0, image="image2", anchor='nw', tags="agent")
         self.view.update.assert_called_once()
 
-    def test_button1_clicked(self):
+    def test_button1_clicked(self) -> None:
         self.view.controller = MagicMock()
         self.view.button1_clicked()
         self.view.controller.handle_click.assert_called_once_with("movement")

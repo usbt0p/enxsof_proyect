@@ -7,24 +7,24 @@ from src.mvc.subject import Subject
 from src.mvc.observer import Observer
 
 class ConcreteObserver(Observer):
-        def __init__(self):
+        def __init__(self) -> None:
             super().__init__()
         def updateFromNotification(self, *args, **kwargs):
             pass
 
 class ConcreteSubject(Subject):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
     
 
 class TestSubject(unittest.TestCase):
     
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.subject = Subject()
         
 
-    def test_attach(self):
+    def test_attach(self) -> None:
         observer1 = MagicMock(spec=Observer)
         observer2 = MagicMock(spec=Observer)
 
@@ -33,19 +33,18 @@ class TestSubject(unittest.TestCase):
         self.assertIn(observer1, self.subject._observers)
         self.assertIn(observer2, self.subject._observers)
 
-    def test_attach_invalid_observer(self):
-        obs = ConcreteObserver() # FIXME esto que cojones es
+    def test_attach_invalid_observer(self) -> None:
+        obs = ConcreteObserver()
         sub = ConcreteSubject()
         false_obs = 'mock'
 
-        #with self.assertRaises(TypeError):
         sub.attach(obs)
         print(sub._observers)
 
         sub.attach(false_obs)
         print(sub._observers)
 
-    def test_detach(self):
+    def test_detach(self) -> None:
         observer1 = MagicMock(spec=Observer)
         observer2 = MagicMock(spec=Observer)
 
@@ -55,7 +54,7 @@ class TestSubject(unittest.TestCase):
         self.assertNotIn(observer1, self.subject._observers)
         self.assertIn(observer2, self.subject._observers)
 
-    def test_notifyAll(self):
+    def test_notifyAll(self) -> None:
         observer1 = MagicMock(spec=Observer)
         observer2 = MagicMock(spec=Observer)
 
@@ -65,7 +64,7 @@ class TestSubject(unittest.TestCase):
         observer1.updateFromNotification.assert_called_once_with('Hello', name='John')
         observer2.updateFromNotification.assert_called_once_with('Hello', name='John')
 
-    def test_notify(self):
+    def test_notify(self) -> None:
         observer1 = MagicMock(spec=Observer)
         observer2 = MagicMock(spec=Observer)
 

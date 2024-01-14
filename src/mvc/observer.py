@@ -13,7 +13,7 @@ class Observer(ABC):
         Observer._object_counter += 1
 
     @abstractmethod
-    def updateFromNotification(self, *new_state, **kwargs):
+    def updateFromNotification(self, *new_state:tuple, **kwargs:dict) -> None:
         """
         Called by the concrete Observable when data has changed passing its state.
         :param new_state: The new state.
@@ -30,7 +30,7 @@ class Observer(ABC):
         return Observer._object_counter
 
     @classmethod
-    def __subclasshook__(cls, sub_class):
+    def __subclasshook__(cls, sub_class) -> bool:
             """
             Checks if the given subclass implements the required update method.
 

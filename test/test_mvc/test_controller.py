@@ -8,19 +8,19 @@ from utiles.agents import agent
 
 class TestController(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.model = MagicMock()
         self.view = MagicMock()
         self.event_manager = MagicMock()
         self.controller = Controller(self.model, self.view, self.event_manager)
 
-    def test_updateFromNotification_agent_move_right(self):
+    def test_updateFromNotification_agent_move_right(self) -> None:
         agent_index = 0
         self.controller.model.agent_move_right = MagicMock()
         self.controller.updateFromNotification(agent_move_right=agent_index)
         self.controller.model.agent_move_right.assert_called_once_with(agent_index)
 
-    def test_updateFromNotification_random_movement(self):
+    def test_updateFromNotification_random_movement(self) -> None:
         agent_index = 0
         path = [(0, 0), (1, 1), (2, 2)]
         self.controller.model.path_generator = MagicMock(return_value=path)
@@ -28,12 +28,12 @@ class TestController(unittest.TestCase):
         self.controller.updateFromNotification(random_movement=agent_index)
         self.controller.move_randomly.assert_called_once_with(path, agent_index, path[0])
 
-    def test_updateFromNotification_invalid_key(self):
+    def test_updateFromNotification_invalid_key(self) -> None:
         invalid_key = 'invalid_key'
         with self.assertRaises(KeyError):
             self.controller.updateFromNotification(invalid_key=0)
 
-    def test_add_agent(self):
+    def test_add_agent(self) -> None:
         agent_name = "Agent1"
         x, y  = 0, 0
         new_agent = MagicMock()
@@ -58,7 +58,7 @@ class TestController(unittest.TestCase):
         self.assertEqual(self.controller.model.agents[0].name, "Agent2")
         self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
 
-    def test_handle_owner_event(self):
+    def test_handle_owner_event(self) -> None:
         event = "owner_event"
         agent_index = 0
         self.controller.model.agents = [MagicMock()]
@@ -67,7 +67,7 @@ class TestController(unittest.TestCase):
         self.controller.model.agents[agent_index].owner_event.assert_called_once()
         self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
 
-    def test_handle_enfermera_event(self):
+    def test_handle_enfermera_event(self) -> None:
         event = "enfermera_event"
         agent_index = 0
         self.controller.model.agents = [MagicMock()]
@@ -76,12 +76,12 @@ class TestController(unittest.TestCase):
         self.controller.model.agents[agent_index].enfermera_event.assert_called_once()
         self.controller.model.notify.assert_called_once_with(self.controller.view, agents=self.controller.model.agents)
 
-    def test_parse_command_speed(self):
+    def test_parse_command_speed(self) -> None:
         command = "speed 1000"
         self.controller.parse_command(command)
         self.assertEqual(self.controller.animation_speed, 1000)
 
-    def test_parse_command_tp(self):
+    def test_parse_command_tp(self) -> None:
         command = "tp 1 2 3 4"
         self.controller.model.object_teleport = MagicMock()
         self.controller.model.notify = MagicMock()
@@ -89,7 +89,7 @@ class TestController(unittest.TestCase):
         self.controller.model.object_teleport.assert_called_once_with(1, 2, 3, 4)
         self.controller.model.notify.assert_called_once_with(self.controller.view, matrix=self.controller.model.matrix)
 
-    def test_parse_command_spawn_agent(self):
+    def test_parse_command_spawn_agent(self) -> None:
         command = "spawn agent 0 0"
         self.controller.spawn_agent = MagicMock()
         self.controller.parse_command(command)
