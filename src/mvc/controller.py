@@ -58,7 +58,7 @@ class Controller(Observer):
                         self.move_randomly(path, value, path[0])
 
 
-    def move_randomly(self, path, agent_index, previous):
+    def move_randomly(self, path, agent_index, previous, callback=None):
         print(self.model.agents[agent_index].name, path)
         self.model.agents[agent_index].x = path[0][0]
         self.model.agents[agent_index].y = path[0][1]
@@ -102,15 +102,19 @@ class Controller(Observer):
 
             # Schedule the next step in the animation
             self.animation_ids[agent_index] = self.view.after(
-                self.animation_speed, self.move_randomly, path[1:], agent_index, path[0])
+                self.animation_speed, self.move_randomly, path[1:], agent_index, path[0], callback)
         else:
             if agent_index in self.animation_ids:
                 del self.animation_ids[agent_index]
             if not self.animation_ids:
                 self.animation_running = False
+            
+            # Final movement step, execute the callback
+            if callback and agent_index < len(self.model.agents):
+                callback()
 
-
-    def concrete_move(self, path, agent_index, previous):
+        
+    def concrete_move(self, path, agent_index, previous, callback=None):
         self.move_randomly(path, agent_index, previous)
         
 
