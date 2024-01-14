@@ -111,7 +111,7 @@ class Waiter(Agent, Observer, pathPlanning):
                     # Check if the element has the 'name' attribute
                     if hasattr(element, 'name'):
                     # Check if the 'name' attribute matches the target name
-                        if element.name == target_name:
+                        if element.name == target_name: #TODO: Change target_name
                             # Return the position of the element
                             return (i, j)
             # Return None if no matching element is found
