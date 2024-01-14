@@ -174,7 +174,7 @@ class pathPlanning(ABC):
                     is_obstacle = True
                     if cell == 0:
                         is_obstacle = False  # '0' is not obstacle.
-                    elif isinstance(cell, Openable) and getattr(cell, '_literal_name', None) == "Door":
+                    elif isinstance(cell, Openable) and getattr(cell, '_literal_name', None) in ("Door", "Door_main"):
                         is_obstacle = False  # An object named "Door" is not an obstacle.
 
                     if is_obstacle:

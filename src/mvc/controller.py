@@ -93,14 +93,14 @@ class Controller(Observer):
             if (0 <= adjacent_y < len(self.model.matrix) and
                 0 <= adjacent_x < len(self.model.matrix[0])):
                 if ((self.model.matrix[adjacent_y][adjacent_x] != 0 and self.model.matrix[adjacent_y][adjacent_x] != 2) and 
-                    self.model.matrix[adjacent_y][adjacent_x]._literal_name == "Door"):
+                    self.model.matrix[adjacent_y][adjacent_x]._literal_name in ("Door", "Door_main")):
                     if self.model.matrix[adjacent_y][adjacent_x].isOpen == True:
                         self.model.matrix[adjacent_y][adjacent_x].close()
                         self.model.notify(self.view, matrix=self.model.matrix)
 
 
         if self.model.matrix[previous[1]][previous[0]] != 0 and\
-              self.model.matrix[previous[1]][previous[0]]._literal_name == "Door":
+              self.model.matrix[previous[1]][previous[0]]._literal_name in ("Door", "Door_main"):
             
             if self.model.matrix[previous[1]][previous[0]].isOpen == True:
                 self.model.matrix[previous[1]][previous[0]].close()
@@ -108,7 +108,7 @@ class Controller(Observer):
         
         if len(path) > 1:
             if self.model.matrix[path[1][1]][path[1][0]] != 0 and\
-                  self.model.matrix[path[1][1]][path[1][0]]._literal_name == "Door":
+                  self.model.matrix[path[1][1]][path[1][0]]._literal_name in ("Door", "Door_main"):
                 
                 if self.model.matrix[path[1][1]][path[1][0]].isOpen == False:
                     self.model.matrix[path[1][1]][path[1][0]].open()

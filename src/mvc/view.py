@@ -149,11 +149,14 @@ class View(tk.Tk, Observer):
         self.armario = tk.PhotoImage(file="./assets/sprites/armario.png")
         self.auxiliar_image = tk.PhotoImage(file="./assets/sprites/auxiliar.png")
         self.repartidor = tk.PhotoImage(file="./assets/sprites/repartidor.png")
+        self.hierba = tk.PhotoImage(file="./assets/sprites/hierba1.png")
 
         # Old sprites
         self.wall_image = tk.PhotoImage(file="./assets/sprites/wall.png")
         self.sofa_image = tk.PhotoImage(file="./assets/sprites/sofa.png")
         self.table_image = tk.PhotoImage(file="./assets/sprites/table.png")
+        self.main_door_image = tk.PhotoImage(file="./assets/sprites/door.png")
+        self.main_door_open_image = tk.PhotoImage(file="./assets/sprites/door_open.png")
         self.door_image = tk.PhotoImage(file="./assets/sprites/door.png")
         self.door_open_image = tk.PhotoImage(file="./assets/sprites/door_open.png")
         self.fridge_image = tk.PhotoImage(file="./assets/sprites/fridge.png")
@@ -164,7 +167,8 @@ class View(tk.Tk, Observer):
 
         #Links the skins with the object literal name
         self.img_dict = {"Wall": self.wall_image, "Sofa": self.sofa_image, "Gato": self.agent_image, 
-                          "Table": self.table_image, "Door_Closed": self.door_image, 
+                          "Table": self.table_image, "Door_Closed": self.door_image,
+                          "Door_main": self.main_door_image, "Door_main_Open": self.main_door_open_image,
                           "Door_Open": self.door_open_image, "Fridge": self.fridge_image,
                           "Owner": self.owner_image, "Enfermera": self.enfermera_image, 
                           "Enfermera 2": self.enfermera_image, "Juego": self.juego, "Juego_g": self.juego_g,
@@ -281,11 +285,16 @@ class View(tk.Tk, Observer):
         self.canvas.delete("object")
         
         # Draw the objects
-        for row in map:
-            for object in row:
+        for y, row in enumerate(map):
+            for x, object in enumerate(row):
                 if object == 0 or object == 2:
+                    if object == 2:
+                        img = self.hierba
+                        self.canvas.create_image(
+                            x * 40, y * 40, image=img, anchor='nw'
+                        )
                     continue
-                elif object.literal_name != "Door":
+                elif object.literal_name not in ("Door", "Main_door"):
                     img = self.img_dict.get(object.literal_name)
                 else:
                     if object.isOpen:

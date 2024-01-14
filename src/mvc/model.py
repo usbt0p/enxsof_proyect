@@ -52,7 +52,7 @@ class Model(Subject, Movements, pathPlanning):
                 "Silla_Oficina" | "Silla_Oficina_g" | "Silla1_g" | "Silla1" | "Silla2_g" | "Silla2" | \
                 "Vater1":
                 obj = movable.Movable(x, y, literal)
-            case "Door":
+            case "Door" | "Door_main":
                 obj = openable.Openable(x, y, literal)
             case "Fridge" | "Armario":
                 obj = mixed.Mixed(x, y, literal)
