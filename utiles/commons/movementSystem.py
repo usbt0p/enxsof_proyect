@@ -107,7 +107,7 @@ class pathPlanning(ABC):
 
         return manhattan
 
-    def a_star_search(self, start, goal, grid):
+    def a_star_search(self, start, goal, grid, stop_before_target=False):
         """
         Perform A* search algorithm to find the shortest path from the start node to the goal node on a grid.
 
@@ -144,8 +144,9 @@ class pathPlanning(ABC):
             # Pop the node with the lowest f-score from the priority queue.
             current = heapq.heappop(open_heap)[1]
 
-            # Check if the current node is the goal. If so, reconstruct and return the path found.
-            if current == goal:
+            # # Check if the current node is the goal or adjacent to the goal based on the stop_before_target flag. 
+            # If so, reconstruct and return the path found.
+            if (not stop_before_target and current == goal) or (stop_before_target and self.is_adjacent(current, goal)):
                 path = []
                 while current in came_from:
                     path.append(current)

@@ -124,8 +124,8 @@ class Controller(Observer):
                 self.animation_running = False
 
 
-    def concrete_move():
-        pass
+    def concrete_move(self, path, agent_index, previous):
+        self.move_randomly(path, agent_index, previous)
         
 
     def add_agent(self, agent_name:str, x, y ) -> None:
@@ -403,3 +403,8 @@ class Controller(Observer):
         self.event_manager.add_event(move_event)
 
         # The event will be processed in due course by the event manager
+
+    def trigger_delivery(self):
+        # Determine the new position (this could come from various sources)
+        delivery_event = Event('Repartidor', 'delivery')
+        self.event_manager.add_event(delivery_event)
