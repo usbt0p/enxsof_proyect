@@ -104,8 +104,19 @@ class Waiter(Agent, Observer, pathPlanning):
                 controller.trigger_delivery(controller)
 
         elif event.event_type == 'low_battery':
-
-            pass
+            # Find charger
+            # Iterate through each row and column in the matrix
+            for i, row in enumerate(controller.model.matrix):
+                for j, element in enumerate(row):
+                    # Check if the element has the 'name' attribute
+                    if hasattr(element, 'name'):
+                    # Check if the 'name' attribute matches the target name
+                        if element.name == target_name:
+                            # Return the position of the element
+                            return (i, j)
+            # Return None if no matching element is found
+            return None
+        
 
 
         else:

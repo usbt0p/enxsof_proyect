@@ -136,14 +136,44 @@ class Nurse(Agent, Observer, pathPlanning):
         return super().updateFromNotification(*new_state, **kwargs) # Call the parent class method
     
 
-    def handle_event(self, event):
+    def handle_event(self, event, controller):
         """
         Specific event handling for Nurse.
         Overrides the default implementation.
         """
-        if event.event_type == 'specific_behavior_for_Nurse':
-            # Specific behavior for Nurse
+        if event.event_type == 'follow_owner':
+
+            radius = 5  # The radius in which the nurse will follow the owner
+
+        # Continuously follow the moving target
+            while True:
+                # Calculate the current distance to the target
+                distance_to_target = self.heuristic((self.x, self.y), (event.data.x, event.data.y))
+
+                # Check if within the desired radius
+                if distance_to_target <= radius:
+                    # Optional: Adjust position within the radius or perform other actions
+                    break
+
+                # Get the current position of the target
+                target_position = (event.data.x, event.data.y)
+
+                # Calculate the path to the new target position
+                path = self.a_star_search((self.x, self.y), target_position, controller.model.matrix, True)
+
+                # If a path is found, move along the path
+                if path:
+                    index = controller.model.agents.index(self)
+                    controller.concrete_move(path, index, path[0])
+                
+                # Optional: Wait or perform other tasks before recalculating
+                # time.sleep(...) or other actions
+
+                # Optional: Conditions to break the loop, like a stop command or target reached
+
+        elif event.event_type == 'low_battery':
             pass
+
         else:
             # Call the default implementation for unhandled cases
             super().handle_event(event)
