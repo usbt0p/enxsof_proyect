@@ -5,9 +5,6 @@ import unittest
 from unittest.mock import MagicMock
 from src.mvc.controller import Controller
 from utiles.agents import agent
-import unittest
-from unittest.mock import MagicMock
-from src.mvc.controller import Controller
 
 class TestController(unittest.TestCase):
 
