@@ -52,7 +52,7 @@ class Model(Subject, Movements, pathPlanning):
         """
         obj = 0
         match literal:
-            case "Wall" | "Juego" | "Juego_g":
+            case "Wall" | "Juego" | "Juego_g" | "Base":
                 obj = thing.Thing(x, y, literal)
             case "Sofa" | "Table" | "Cama" | "Cama_g" | "Planta1" | "Planta2" | "Planta3" | \
                 "Silla_Oficina" | "Silla_Oficina_g" | "Silla1_g" | "Silla1" | "Silla2_g" | "Silla2" | \
