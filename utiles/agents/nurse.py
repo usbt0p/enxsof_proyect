@@ -173,6 +173,7 @@ class Nurse(Agent, Observer, pathPlanning):
 
         elif event.event_type == 'low_battery':
             # Find charger
+            found = False
             # Iterate through each row and column in the matrix
             for i, row in enumerate(controller.model.matrix):
                 for j, element in enumerate(row):
@@ -182,6 +183,10 @@ class Nurse(Agent, Observer, pathPlanning):
                         if element.name == target_name: #TODO: Change target_name
                             # Return the position of the element
                             position = (i, j)
+                            found = True
+                            break
+                if found:
+                    break
                             
             # Check if a valid position was found
                 if position:
