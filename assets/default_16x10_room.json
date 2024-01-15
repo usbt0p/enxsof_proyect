@@ -1,12 +1,12 @@
 [
-    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
-    ["Wall", 0, 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, "Sofa", "Sofa", 0, "Wall"],
-    ["Wall", 0, 0, 0, "Sofa", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, 0, 0, 0, "Wall"],
-    ["Wall", 0, 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, "Table", "Table", 0, "Wall"],
-    ["Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall"],
-    ["Wall", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Wall"],
-    ["Wall", "Fridge", 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, 0, 0, 0, "Wall"],
-    ["Wall", "Table", 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, 0, 0, 0, "Wall"],
-    ["Wall", 0, 0, 0, 0, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", 0, 0, "Fridge", 0, "Wall"],
-    ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
+    [2, 0, 0, 0, 2, 0, 0, 0, 0, 2, "Wall", "Juego_g", 0, 0, "Cama_g", "Wall"],
+    [2, "Vater1", 2, 0, 2, 0, 2, 2, 0, 2, "Wall", "Silla2", 0, 0, "Table", "Wall"],
+    [2, 2, 2, 0, 0, 0, 0, 2, 2, 2, "Wall", 0, 0, 0, 0, "Wall"],
+    [2, 0, 0, 0, 2, 2, 0, 0, 0, 0, "Door", 0, 0, 0, 0, "Wall"],
+    [2, 0, 2, 0, 2, 2, 2, 2, 0, 2, "Wall", 0, 0, 0, "Base", "Wall"],
+    [2, 0, 2, 0, 0, 0, 0, 0, 0, 2, "Wall", "Armario", 0, 0, "Fidge", "Wall"],
+    [2, 0, 2, 0, 2, 0, 2, 2, 0, 2, "Wall", 0, 0, 0, 0, "Wall"],
+    [2, 0, 0, 0, 2, 0, 0, 0, 0, 2, "Wall", "Silla1", "Table", "Table", "Silla1_g", "Wall"],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
 ]

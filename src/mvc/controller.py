@@ -316,6 +316,31 @@ class Controller(Observer):
 
             case 'delivery':
                 self.trigger_delivery()
+            
+            case 'savemap':
+                self.save_map(command[1])
+
+    def save_map(self, filename) -> None:
+        """
+        Saves the current map to a file.
+        """
+        with open('assets/{}_{}x{}_room.json'.format(filename, self.model.x_size, self.model.y_size), 'w') as file:
+            file.write("[\n")
+            for i, row in enumerate(self.model.matrix):
+                file.write("\t[")
+                for j, element in enumerate(row):
+                    if hasattr(element, 'literal_name'):
+                        file.write('"{}"'.format(element.literal_name))
+                    elif element == 0:
+                        file.write(str(0))
+                    else:
+                        file.write(str(2))
+                    if j < len(row) - 1:
+                        file.write(",")
+                file.write("]")
+                if i < len(self.model.matrix) - 1:
+                    file.write(",\n")
+            file.write("\n]")
 
     def spawn_agent(self, command:list, check_numeric_arguments) -> None:
         """

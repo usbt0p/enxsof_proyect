@@ -1,12 +1,12 @@
 [
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"],
-    ["Wall", "Fridge", "Fridge", 0, "Wall", 0, 0, 0, 0, "Wall"],
+    ["Wall", "Fridge", "Fridge", 0, "Wall", "Planta1", 0, 0, "Armario", "Wall"],
     ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
     ["Wall", 0, 0, 0, "Wall", 0, 0, "Sofa", 0, "Wall"],
     ["Wall", 0, 0, 0, "Wall", 0, "Sofa", "Table", "Sofa", "Wall"],
     ["Wall", 0, "Table", 0, "Door", 0, 0, "Sofa", 0, "Wall"],
     ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
     ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
-    ["Wall", 0, 0, 0, "Wall", 0, 0, 0, 0, "Wall"],
+    ["Wall", "Armario", 0, "Planta2", "Wall", "Juego_g", 0, 0, 0, "Wall"],
     ["Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall", "Wall"]
 ]

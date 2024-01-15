@@ -49,7 +49,7 @@ class View(tk.Tk, Observer):
         new_window_button.pack(fill=tk.X, pady=2)
         new_window_button.bind_all("<Key>", self.key_pressed)
 
-        self.toggle_button = tk.Button(button_frame, text="Show CMD (s)", command=self.toggle_entry_frame,
+        self.toggle_button = tk.Button(button_frame, text="Show CMD (c)", command=self.toggle_entry_frame,
                           bg='grey', font=("Cascadia Code", 12))
         self.toggle_button.pack(fill=tk.X, pady=(2, 4))
         self.toggle_button.bind_all("<Key>", self.key_pressed)
@@ -91,6 +91,11 @@ class View(tk.Tk, Observer):
         command_list.insert(tk.END, "spawn reset - Go back to default agents\n")
         command_list.insert(tk.END, "\n")
         command_list.insert(tk.END, "despawn <x> <y> - Despawns an object\n")
+        command_list.insert(tk.END, "\n")
+        command_list.insert(tk.END, "savemap <filename> - Saves current map,\n")
+        command_list.insert(tk.END, "     keeping current object modifications\n")
+        command_list.insert(tk.END, "\n")
+        command_list.insert(tk.END, "delivery - Triggers delivery event\n")
         command_list.insert(tk.END, "\n")
         command_list.insert(tk.END, "+ Click on canvas to paste coordinates\n")
         command_list.insert(tk.END, "   of a square into the command line.\n")
@@ -193,7 +198,7 @@ class View(tk.Tk, Observer):
         match event.char:
             case 'm':
                 self.button1_clicked()
-            case 's':
+            case 'c':
                 self.toggle_entry_frame()
             case 'h':
                 self.open_monitor_window()
